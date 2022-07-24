@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: info
+    com.tutelary: debug
+    io.netty: debug
+
+tutelary:
+  server:
+    persistent: memory
