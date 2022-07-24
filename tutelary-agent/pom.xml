@@ -28,6 +28,7 @@
         <dependency>
             <groupId>com.taobao.arthas</groupId>
             <artifactId>arthas-core</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>

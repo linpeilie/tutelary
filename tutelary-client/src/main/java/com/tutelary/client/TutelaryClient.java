@@ -3,7 +3,7 @@ package com.tutelary.client;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.tutelary.client.handler.HeartbeatHandler;
+import com.tutelary.client.handler.netty.HeartbeatHandler;
 import com.tutelary.common.constants.TutelaryConstants;
 import com.tutelary.encoder.ProtobufMessageEncoder;
 

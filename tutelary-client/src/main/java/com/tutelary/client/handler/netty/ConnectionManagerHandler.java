@@ -1,4 +1,4 @@
-package com.tutelary.client.handler;
+package com.tutelary.client.handler.netty;
 
 import java.util.List;
 

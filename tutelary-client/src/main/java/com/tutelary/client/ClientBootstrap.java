@@ -38,12 +38,17 @@ public class ClientBootstrap {
 
         loadMessageProcessor();
 
+        loadCommandHandler();
+
         startClient();
     }
 
     private static void loadMessageProcessor() {
         List<MessageProcessor> messageProcessors = ServiceLoaderUtil.loadList(MessageProcessor.class);
         messageProcessors.forEach(MessageProcessorManager::register);
+    }
+
+    private static void loadCommandHandler() {
     }
 
     private static void startClient() throws URISyntaxException, InterruptedException {
