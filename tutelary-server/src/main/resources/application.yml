@@ -7,3 +7,5 @@ logging:
 tutelary:
   server:
     persistent: memory
+server:
+  port: 9988

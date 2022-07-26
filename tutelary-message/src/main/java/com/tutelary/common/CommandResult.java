@@ -1,10 +1,12 @@
-package com.tutelary.message.command;
+package com.tutelary.common;
 
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
+@ProtobufClass
 public class CommandResult implements Serializable {
 
     private Integer jobId;

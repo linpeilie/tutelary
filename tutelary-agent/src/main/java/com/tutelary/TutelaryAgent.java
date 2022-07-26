@@ -65,6 +65,8 @@ public class TutelaryAgent {
 
             ClientBootstrap.start(instrumentation, tutelaryAgentProperties);
 
+            start();
+
         } catch (Exception e) {
             LOG.error("exception occurred at tutelary client startup", e);
         }
@@ -77,8 +79,6 @@ public class TutelaryAgent {
         List<CommandResolver> resolvers = new ArrayList<>();
         resolvers.add(builtinCommandPack);
         InternalCommandManager commandManager = new InternalCommandManager(resolvers);
-        // 获取 jvm 命令
-        Command jvmCommand = commandManager.getCommand("jvm");
 
         // session
         Session session = new SessionImpl();
