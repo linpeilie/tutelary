@@ -16,11 +16,11 @@ public class JvmCommandResultMessage extends CommandResult {
 
     private JvmCompilation compilation;
 
-    private JvmGarbageCollectors garbageCollectors;
+    private List<GarbageCollector> garbageCollectors;
 
     private List<JvmMemoryManager> memoryManagers;
 
-    private JvmMemory memory;
+    private MemoryInfo memory;
 
     private JvmOperatingSystem operatingSystem;
 

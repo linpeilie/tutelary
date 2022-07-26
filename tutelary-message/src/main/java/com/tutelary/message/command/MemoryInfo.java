@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @ProtobufClass
-public class JvmMemory implements Serializable {
+public class MemoryInfo implements Serializable {
 
     private MemoryUsage headMemoryUsage;
     private MemoryUsage noHeadMemoryUsage;

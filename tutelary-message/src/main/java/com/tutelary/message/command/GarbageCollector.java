@@ -7,10 +7,10 @@ import java.io.Serializable;
 
 @Data
 @ProtobufClass
-public class JvmGarbageCollectors implements Serializable {
+public class GarbageCollector implements Serializable {
 
-    private GarbageCollectorsDetail scavengeInfo;
-
-    private GarbageCollectorsDetail markSweepInfo;
+    private String name;
+    private Integer collectionCount;
+    private Integer collectionTime;
 
 }

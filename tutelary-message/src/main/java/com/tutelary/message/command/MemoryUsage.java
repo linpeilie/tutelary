@@ -9,6 +9,7 @@ import java.io.Serializable;
 @ProtobufClass
 public class MemoryUsage implements Serializable {
 
+    private String name;
     private long init;
     private long used;
     private long committed;
