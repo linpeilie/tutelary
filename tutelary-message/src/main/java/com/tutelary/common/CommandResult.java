@@ -9,8 +9,10 @@ import java.io.Serializable;
 @ProtobufClass
 public class CommandResult implements Serializable {
 
-    private Integer jobId;
+    private int jobId;
 
     private int status;
+
+    private String message;
 
 }

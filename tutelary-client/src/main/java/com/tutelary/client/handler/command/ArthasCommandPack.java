@@ -13,6 +13,7 @@ public class ArthasCommandPack implements CommandResolver {
     @Override
     public List<Command> commands() {
         List<Command> commands = new ArrayList<>();
+        commands.add(Command.create(JvmCommand.class));
         return commands;
     }
 

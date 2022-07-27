@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-public class JvmRuntimeInfo implements Serializable {
+public class RuntimeInfo implements Serializable {
     private String machineName;
     private String jvmStartTime;
     private String managementSpecVersion;
@@ -19,7 +19,4 @@ public class JvmRuntimeInfo implements Serializable {
     private String vmVendor;
     private String vmVersion;
     private List<String> inputArguments;
-    private String classPath;
-    private String bootClassPath;
-    private String libraryPath;
 }

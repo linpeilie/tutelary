@@ -10,18 +10,18 @@ import java.util.List;
 @EqualsAndHashCode (callSuper = true)
 public class JvmCommandResultMessage extends CommandResult {
 
-    private JvmRuntimeInfo runtime;
+    private RuntimeInfo runtime;
 
-    private JvmClassLoading classLoading;
+    private ClassLoading classLoading;
 
-    private JvmCompilation compilation;
+    private Compilation compilation;
 
     private List<GarbageCollector> garbageCollectors;
 
-    private List<JvmMemoryManager> memoryManagers;
+    private List<MemoryManager> memoryManagers;
 
     private MemoryInfo memory;
 
-    private JvmOperatingSystem operatingSystem;
+    private OperatingSystem operatingSystem;
 
 }

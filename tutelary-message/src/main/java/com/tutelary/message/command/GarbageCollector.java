@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class GarbageCollector implements Serializable {
 
     private String name;
-    private Integer collectionCount;
-    private Integer collectionTime;
+    private long collectionCount;
+    private long collectionTime;
 
 }

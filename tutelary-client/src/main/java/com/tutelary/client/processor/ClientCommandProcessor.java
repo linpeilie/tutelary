@@ -2,7 +2,6 @@ package com.tutelary.client.processor;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.json.JSONUtil;
 import com.taobao.arthas.core.distribution.ResultDistributor;
 import com.taobao.arthas.core.shell.cli.CliTokens;
 import com.taobao.arthas.core.shell.session.Session;
@@ -12,7 +11,7 @@ import com.taobao.arthas.core.shell.system.Job;
 import com.taobao.arthas.core.shell.system.JobController;
 import com.taobao.arthas.core.shell.system.impl.GlobalJobControllerImpl;
 import com.taobao.arthas.core.shell.system.impl.InternalCommandManager;
-import com.tutelary.client.arthas.distribution.PackageResultDistributor;
+import com.tutelary.client.arthas.distribution.JvmResultDistributor;
 import com.tutelary.client.arthas.listener.ArthasJobListener;
 import com.tutelary.client.arthas.term.TutelaryApiTerm;
 import com.tutelary.client.handler.command.ArthasCommandPack;
@@ -52,7 +51,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
         JobController jobController = new GlobalJobControllerImpl();
 
         // result distributor
-        ResultDistributor resultDistributor = new PackageResultDistributor();
+        ResultDistributor resultDistributor = new JvmResultDistributor();
 
         Job job = jobController.createJob(commandManager,
                 CliTokens.tokenize(command),

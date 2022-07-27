@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @ProtobufClass
-public class JvmOperatingSystem implements Serializable {
+public class OperatingSystem implements Serializable {
 
     private String os;
     private String arch;

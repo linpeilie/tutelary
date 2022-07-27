@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @ProtobufClass
-public class JvmThread implements Serializable {
+public class ThreadInfo implements Serializable {
 
     private int count;
     private int daemonCount;
