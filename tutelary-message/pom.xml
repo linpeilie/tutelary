@@ -44,7 +44,7 @@
                 <configuration>
                     <filterClassPackage>com.tutelary.message</filterClassPackage>
                     <generateProtoFile>true</generateProtoFile>
-                    <compileDependencies>true</compileDependencies>
+                    <compileDependencies>false</compileDependencies>
                 </configuration>
                 <executions>
                     <execution>

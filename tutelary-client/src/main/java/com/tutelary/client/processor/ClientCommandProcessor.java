@@ -11,10 +11,13 @@ import com.taobao.arthas.core.shell.system.Job;
 import com.taobao.arthas.core.shell.system.JobController;
 import com.taobao.arthas.core.shell.system.impl.GlobalJobControllerImpl;
 import com.taobao.arthas.core.shell.system.impl.InternalCommandManager;
+import com.tutelary.client.arthas.distribution.AbstractResultDistributor;
 import com.tutelary.client.arthas.distribution.JvmResultDistributor;
+import com.tutelary.client.arthas.distribution.ResultDistributionFactory;
 import com.tutelary.client.arthas.listener.ArthasJobListener;
 import com.tutelary.client.arthas.term.TutelaryApiTerm;
 import com.tutelary.client.handler.command.ArthasCommandPack;
+import com.tutelary.common.CommandResult;
 import com.tutelary.message.ClientCommandRequestMessage;
 import com.tutelary.message.ClientCommandResponseMessage;
 import com.tutelary.processor.AbstractMessageProcessor;
@@ -26,7 +29,10 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
 
     private final InternalCommandManager commandManager;
 
+    private final ResultDistributionFactory resultDistributionFactory;
+
     public ClientCommandProcessor() {
+        resultDistributionFactory = new ResultDistributionFactory();
         ArthasCommandPack commandPack = new ArthasCommandPack();
         commandManager = new InternalCommandManager(ListUtil.toList(commandPack));
     }
@@ -37,12 +43,15 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
         clientCommandResponseMessage.setCommand(message.getCommand());
         clientCommandResponseMessage.setCommandType(message.getCommandType());
         clientCommandResponseMessage.setSessionId(message.getSessionId());
-        clientCommandResponseMessage.setStatus(Boolean.FALSE);
-        clientCommandResponseMessage.setMessage("Unknown command " + message.getCommandType() + " " + message.getCommand());
+        clientCommandResponseMessage.setStatus(Boolean.TRUE);
+        if (message.getCommandType().equals("arths")) {
+            CommandResult commandResult = execArthasCommand(message.getSessionId(), message.getCommand());
+            clientCommandResponseMessage.setData(commandResult);
+        }
         ctx.writeAndFlush(clientCommandResponseMessage);
     }
 
-    private void execArthasCommand(String sessionId, String command) {
+    private CommandResult execArthasCommand(String sessionId, String command) {
         // session
         SessionImpl session = new SessionImpl();
         session.put(Session.ID, sessionId);
@@ -51,7 +60,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
         JobController jobController = new GlobalJobControllerImpl();
 
         // result distributor
-        ResultDistributor resultDistributor = new JvmResultDistributor();
+        AbstractResultDistributor resultDistributor = resultDistributionFactory.getResultDistributor(command);
 
         Job job = jobController.createJob(commandManager,
                 CliTokens.tokenize(command),
@@ -66,6 +75,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
             ThreadUtil.sleep(100);
         }
 
+        return resultDistributor.getResult();
     }
 
     @Override

@@ -24,4 +24,6 @@ public class JvmCommandResultMessage extends CommandResult {
 
     private OperatingSystem operatingSystem;
 
+    private ThreadInfo thread;
+
 }

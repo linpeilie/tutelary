@@ -9,8 +9,8 @@ import java.io.Serializable;
 @ProtobufClass
 public class MemoryInfo implements Serializable {
 
-    private MemoryUsage headMemoryUsage;
-    private MemoryUsage noHeadMemoryUsage;
+    private MemoryUsage heapMemoryUsage;
+    private MemoryUsage noHeapMemoryUsage;
     private long pendingFinalizeCount;
 
 }

@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.json.JSONUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.google.common.collect.Lists;
@@ -51,19 +52,116 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
         analysisClassLoading(jvmInfoMap.get("CLASS-LOADING"));
         analysisCompilation(jvmInfoMap.get("COMPILATION"));
         analysisGarbageCollectors(jvmInfoMap.get("GARBAGE-COLLECTORS"));
-        // TODO
+        analysisMemoryManagers(jvmInfoMap.get("MEMORY-MANAGERS"));
+        analysisMemory(jvmInfoMap.get("MEMORY"));
+        analysisOperatingSystem(jvmInfoMap.get("OPERATING-SYSTEM"));
+        analysisThread(jvmInfoMap.get("THREAD"));
+    }
+
+    private void analysisThread(List<JvmItemVO> list) {
+        ThreadInfo threadInfo = new ThreadInfo();
+        CollectionUtil.forEach(list, (value, index) -> {
+            switch (value.getName()) {
+                case "COUNT":
+                    threadInfo.setCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    break;
+                case "DAEMON-COUNT":
+                    threadInfo.setDaemonCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    break;
+                case "PEAK-COUNT":
+                    threadInfo.setPeakCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    break;
+                case "STARTED-COUNT":
+                    threadInfo.setStartedCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    break;
+                case "DEADLOCK-COUNT":
+                    threadInfo.setDeadlockCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    break;
+                default:
+                    break;
+            }
+        });
+        commandResult.setThread(threadInfo);
+    }
+
+    private void analysisOperatingSystem(List<JvmItemVO> list) {
+        OperatingSystem operatingSystem = new OperatingSystem();
+        CollectionUtil.forEach(list, (value, index) -> {
+            switch (value.getName()) {
+                case "OS":
+                    operatingSystem.setOs(StringUtils.toString(value.getValue()));
+                    break;
+                case "ARCH":
+                    operatingSystem.setArch(StringUtils.toString(value.getValue()));
+                    break;
+                case "PROCESSORS-COUNT":
+                    operatingSystem.setProcessorsCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    break;
+                case "LOAD-AVERAGE":
+                    operatingSystem.setLoadAverage(NumberUtil.parseDouble(StringUtils.toString(value.getValue())));
+                    break;
+                case "VERSION":
+                    operatingSystem.setVersion(StringUtils.toString(value.getValue()));
+                    break;
+                default:
+                    break;
+            }
+        });
+        commandResult.setOperatingSystem(operatingSystem);
+    }
+
+    private void analysisMemory(List<JvmItemVO> list) {
+        MemoryInfo memoryInfo = new MemoryInfo();
+        CollectionUtil.forEach(list, (value, index) -> {
+            switch (value.getName()) {
+                case "HEAP-MEMORY-USAGE":
+                    MemoryUsage memoryUsage = JSONUtil.toBean(JSONUtil.toJsonStr(value.getValue()), MemoryUsage.class);
+                    memoryUsage.setName(value.getName());
+                    memoryInfo.setHeapMemoryUsage(memoryUsage);
+                    break;
+                case "NO-HEAP-MEMORY-USAGE":
+                    MemoryUsage noHeapMemoryUsage =
+                        JSONUtil.toBean(JSONUtil.toJsonStr(value.getValue()), MemoryUsage.class);
+                    noHeapMemoryUsage.setName(value.getName());
+                    memoryInfo.setHeapMemoryUsage(noHeapMemoryUsage);
+                    break;
+                case "PENDING-FINALIZE-COUNT":
+                    memoryInfo.setPendingFinalizeCount(NumberUtil.parseLong(StringUtils.toString(value.getValue())));
+                    break;
+                default:
+                    break;
+            }
+        });
+        commandResult.setMemory(memoryInfo);
+    }
+
+    private void analysisMemoryManagers(List<JvmItemVO> list) {
+        List<MemoryManager> memoryManagers = new ArrayList<>();
+        CollectionUtil.forEach(list, (value, index) -> {
+            Object val = value.getValue();
+            if (val != null) {
+                Map<String, Object> map = (Map<String, Object>)val;
+                MemoryManager memoryManager = new MemoryManager();
+                memoryManager.setName(value.getName());
+                memoryManager.setMemoryPoolNames((List<String>)value.getValue());
+                memoryManagers.add(memoryManager);
+            }
+        });
+        commandResult.setMemoryManagers(memoryManagers);
     }
 
     private void analysisGarbageCollectors(List<JvmItemVO> list) {
         List<GarbageCollector> garbageCollectors = new ArrayList<>();
-        CollectionUtil.forEach(list, (CollUtil.Consumer<JvmItemVO>)(value, index) -> {
+        CollectionUtil.forEach(list, (value, index) -> {
             Object val = value.getValue();
             if (val != null) {
                 Map<String, Object> psMap = (Map<String, Object>)val;
                 GarbageCollector garbageCollector = new GarbageCollector();
                 garbageCollector.setName(value.getName());
-                garbageCollector.setCollectionCount(NumberUtil.parseLong(StringUtils.toString(psMap.get("collectionCount"))));
-                garbageCollector.setCollectionTime(NumberUtil.parseLong(StringUtils.toString(psMap.get("collectionTime"))));
+                garbageCollector.setCollectionCount(
+                    NumberUtil.parseLong(StringUtils.toString(psMap.get("collectionCount"))));
+                garbageCollector.setCollectionTime(
+                    NumberUtil.parseLong(StringUtils.toString(psMap.get("collectionTime"))));
                 garbageCollectors.add(garbageCollector);
             }
         });
@@ -72,13 +170,15 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
 
     private void analysisCompilation(List<JvmItemVO> list) {
         Compilation compilation = new Compilation();
-        CollectionUtil.forEach(list, (CollUtil.Consumer<JvmItemVO>)(value, index) -> {
+        CollectionUtil.forEach(list, (value, index) -> {
             switch (value.getName()) {
                 case "NAME":
                     compilation.setName(StringUtils.toString(value.getValue()));
                     break;
                 case "TOTAL-COMPILE-TIME":
                     compilation.setTotalCompileTime(NumberUtil.parseLong(StringUtils.toString(value.getValue())));
+                    break;
+                default:
                     break;
             }
         });
@@ -87,7 +187,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
 
     private void analysisClassLoading(List<JvmItemVO> classLoadingList) {
         ClassLoading classLoading = new ClassLoading();
-        CollectionUtil.forEach(classLoadingList, (CollUtil.Consumer<JvmItemVO>)(value, index) -> {
+        CollectionUtil.forEach(classLoadingList, (value, index) -> {
             switch (value.getName()) {
                 case "LOADED-CLASS-COUNT":
                     classLoading.setLoadedClassCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
@@ -101,6 +201,8 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                 case "IS-VERBOSE":
                     classLoading.setVerbose(Boolean.parseBoolean(StringUtils.toString(value.getValue())));
                     break;
+                default:
+                    break;
             }
         });
         commandResult.setClassLoading(classLoading);
@@ -108,7 +210,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
 
     private void analysisRuntimeInfo(List<JvmItemVO> runtimeItemList) {
         RuntimeInfo runtimeInfo = new RuntimeInfo();
-        CollectionUtil.forEach(runtimeItemList, (CollUtil.Consumer<JvmItemVO>)(value, index) -> {
+        CollectionUtil.forEach(runtimeItemList, (value, index) -> {
             switch (value.getName()) {
                 case "MACHINE-NAME":
                     runtimeInfo.setMachineName(StringUtils.toString(value.getValue()));
@@ -142,6 +244,8 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                     if (inputArguments instanceof List) {
                         runtimeInfo.setInputArguments((List<String>)inputArguments);
                     }
+                    break;
+                default:
                     break;
             }
         });
