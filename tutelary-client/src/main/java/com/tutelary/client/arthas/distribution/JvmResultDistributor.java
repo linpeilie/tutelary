@@ -19,6 +19,7 @@ import com.tutelary.common.utils.StringUtils;
 import com.tutelary.message.command.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -31,7 +32,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
 
     @Override
     public void appendResult(ResultModel result) {
-        LOG.info("[ PackageResultDistributor ] append result : {}", result);
+        LOG.debug("[ PackageResultDistributor ] append result : {}", result);
         if (result instanceof StatusModel) {
             handleStatusModel(result);
         } else if (result instanceof JvmModel) {
@@ -140,10 +141,10 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
         CollectionUtil.forEach(list, (value, index) -> {
             Object val = value.getValue();
             if (val != null) {
-                Map<String, Object> map = (Map<String, Object>)val;
+                String[] managers = (String[])val;
                 MemoryManager memoryManager = new MemoryManager();
                 memoryManager.setName(value.getName());
-                memoryManager.setMemoryPoolNames((List<String>)value.getValue());
+                memoryManager.setMemoryPoolNames(Arrays.asList(managers));
                 memoryManagers.add(memoryManager);
             }
         });

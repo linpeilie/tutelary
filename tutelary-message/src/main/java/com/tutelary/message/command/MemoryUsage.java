@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class MemoryUsage implements Serializable {
 
     private String name;
+    private String type;
     private long init;
     private long used;
     private long committed;

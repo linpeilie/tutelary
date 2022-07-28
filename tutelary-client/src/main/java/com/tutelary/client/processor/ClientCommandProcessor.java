@@ -2,8 +2,11 @@ package com.tutelary.client.processor;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import com.baidu.bjf.remoting.protobuf.Any;
+import com.taobao.arthas.core.command.BuiltinCommandPack;
 import com.taobao.arthas.core.distribution.ResultDistributor;
 import com.taobao.arthas.core.shell.cli.CliTokens;
+import com.taobao.arthas.core.shell.command.CommandResolver;
 import com.taobao.arthas.core.shell.session.Session;
 import com.taobao.arthas.core.shell.session.impl.SessionImpl;
 import com.taobao.arthas.core.shell.system.ExecStatus;
@@ -24,8 +27,13 @@ import com.tutelary.processor.AbstractMessageProcessor;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.util.Collections;
+
 @Slf4j
 public class ClientCommandProcessor extends AbstractMessageProcessor<ClientCommandRequestMessage> {
+
+    private static final int COMMAND_TIMEOUT = 1000;
 
     private final InternalCommandManager commandManager;
 
@@ -33,7 +41,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
 
     public ClientCommandProcessor() {
         resultDistributionFactory = new ResultDistributionFactory();
-        ArthasCommandPack commandPack = new ArthasCommandPack();
+        CommandResolver commandPack = new BuiltinCommandPack(Collections.emptyList());
         commandManager = new InternalCommandManager(ListUtil.toList(commandPack));
     }
 
@@ -43,10 +51,17 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
         clientCommandResponseMessage.setCommand(message.getCommand());
         clientCommandResponseMessage.setCommandType(message.getCommandType());
         clientCommandResponseMessage.setSessionId(message.getSessionId());
-        clientCommandResponseMessage.setStatus(Boolean.TRUE);
-        if (message.getCommandType().equals("arths")) {
+
+        if (message.getCommandType().equals("arthas")) {
             CommandResult commandResult = execArthasCommand(message.getSessionId(), message.getCommand());
-            clientCommandResponseMessage.setData(commandResult);
+            try {
+                clientCommandResponseMessage.setData(Any.pack(commandResult));
+                clientCommandResponseMessage.setStatus(Boolean.TRUE);
+            } catch (IOException e) {
+                log.error("ClientCommandProcessor Any.pack error", e);
+                clientCommandResponseMessage.setStatus(Boolean.FALSE);
+                clientCommandResponseMessage.setMessage("系统异常[" + e.getMessage() + "]");
+            }
         }
         ctx.writeAndFlush(clientCommandResponseMessage);
     }
@@ -62,20 +77,37 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
         // result distributor
         AbstractResultDistributor resultDistributor = resultDistributionFactory.getResultDistributor(command);
 
-        Job job = jobController.createJob(commandManager,
-                CliTokens.tokenize(command),
-                session,
-                new ArthasJobListener(session),
-                new TutelaryApiTerm(session),
-                resultDistributor);
+        Job job = jobController.createJob(commandManager, CliTokens.tokenize(command), session,
+                                          new ArthasJobListener(session), new TutelaryApiTerm(session),
+                                          resultDistributor);
 
         job.run();
 
-        while (!(job.status() == ExecStatus.STOPPED || job.status() == ExecStatus.TERMINATED)) {
-            ThreadUtil.sleep(100);
+        boolean timeExpired = !waitForJob(job, COMMAND_TIMEOUT);
+        if (timeExpired) {
+            log.warn("Job is exceeded time limit, force interrupt it, command : {}", command);
+            job.interrupt();
         }
 
         return resultDistributor.getResult();
+    }
+
+    private boolean waitForJob(Job job, int timeout) {
+        long startTime = System.currentTimeMillis();
+        while (true) {
+            switch (job.status()) {
+                case STOPPED:
+                case TERMINATED:
+                    return true;
+            }
+            if (System.currentTimeMillis() - startTime > timeout) {
+                return false;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
+        }
     }
 
     @Override

@@ -26,7 +26,7 @@
         <lombok.version>1.18.22</lombok.version>
         <netty.version>4.1.71.Final</netty.version>
         <hutool.version>5.7.22</hutool.version>
-        <arthas.version>3.6.1</arthas.version>
+        <arthas.version>3.6.3</arthas.version>
         <spring-boot.version>2.4.5</spring-boot.version>
         <log4j2.version>2.17.1</log4j2.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -36,6 +36,7 @@
         <jprotobuf.version>2.4.15</jprotobuf.version>
         <jprotobuf-precompile.version>2.2.7</jprotobuf-precompile.version>
         <guava.version>31.1-jre</guava.version>
+        <mapstruct.version>1.5.1.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -146,6 +147,12 @@
                 <groupId>com.baidu</groupId>
                 <artifactId>jprotobuf-precompile-plugin</artifactId>
                 <version>${jprotobuf-precompile.version}</version>
+            </dependency>
+            <!-- mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

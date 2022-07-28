@@ -9,6 +9,8 @@ public class ResultDistributionFactory {
         switch (command) {
             case CommandConstants.JVM:
                 return new JvmResultDistributor();
+            case CommandConstants.DASHBOARD:
+                return new DashboardCommandResultDistributor();
             default:
                 return null;
         }

@@ -1,5 +1,6 @@
 package com.tutelary.message;
 
+import com.baidu.bjf.remoting.protobuf.Any;
 import com.baidu.bjf.remoting.protobuf.FieldType;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.tutelary.MessageCmd;
@@ -9,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Message(cmd = MessageCmd.CLIENT_COMMAND_RESPONSE)
-public class ClientCommandResponseMessage<T> extends ResponseBaseMessage {
+public class ClientCommandResponseMessage extends ResponseBaseMessage {
 
     private String sessionId;
 
@@ -18,6 +19,6 @@ public class ClientCommandResponseMessage<T> extends ResponseBaseMessage {
     private String commandType;
 
     @Protobuf(fieldType = FieldType.OBJECT)
-    private T data;
+    private Any data;
 
 }
