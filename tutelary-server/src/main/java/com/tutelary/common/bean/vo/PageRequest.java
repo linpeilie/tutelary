@@ -1,11 +1,11 @@
-package com.tutelary.bean.base;
+package com.tutelary.common.bean.vo;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class PageRequest implements Serializable {
+public class PageRequest extends BaseRequest {
 
     private Integer pageNo = 1;
 

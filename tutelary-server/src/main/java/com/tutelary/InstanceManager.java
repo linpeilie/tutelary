@@ -1,59 +1,54 @@
 package com.tutelary;
 
-import com.tutelary.bean.entity.AppEntity;
-import com.tutelary.bean.entity.InstanceEntity;
+import com.tutelary.bean.dto.AppDTO;
+import com.tutelary.bean.dto.InstanceDTO;
 import com.tutelary.service.AppService;
 import com.tutelary.service.InstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.time.LocalDateTime;
 
 @Component
 public class InstanceManager {
-
-    private static final Map<String, InstanceEntity> INSTANCE_MAP = new ConcurrentHashMap<>();
 
     @Autowired
     private AppService appService;
     @Autowired
     private InstanceService instanceService;
 
-    public InstanceEntity registerInstance(InstanceEntity instanceEntity) {
+    public InstanceDTO registerInstance(InstanceDTO instanceEntity) {
         String appName = instanceEntity.getAppName();
 
         createApp(appName);
 
-        boolean addSuccess = addInstance(instanceEntity);
-        if (addSuccess) {
-            INSTANCE_MAP.putIfAbsent(instanceEntity.getInstanceId(), instanceEntity);
-        }
+        addInstance(instanceEntity);
 
         return instanceEntity;
     }
 
-    public InstanceEntity getInstance(String instanceId) {
-        return INSTANCE_MAP.get(instanceId);
+    public InstanceDTO getInstance(String instanceId) {
+        return instanceService.getInstanceByInstanceId(instanceId);
     }
 
     private void createApp(String appName) {
         if (appService.getAppByName(appName) == null) {
             return;
         }
-        AppEntity appEntity = new AppEntity();
-        appEntity.setAppName(appName);
-        appEntity.setRegisterDate(new Date());
-        appService.addApp(appEntity);
+        AppDTO appDTO = new AppDTO();
+        appDTO.setAppName(appName);
+        appDTO.setRegisterDate(LocalDateTime.now());
+        appDTO.setInstanceNum(0);
+        appService.addApp(appDTO);
     }
 
-    private AppEntity getApp(String appName) {
+    private AppDTO getApp(String appName) {
         return appService.getAppByName(appName);
     }
 
-    private boolean addInstance(InstanceEntity instanceEntity) {
-        return instanceService.addInstance(instanceEntity);
+    private void addInstance(InstanceDTO instance) {
+        appService.addInstance(instance.getAppName());
+        instanceService.addInstance(instance);
     }
 
 }

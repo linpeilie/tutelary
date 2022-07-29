@@ -1,7 +1,7 @@
 package com.tutelary.server.processor;
 
 import com.tutelary.InstanceManager;
-import com.tutelary.bean.entity.InstanceEntity;
+import com.tutelary.bean.dto.InstanceDTO;
 import com.tutelary.message.ClientCommandRequestMessage;
 import com.tutelary.message.ErrorMessage;
 import com.tutelary.processor.AbstractMessageProcessor;
@@ -21,7 +21,7 @@ public class ClientCommandRequestProcessor extends AbstractMessageProcessor<Clie
     protected void process(ChannelHandlerContext ctx, ClientCommandRequestMessage message) {
         message.setSessionId(ctx.channel().id().asShortText());
         log.debug("接收执行命令请求 : {}", message);
-        InstanceEntity instance = instanceManager.getInstance(message.getInstanceId());
+        InstanceDTO instance = instanceManager.getInstance(message.getInstanceId());
         if (instance == null) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setLastCmd(String.valueOf(message.getCmd()));

@@ -1,19 +1,24 @@
 package com.tutelary.bean.entity;
 
-import lombok.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.tutelary.common.bean.entity.BaseEntity;
+import lombok.Data;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.time.LocalDateTime;
 
+@TableName (value = "t_app")
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AppEntity implements Serializable {
+public class AppEntity extends BaseEntity {
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
 
     private String appName;
 
-    private Date registerDate;
+    private LocalDateTime registerDate;
+
+    private Integer instanceNum;
+
 }

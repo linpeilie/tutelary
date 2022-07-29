@@ -1,22 +1,19 @@
 package com.tutelary.bean.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.tutelary.common.BaseMessage;
-
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.tutelary.common.bean.entity.BaseEntity;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class InstanceEntity implements Serializable {
+@TableName(value = "t_instance")
+public class InstanceEntity extends BaseEntity {
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
 
     private String instanceId;
 
@@ -24,16 +21,6 @@ public class InstanceEntity implements Serializable {
 
     private String ip;
 
-    private Date registerDate;
-
-    private long lastBeat = System.currentTimeMillis();
-
-    private Channel channel;
-
-    public void writeAndFlush(BaseMessage message) {
-        if (channel.isActive()) {
-            channel.writeAndFlush(message);
-        }
-    }
+    private LocalDateTime registerDate;
 
 }

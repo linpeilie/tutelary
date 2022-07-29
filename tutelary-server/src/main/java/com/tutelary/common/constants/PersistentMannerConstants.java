@@ -1,4 +1,4 @@
-package com.tutelary.constance;
+package com.tutelary.common.constants;
 
 public interface PersistentMannerConstants {
 

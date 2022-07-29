@@ -1,4 +1,4 @@
-package com.tutelary.bean.vo;
+package com.tutelary.common.bean.vo;
 
 import lombok.Data;
 
@@ -16,8 +16,8 @@ public class R<T> implements Serializable {
 
     private T data;
 
-    public static R success(Object data) {
-        R r = new R();
+    public static <T>  R<T> success(T data) {
+        R<T> r = new R<>();
         r.setCode(SUCCESS);
         r.setData(data);
         return r;
