@@ -17,35 +17,30 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
-@Component
 @Slf4j
-public class TutelaryServer implements ApplicationListener<ContextRefreshedEvent> {
+public class TutelaryServer {
 
-    @Autowired
-    private ServerEndpointConfig config;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        initMessageHandler(contextRefreshedEvent);
-        this.start();
-    }
 
-    private void initMessageHandler(ContextRefreshedEvent contextRefreshedEvent) {
-        Map<String, MessageProcessor> messageHandlerMap =
-            contextRefreshedEvent.getApplicationContext().getBeansOfType(MessageProcessor.class);
-        for (MessageProcessor messageHandler : messageHandlerMap.values()) {
-            MessageProcessorManager.register(messageHandler);
-        }
+    private final EventLoopGroup bossGroup ;
+    private final EventLoopGroup workerGroup;
+
+    private final ServerEndpointConfig config;
+
+    public TutelaryServer(ServerEndpointConfig config, List<MessageProcessor<?>> messageProcessors) {
+        this.config = config;
+        messageProcessors.forEach(MessageProcessorManager::register);
+        bossGroup = new NioEventLoopGroup(config.getBossLoopGroupThreads(),
+                                ThreadFactoryBuilder.create().setNamePrefix("tutelary-server-boss-").setDaemon(true).build());
+        workerGroup = new NioEventLoopGroup(config.getWorkerLoopGroupThreads(),
+                                            ThreadFactoryBuilder.create().setNamePrefix("tutelary-server-worker-").setDaemon(true).build());
     }
 
     private void start() {
         log.debug("tutelary server endpoint config : {}", config);
-        EventLoopGroup bossGroup = new NioEventLoopGroup(config.getBossLoopGroupThreads(),
-            ThreadFactoryBuilder.create().setNamePrefix("tutelary-server-boss-").setDaemon(true).build());
-        EventLoopGroup workerGroup = new NioEventLoopGroup(config.getWorkerLoopGroupThreads(),
-            ThreadFactoryBuilder.create().setNamePrefix("tutelary-server-worker-").setDaemon(true).build());
 
         log.info("TutelaryServer start...");
         try {
@@ -67,12 +62,14 @@ public class TutelaryServer implements ApplicationListener<ContextRefreshedEvent
             // TODO
         } catch (Exception e) {
             log.error("tutelary server error", e);
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-            log.info("tutelary server websocket closed");
         }
 
+    }
+
+    private void destroy() {
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
+        log.info("tutelary server websocket closed");
     }
 
 }

@@ -27,15 +27,12 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
     public void process(ChannelHandlerContext ctx, ClientRegisterRequestMessage clientRegisterRequestMessage) {
         log.info("client register info : {}", clientRegisterRequestMessage);
 
-        String instanceId = Optional.ofNullable(clientRegisterRequestMessage.getInstanceId())
-                .orElse(UUID.randomUUID().toString(true));
+        String instanceId =
+            Optional.ofNullable(clientRegisterRequestMessage.getInstanceId()).orElse(UUID.randomUUID().toString(true));
 
-        Instance instanceEntity = Instance.builder()
-                                          .instanceId(instanceId)
-                                          .appName(clientRegisterRequestMessage.getAppName())
-                                          .registerDate(LocalDateTime.now())
-                                          .channel(ctx.channel())
-                                          .build();
+        Instance instanceEntity =
+            Instance.builder().instanceId(instanceId).appName(clientRegisterRequestMessage.getAppName()).ip(getIp(ctx))
+                    .registerDate(LocalDateTime.now()).channel(ctx.channel()).build();
 
         appManager.registerInstance(instanceEntity);
 
@@ -43,6 +40,10 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
         ClientRegisterResponseMessage clientRegisterResponseMessage = new ClientRegisterResponseMessage();
         clientRegisterResponseMessage.setInstanceId(instanceEntity.getInstanceId());
         ctx.channel().writeAndFlush(clientRegisterResponseMessage);
+    }
+
+    private String getIp(ChannelHandlerContext ctx) {
+        return ctx.channel().remoteAddress().toString().substring(1).split(":")[0];
     }
 
     @Override

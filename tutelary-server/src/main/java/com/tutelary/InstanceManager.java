@@ -32,7 +32,7 @@ public class InstanceManager {
     }
 
     private void createApp(String appName) {
-        if (appService.getAppByName(appName) == null) {
+        if (appService.getAppByName(appName) != null) {
             return;
         }
         App app = new App();

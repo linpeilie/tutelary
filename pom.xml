@@ -38,7 +38,7 @@
         <jprotobuf-precompile.version>2.2.7</jprotobuf-precompile.version>
         <guava.version>31.1-jre</guava.version>
         <mapstruct.version>1.5.1.Final</mapstruct.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.1.214</h2.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
     </properties>
 
