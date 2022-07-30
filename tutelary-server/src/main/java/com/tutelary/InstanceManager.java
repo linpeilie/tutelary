@@ -1,7 +1,7 @@
 package com.tutelary;
 
-import com.tutelary.bean.dto.AppDTO;
-import com.tutelary.bean.dto.InstanceDTO;
+import com.tutelary.bean.domain.App;
+import com.tutelary.bean.domain.Instance;
 import com.tutelary.service.AppService;
 import com.tutelary.service.InstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class InstanceManager {
     @Autowired
     private InstanceService instanceService;
 
-    public InstanceDTO registerInstance(InstanceDTO instanceEntity) {
+    public Instance registerInstance(Instance instanceEntity) {
         String appName = instanceEntity.getAppName();
 
         createApp(appName);
@@ -27,7 +27,7 @@ public class InstanceManager {
         return instanceEntity;
     }
 
-    public InstanceDTO getInstance(String instanceId) {
+    public Instance getInstance(String instanceId) {
         return instanceService.getInstanceByInstanceId(instanceId);
     }
 
@@ -35,18 +35,18 @@ public class InstanceManager {
         if (appService.getAppByName(appName) == null) {
             return;
         }
-        AppDTO appDTO = new AppDTO();
-        appDTO.setAppName(appName);
-        appDTO.setRegisterDate(LocalDateTime.now());
-        appDTO.setInstanceNum(0);
-        appService.addApp(appDTO);
+        App app = new App();
+        app.setAppName(appName);
+        app.setRegisterDate(LocalDateTime.now());
+        app.setInstanceNum(0);
+        appService.addApp(app);
     }
 
-    private AppDTO getApp(String appName) {
+    private App getApp(String appName) {
         return appService.getAppByName(appName);
     }
 
-    private void addInstance(InstanceDTO instance) {
+    private void addInstance(Instance instance) {
         appService.addInstance(instance.getAppName());
         instanceService.addInstance(instance);
     }

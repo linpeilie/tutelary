@@ -1,9 +1,9 @@
-package com.tutelary.common.bean.dto;
+package com.tutelary.common.bean.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode (callSuper = true)
-public class BaseQueryDto extends BaseDto {
+public class BaseQueryDomain extends BaseDomain {
 }

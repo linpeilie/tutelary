@@ -1,16 +1,14 @@
-package com.tutelary.bean.dto;
+package com.tutelary.bean.domain.query;
 
 import com.tutelary.common.annotation.Query;
 import com.tutelary.common.annotation.Sort;
-import com.tutelary.common.bean.dto.BaseDto;
-import com.tutelary.common.bean.dto.BaseQueryDto;
-import com.tutelary.common.bean.vo.PageRequest;
+import com.tutelary.common.bean.domain.BaseQueryDomain;
 
 import com.tutelary.common.enums.SortDirection;
 import lombok.Data;
 
 @Data
-public class AppQueryDTO extends BaseQueryDto {
+public class AppQuery extends BaseQueryDomain {
 
     @Sort (direction = SortDirection.DESC)
     private Long id;

@@ -1,12 +1,12 @@
 package com.tutelary.repository;
 
-import com.tutelary.bean.dto.InstanceDTO;
-import com.tutelary.bean.dto.InstanceQueryDTO;
+import com.tutelary.bean.domain.Instance;
+import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.entity.InstanceEntity;
 import com.tutelary.common.repository.BaseRepository;
 
-public interface InstanceRepository extends BaseRepository<InstanceQueryDTO, InstanceDTO, InstanceEntity> {
+public interface InstanceRepository extends BaseRepository<InstanceQuery, Instance, InstanceEntity> {
 
-    InstanceDTO getByInstanceId(String instanceId);
+    Instance getByInstanceId(String instanceId);
 
 }

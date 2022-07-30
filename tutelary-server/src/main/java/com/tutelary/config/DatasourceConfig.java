@@ -10,11 +10,11 @@ import javax.sql.DataSource;
 @Configuration
 public class DatasourceConfig {
 
-    @Bean
-    public DataSource dataSource(DataSourceProperties dataSourceProperties) {
-        return dataSourceProperties.initializeDataSourceBuilder()
-            .type(HikariDataSource.class)
-            .build();
-    }
+    // @Bean
+    // public DataSource dataSource(DataSourceProperties dataSourceProperties) {
+    //     return dataSourceProperties.initializeDataSourceBuilder()
+    //         .type(HikariDataSource.class)
+    //         .build();
+    // }
 
 }

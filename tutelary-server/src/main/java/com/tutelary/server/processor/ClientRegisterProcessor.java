@@ -1,7 +1,7 @@
 package com.tutelary.server.processor;
 
 import cn.hutool.core.lang.UUID;
-import com.tutelary.bean.dto.InstanceDTO;
+import com.tutelary.bean.domain.Instance;
 import com.tutelary.message.ClientRegisterResponseMessage;
 import com.tutelary.InstanceManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
         String instanceId = Optional.ofNullable(clientRegisterRequestMessage.getInstanceId())
                 .orElse(UUID.randomUUID().toString(true));
 
-        InstanceDTO instanceEntity = InstanceDTO.builder()
-                                                .instanceId(instanceId)
-                                                .appName(clientRegisterRequestMessage.getAppName())
-                                                .registerDate(LocalDateTime.now())
-                                                .channel(ctx.channel())
-                                                .build();
+        Instance instanceEntity = Instance.builder()
+                                          .instanceId(instanceId)
+                                          .appName(clientRegisterRequestMessage.getAppName())
+                                          .registerDate(LocalDateTime.now())
+                                          .channel(ctx.channel())
+                                          .build();
 
         appManager.registerInstance(instanceEntity);
 

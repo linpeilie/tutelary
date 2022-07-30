@@ -1,4 +1,4 @@
-package com.tutelary.common.bean.vo;
+package com.tutelary.common.bean.api;
 
 import lombok.Data;
 

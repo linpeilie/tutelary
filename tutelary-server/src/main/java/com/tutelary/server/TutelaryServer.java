@@ -64,7 +64,7 @@ public class TutelaryServer implements ApplicationListener<ContextRefreshedEvent
                     future.cause().printStackTrace();
                 }
             });
-            channelFuture.channel().closeFuture().sync();
+            // TODO
         } catch (Exception e) {
             log.error("tutelary server error", e);
         } finally {

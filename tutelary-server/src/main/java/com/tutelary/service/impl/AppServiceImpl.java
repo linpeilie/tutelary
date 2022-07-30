@@ -1,16 +1,15 @@
 package com.tutelary.service.impl;
 
-import com.tutelary.bean.dto.AppDTO;
-import com.tutelary.bean.dto.AppQueryDTO;
-import com.tutelary.common.bean.vo.PageRequest;
-import com.tutelary.common.bean.vo.PageResult;
+import com.tutelary.bean.domain.App;
+import com.tutelary.bean.domain.query.AppQuery;
+import com.tutelary.common.bean.api.req.PageQueryRequest;
+import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.repository.AppRepository;
 import com.tutelary.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 /**
  * @author linpl
@@ -22,17 +21,22 @@ public class AppServiceImpl implements AppService {
     private AppRepository appRepository;
 
     @Override
-    public AppDTO getAppByName(String appName) {
+    public App getAppByName(String appName) {
         return appRepository.getByName(appName);
     }
 
     @Override
-    public PageResult<AppDTO> pageListApp(AppQueryDTO queryParam, PageRequest pageRequest) {
+    public PageResult<App> pageListApp(AppQuery queryParam, PageQueryRequest pageRequest) {
         return appRepository.pageList(queryParam, pageRequest);
     }
 
     @Override
-    public boolean addApp(AppDTO app) {
+    public List<App> list(AppQuery appQuery) {
+        return null;
+    }
+
+    @Override
+    public boolean addApp(App app) {
         return appRepository.add(app);
     }
 

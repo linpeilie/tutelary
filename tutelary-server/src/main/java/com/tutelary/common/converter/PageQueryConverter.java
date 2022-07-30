@@ -1,10 +1,10 @@
 package com.tutelary.common.converter;
 
-import com.tutelary.common.bean.dto.BaseQueryDto;
-import com.tutelary.common.bean.vo.PageRequest;
+import com.tutelary.common.bean.domain.BaseQueryDomain;
+import com.tutelary.common.bean.api.req.PageQueryRequest;
 
-public interface PageQueryConverter<PageQueryVO extends PageRequest, PageQueryDTO extends BaseQueryDto> {
+public interface PageQueryConverter<PageQueryReq extends PageQueryRequest, PageQueryDTO extends BaseQueryDomain> {
 
-    PageQueryDTO pageQueryVoToDto(PageQueryVO pageQueryVO);
+    PageQueryDTO pageQueryReqToDomain(PageQueryReq pageQueryReq);
 
 }

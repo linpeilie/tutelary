@@ -1,16 +1,15 @@
-package com.tutelary.bean.dto;
+package com.tutelary.bean.domain;
 
-import com.tutelary.common.bean.dto.BaseDto;
+import com.tutelary.common.bean.domain.BaseDomain;
 import lombok.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppDTO extends BaseDto {
+public class App extends BaseDomain {
 
     private String appName;
 

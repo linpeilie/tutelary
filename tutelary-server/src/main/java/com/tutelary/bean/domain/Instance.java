@@ -1,11 +1,10 @@
-package com.tutelary.bean.dto;
+package com.tutelary.bean.domain;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.tutelary.common.BaseMessage;
 
-import com.tutelary.common.bean.dto.BaseDto;
+import com.tutelary.common.bean.domain.BaseDomain;
 import io.netty.channel.Channel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InstanceDTO extends BaseDto {
+public class Instance extends BaseDomain {
 
     private String instanceId;
 

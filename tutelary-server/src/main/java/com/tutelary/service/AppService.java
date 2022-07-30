@@ -1,18 +1,22 @@
 package com.tutelary.service;
 
-import com.tutelary.bean.dto.AppDTO;
-import com.tutelary.bean.dto.AppQueryDTO;
-import com.tutelary.common.bean.vo.PageRequest;
-import com.tutelary.common.bean.vo.PageResult;
+import com.tutelary.bean.domain.App;
+import com.tutelary.bean.domain.query.AppQuery;
+import com.tutelary.common.bean.api.req.PageQueryRequest;
+import com.tutelary.common.bean.api.resp.PageResult;
+
+import java.util.List;
 
 public interface AppService {
 
-    AppDTO getAppByName(String appName);
+    App getAppByName(String appName);
 
-    boolean addApp(AppDTO app);
+    boolean addApp(App app);
 
     boolean addInstance(String appName);
 
-    PageResult<AppDTO> pageListApp(AppQueryDTO queryParam, PageRequest pageRequest);
+    PageResult<App> pageListApp(AppQuery queryParam, PageQueryRequest pageRequest);
+
+    List<App> list(AppQuery appQuery);
 
 }

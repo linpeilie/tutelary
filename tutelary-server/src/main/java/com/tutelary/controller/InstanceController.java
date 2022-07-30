@@ -1,19 +1,16 @@
 package com.tutelary.controller;
 
+import com.tutelary.bean.api.req.InstancePageQueryRequest;
+import com.tutelary.bean.api.req.InstanceQueryRequest;
+import com.tutelary.bean.api.resp.InstanceInfoResponse;
 import com.tutelary.bean.converter.InstanceConverter;
-import com.tutelary.bean.dto.InstanceDTO;
-import com.tutelary.bean.dto.InstanceQueryDTO;
-import com.tutelary.bean.vo.AppVO;
-import com.tutelary.bean.vo.InstancePageQueryVO;
-import com.tutelary.bean.vo.InstanceVO;
-import com.tutelary.common.bean.vo.PageResult;
-import com.tutelary.common.bean.vo.R;
+import com.tutelary.bean.domain.Instance;
+import com.tutelary.bean.domain.query.InstanceQuery;
+import com.tutelary.common.bean.api.R;
+import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.service.InstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,12 +24,23 @@ public class InstanceController {
     private InstanceConverter instanceConverter;
 
     @PostMapping (value = "pageQuery")
-    public R<PageResult<InstanceVO>> pageQuery(@RequestBody InstancePageQueryVO instancePageQueryParam) {
-        InstanceQueryDTO queryParam = instanceConverter.pageQueryVoToDto(instancePageQueryParam);
-        PageResult<InstanceDTO> pageResult = instanceService.pageList(queryParam, instancePageQueryParam);
-        return R.success(instanceConverter.dtoPageToVoPage(pageResult));
+    public R<PageResult<InstanceInfoResponse>> pageQuery(@RequestBody InstancePageQueryRequest instancePageQueryParam) {
+        InstanceQuery queryParam = instanceConverter.pageQueryReqToDomain(instancePageQueryParam);
+        PageResult<Instance> pageResult = instanceService.pageList(queryParam, instancePageQueryParam);
+        return R.success(instanceConverter.domainPageResultToResponse(pageResult));
     }
 
-    public R<List<InstanceVO>> list(@RequestBody )
+    @PostMapping(value = "list")
+    public R<List<InstanceInfoResponse>> list(@RequestBody InstanceQueryRequest instanceQueryRequest) {
+        InstanceQuery queryParam = instanceConverter.queryRequestToDomain(instanceQueryRequest);
+        List<Instance> list = instanceService.list(queryParam);
+        return R.success(instanceConverter.domainListToResponse(list));
+    }
+
+    @GetMapping(value = "detail")
+    public R<InstanceInfoResponse> detail(@RequestParam("instanceId") String instanceId) {
+        Instance instance = instanceService.getInstanceByInstanceId(instanceId);
+        return R.success(instanceConverter.domainToResponse(instance));
+    }
 
 }
