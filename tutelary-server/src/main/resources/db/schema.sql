@@ -1,5 +1,3 @@
-create schema if not exists tutelary collate utf8_general_ci;
-
 drop table if exists t_app;
 
 create table t_app
@@ -11,8 +9,7 @@ create table t_app
     instance_num  int         not null default 0,
     constraint t_app_app_name_uindex
         unique (app_name)
-)
-    comment '应用表';
+);
 
 drop table if exists t_instance;
 
@@ -26,6 +23,5 @@ create table t_instance
     register_date datetime    not null,
     constraint t_instance_instance_id_uindex
         unique (instance_id)
-)
-    comment '应用实例表';
+);
 

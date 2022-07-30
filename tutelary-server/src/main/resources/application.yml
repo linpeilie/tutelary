@@ -9,3 +9,6 @@ tutelary:
     persistent: memory
 server:
   port: 9988
+spring:
+  profiles:
+    active: @spring.profiles.active@

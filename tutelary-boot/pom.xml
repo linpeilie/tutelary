@@ -5,7 +5,8 @@
     <parent>
         <artifactId>tutelary</artifactId>
         <groupId>com.tutelary</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${tutelary.version}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

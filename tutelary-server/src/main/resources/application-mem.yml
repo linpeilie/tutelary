@@ -1,0 +1,14 @@
+spring:
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+      settings:
+        trace: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:tutelary
+    username: root
+    password:
+    sql-script-encoding: UTF-8
+    schema: classpath:db/schema.sql
