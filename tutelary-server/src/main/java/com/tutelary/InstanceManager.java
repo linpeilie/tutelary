@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class InstanceManager {
+
+    private final Map<String, Instance> instanceMap = new ConcurrentHashMap<>();
 
     @Autowired
     private AppService appService;
@@ -28,7 +32,7 @@ public class InstanceManager {
     }
 
     public Instance getInstance(String instanceId) {
-        return instanceService.getInstanceByInstanceId(instanceId);
+        return instanceMap.get(instanceId);
     }
 
     private void createApp(String appName) {
@@ -49,6 +53,7 @@ public class InstanceManager {
     private void addInstance(Instance instance) {
         appService.addInstance(instance.getAppName());
         instanceService.addInstance(instance);
+        instanceMap.put(instance.getInstanceId(), instance);
     }
 
 }

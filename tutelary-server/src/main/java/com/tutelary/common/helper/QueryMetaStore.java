@@ -49,6 +49,7 @@ class QueryMetaStore {
                 log.warn("class : {} , field : {} , 没有获取到 get/is 方法", clazz.getName(), fieldName);
                 continue;
             }
+            queryMeta.setReadMethod(readMethod);
 
             list.add(queryMeta);
         }

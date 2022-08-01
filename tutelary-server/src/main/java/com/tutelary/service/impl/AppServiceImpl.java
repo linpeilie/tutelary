@@ -32,7 +32,7 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public List<App> list(AppQuery appQuery) {
-        return null;
+        return appRepository.list(appQuery);
     }
 
     @Override
