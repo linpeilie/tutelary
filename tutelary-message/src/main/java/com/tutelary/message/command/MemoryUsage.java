@@ -15,5 +15,6 @@ public class MemoryUsage implements Serializable {
     private long used;
     private long committed;
     private long max;
+    private long total;
 
 }
