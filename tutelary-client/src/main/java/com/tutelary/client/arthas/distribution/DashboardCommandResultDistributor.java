@@ -5,34 +5,23 @@ import cn.hutool.log.LogFactory;
 import com.taobao.arthas.core.command.model.*;
 import com.tutelary.client.arthas.converter.ArthasModelConverter;
 import com.tutelary.message.command.*;
+import com.tutelary.message.command.domain.DashboardMemoryInfo;
+import com.tutelary.message.command.domain.DashboardRuntime;
+import com.tutelary.message.command.domain.GarbageCollector;
+import com.tutelary.message.command.domain.ThreadInfo;
 
 import java.util.List;
 import java.util.Map;
 
 public class DashboardCommandResultDistributor extends AbstractResultDistributor<DashboardCommandResultMessage> {
 
-    private static final Log LOG = LogFactory.get();
-
-    private final DashboardCommandResultMessage resultMessage = new DashboardCommandResultMessage();
-
-    @Override
-    public DashboardCommandResultMessage getResult() {
-        return resultMessage;
+    public DashboardCommandResultDistributor() {
+        super(new DashboardCommandResultMessage());
     }
 
     @Override
-    public void appendResult(ResultModel result) {
-        LOG.debug("[ PackageResultDistributor ] append result : {}", result);
-        if (result instanceof StatusModel) {
-            handleStatusModel(result);
-        } else if (result instanceof DashboardModel) {
-            handleDashboardModel(result);
-        }
-
-    }
-
-    private void handleDashboardModel(ResultModel result) {
-        DashboardModel dashboardModel = (DashboardModel)result;
+    protected void appendCommandResult(ResultModel resultModel) {
+        DashboardModel dashboardModel = (DashboardModel)resultModel;
         analysisRuntime(dashboardModel.getRuntimeInfo());
         analysisGarbageCollector(dashboardModel.getGcInfos());
         analysisThreads(dashboardModel.getThreads());
@@ -48,9 +37,9 @@ public class DashboardCommandResultDistributor extends AbstractResultDistributor
     }
 
     private void analysisThreads(List<ThreadVO> threads) {
-        List<ThreadDetailInfo> threadDetailInfos =
+        List<ThreadInfo> threadInfos =
             ArthasModelConverter.CONVERTER.threadVosToThreadDetailInfoList(threads);
-        resultMessage.setThreads(threadDetailInfos);
+        resultMessage.setThreads(threadInfos);
     }
 
     private void analysisGarbageCollector(List<GcInfoVO> gcInfos) {
@@ -62,11 +51,5 @@ public class DashboardCommandResultDistributor extends AbstractResultDistributor
     private void analysisRuntime(RuntimeInfoVO runtimeInfo) {
         DashboardRuntime dashboardRuntime = ArthasModelConverter.CONVERTER.runtimeInfoVoToDashboardRuntime(runtimeInfo);
         resultMessage.setRuntime(dashboardRuntime);
-    }
-
-    private void handleStatusModel(ResultModel result) {
-        StatusModel statusModel = (StatusModel)result;
-        resultMessage.setStatus(statusModel.getStatusCode());
-        resultMessage.setMessage(statusModel.getMessage());
     }
 }

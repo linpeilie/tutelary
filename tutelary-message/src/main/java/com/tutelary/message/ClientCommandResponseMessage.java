@@ -16,7 +16,9 @@ public class ClientCommandResponseMessage extends ResponseBaseMessage {
 
     private String command;
 
-    private String commandType;
+    private Integer commandType;
+
+    private Integer commandCode;
 
     @Protobuf(fieldType = FieldType.OBJECT)
     private Any data;

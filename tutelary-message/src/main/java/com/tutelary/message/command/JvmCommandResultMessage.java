@@ -1,6 +1,8 @@
 package com.tutelary.message.command;
 
+import com.tutelary.annotation.Command;
 import com.tutelary.common.CommandResult;
+import com.tutelary.message.command.domain.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,6 +26,6 @@ public class JvmCommandResultMessage extends CommandResult {
 
     private OperatingSystem operatingSystem;
 
-    private ThreadInfo thread;
+    private ThreadCountInfo thread;
 
 }

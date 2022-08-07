@@ -1,52 +1,30 @@
 package com.tutelary.client.arthas.distribution;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
-import com.google.common.collect.Lists;
 import com.taobao.arthas.core.command.model.JvmItemVO;
 import com.taobao.arthas.core.command.model.JvmModel;
 import com.taobao.arthas.core.command.model.ResultModel;
-import com.taobao.arthas.core.command.model.StatusModel;
-import com.taobao.arthas.core.distribution.ResultDistributor;
-import com.tutelary.common.CommandResult;
 import com.tutelary.common.utils.StringUtils;
 import com.tutelary.message.command.*;
+import com.tutelary.message.command.domain.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandResultMessage> {
 
-    private static final Log LOG = LogFactory.get();
-
-    private final JvmCommandResultMessage commandResult = new JvmCommandResultMessage();
+    public JvmResultDistributor() {
+        super(new JvmCommandResultMessage());
+    }
 
     @Override
-    public void appendResult(ResultModel result) {
-        LOG.debug("[ PackageResultDistributor ] append result : {}", result);
-        if (result instanceof StatusModel) {
-            handleStatusModel(result);
-        } else if (result instanceof JvmModel) {
-            handleJvmModel(result);
-        }
-    }
-
-    private void handleStatusModel(ResultModel resultModel) {
-        StatusModel statusModel = (StatusModel)resultModel;
-        commandResult.setStatus(statusModel.getStatusCode());
-        commandResult.setMessage(statusModel.getMessage());
-    }
-
-    private void handleJvmModel(ResultModel resultModel) {
+    protected void appendCommandResult(ResultModel resultModel) {
         JvmModel jvmModel = (JvmModel)resultModel;
         Map<String, List<JvmItemVO>> jvmInfoMap = jvmModel.getJvmInfo();
         analysisRuntimeInfo(jvmInfoMap.get("RUNTIME"));
@@ -60,29 +38,29 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
     }
 
     private void analysisThread(List<JvmItemVO> list) {
-        ThreadInfo threadInfo = new ThreadInfo();
+        ThreadCountInfo threadCountInfo = new ThreadCountInfo();
         CollectionUtil.forEach(list, (value, index) -> {
             switch (value.getName()) {
                 case "COUNT":
-                    threadInfo.setCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    threadCountInfo.setCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
                     break;
                 case "DAEMON-COUNT":
-                    threadInfo.setDaemonCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    threadCountInfo.setDaemonCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
                     break;
                 case "PEAK-COUNT":
-                    threadInfo.setPeakCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    threadCountInfo.setPeakCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
                     break;
                 case "STARTED-COUNT":
-                    threadInfo.setStartedCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    threadCountInfo.setStartedCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
                     break;
                 case "DEADLOCK-COUNT":
-                    threadInfo.setDeadlockCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
+                    threadCountInfo.setDeadlockCount(NumberUtil.parseInt(StringUtils.toString(value.getValue())));
                     break;
                 default:
                     break;
             }
         });
-        commandResult.setThread(threadInfo);
+        resultMessage.setThread(threadCountInfo);
     }
 
     private void analysisOperatingSystem(List<JvmItemVO> list) {
@@ -108,7 +86,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                     break;
             }
         });
-        commandResult.setOperatingSystem(operatingSystem);
+        resultMessage.setOperatingSystem(operatingSystem);
     }
 
     private void analysisMemory(List<JvmItemVO> list) {
@@ -133,7 +111,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                     break;
             }
         });
-        commandResult.setMemory(memoryInfo);
+        resultMessage.setMemory(memoryInfo);
     }
 
     private void analysisMemoryManagers(List<JvmItemVO> list) {
@@ -148,7 +126,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                 memoryManagers.add(memoryManager);
             }
         });
-        commandResult.setMemoryManagers(memoryManagers);
+        resultMessage.setMemoryManagers(memoryManagers);
     }
 
     private void analysisGarbageCollectors(List<JvmItemVO> list) {
@@ -166,7 +144,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                 garbageCollectors.add(garbageCollector);
             }
         });
-        commandResult.setGarbageCollectors(garbageCollectors);
+        resultMessage.setGarbageCollectors(garbageCollectors);
     }
 
     private void analysisCompilation(List<JvmItemVO> list) {
@@ -183,7 +161,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                     break;
             }
         });
-        commandResult.setCompilation(compilation);
+        resultMessage.setCompilation(compilation);
     }
 
     private void analysisClassLoading(List<JvmItemVO> classLoadingList) {
@@ -206,7 +184,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                     break;
             }
         });
-        commandResult.setClassLoading(classLoading);
+        resultMessage.setClassLoading(classLoading);
     }
 
     private void analysisRuntimeInfo(List<JvmItemVO> runtimeItemList) {
@@ -250,11 +228,7 @@ public class JvmResultDistributor extends AbstractResultDistributor<JvmCommandRe
                     break;
             }
         });
-        commandResult.setRuntime(runtimeInfo);
+        resultMessage.setRuntime(runtimeInfo);
     }
 
-    @Override
-    public JvmCommandResultMessage getResult() {
-        return commandResult;
-    }
 }

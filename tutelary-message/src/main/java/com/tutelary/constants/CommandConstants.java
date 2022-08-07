@@ -1,4 +1,4 @@
-package com.tutelary.common.constants;
+package com.tutelary.constants;
 
 public interface CommandConstants {
 

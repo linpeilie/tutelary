@@ -13,7 +13,9 @@ public class ClientCommandRequestMessage extends RequestBaseMessage {
 
     private String sessionId;
 
-    private String commandType;
+    private Integer commandType;
+
+    private Integer commandCode;
 
     private String command;
 
