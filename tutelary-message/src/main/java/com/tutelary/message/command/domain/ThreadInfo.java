@@ -25,7 +25,8 @@ public class ThreadInfo implements Serializable {
     private long waitedTime;
     private long waitedCount;
     private String lockName;
-    private long lockOwnerName;
+    private long lockOwnerId;
+    private String lockOwnerName;
     private boolean inNative;
     private boolean suspended;
     private List<StackTraceElement> stackTrace;

@@ -31,6 +31,7 @@ public interface ArthasModelConverter {
 
     List<MemoryUsage> memoryEntriesToMemoryUsageList(List<MemoryEntryVO> memoryEntryVOS);
 
+    @Mapping(target = "declaringClass", expression = "java(stackTraceElement.getClassName())")
     StackTraceElement stackTraceElementTrans(java.lang.StackTraceElement stackTraceElement);
 
     MonitorInfo monitorInfoTrans(java.lang.management.MonitorInfo monitorInfo);
