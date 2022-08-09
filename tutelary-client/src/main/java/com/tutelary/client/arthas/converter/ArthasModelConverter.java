@@ -36,6 +36,11 @@ public interface ArthasModelConverter {
 
     MonitorInfo monitorInfoTrans(java.lang.management.MonitorInfo monitorInfo);
 
+    @Mappings({
+        @Mapping(target = "name", source = "threadName"),
+        @Mapping(target = "id", source = "threadId"),
+        @Mapping(target = "state", source = "threadState")
+    })
     ThreadInfo threadInfoToThreadDetailInfo(java.lang.management.ThreadInfo threadInfo);
 
     BlockingThreadCommandResultMessage arthasBlockingLockInfoToTutelary(com.taobao.arthas.core.command.model.BlockingLockInfo blockingLockInfo);
