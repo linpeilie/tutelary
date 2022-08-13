@@ -9,17 +9,17 @@ import com.tutelary.common.BaseMessage;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 
-public class MessageProcessorManager {
+public class  MessageProcessorManager {
 
     private static final Log LOG = LogFactory.get();
 
-    private static final Map<Byte, MessageProcessor<? extends BaseMessage>> HANDLER_MAP = new ConcurrentHashMap<>();
+    private final Map<Byte, MessageProcessor<? extends BaseMessage>> HANDLER_MAP = new ConcurrentHashMap<>();
 
-    public static MessageProcessor<? extends BaseMessage> getHandler(byte cmd) {
+    public MessageProcessor<? extends BaseMessage> getHandler(byte cmd) {
         return HANDLER_MAP.get(cmd);
     }
 
-    public static void register(MessageProcessor<? extends BaseMessage> handler) {
+    public void register(MessageProcessor<? extends BaseMessage> handler) {
         Class<? extends BaseMessage> cmdClass = handler.getCmdClass();
         Message message = cmdClass.getAnnotation(Message.class);
         if (message == null) {

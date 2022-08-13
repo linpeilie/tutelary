@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -31,8 +32,8 @@ public class InstanceManager {
         return instanceEntity;
     }
 
-    public Instance getInstance(String instanceId) {
-        return instanceMap.get(instanceId);
+    public Optional<Instance> getInstance(String instanceId) {
+        return Optional.ofNullable(instanceMap.get(instanceId));
     }
 
     private void createApp(String appName) {

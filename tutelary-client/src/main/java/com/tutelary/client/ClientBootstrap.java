@@ -29,6 +29,8 @@ public class ClientBootstrap {
     public static Channel channel;
     public static boolean registered = false;
 
+    private static MessageProcessorManager MESSAGE_PROCESSOR_MANAGER = new MessageProcessorManager();
+
     public static void start(Instrumentation instrumentation, TutelaryAgentProperties tutelaryAgentProperties)
             throws URISyntaxException, InterruptedException {
         INSTRUMENTATION = instrumentation;
@@ -45,14 +47,14 @@ public class ClientBootstrap {
 
     private static void loadMessageProcessor() {
         List<MessageProcessor> messageProcessors = ServiceLoaderUtil.loadList(MessageProcessor.class);
-        messageProcessors.forEach(MessageProcessorManager::register);
+        messageProcessors.forEach(MESSAGE_PROCESSOR_MANAGER::register);
     }
 
     private static void loadCommandHandler() {
     }
 
     private static void startClient() throws URISyntaxException, InterruptedException {
-        client = new TutelaryClient();
+        client = new TutelaryClient(MESSAGE_PROCESSOR_MANAGER);
         channel = client.start();
     }
 

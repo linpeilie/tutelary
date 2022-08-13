@@ -8,17 +8,23 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class ServerEndpointConfig {
 
-    private String host = "0.0.0.0";
-
     private int port = 9897;
 
+    private int webPort = 9898;
+
     private String path = "/ws";
+
+    private String webPath = "/ws";
 
     private int handshakeTimeout = 5000;
 
     private int bossLoopGroupThreads = 1;
 
     private int workerLoopGroupThreads = Runtime.getRuntime().availableProcessors();
+
+    private int webBossLoopGroupThreads = 1;
+
+    private int webWorkerLoopGroupThreads = Runtime.getRuntime().availableProcessors();
 
     private String persistent = PersistentMannerConstants.MEMORY;
 

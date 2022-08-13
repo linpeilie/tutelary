@@ -2,8 +2,10 @@ package com.tutelary.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import com.tutelary.client.handler.netty.HeartbeatHandler;
+import com.tutelary.common.BaseMessage;
 import com.tutelary.common.constants.TutelaryConstants;
 import com.tutelary.encoder.ProtobufMessageEncoder;
 
@@ -13,6 +15,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.tutelary.handler.CmdMessageHandler;
+import com.tutelary.processor.MessageProcessor;
+import com.tutelary.processor.MessageProcessorManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -39,6 +43,12 @@ public class TutelaryClient {
 
     private static final EventLoopGroup WORK_GROUP =
         new NioEventLoopGroup(ThreadFactoryBuilder.create().setNamePrefix("tutelary-client-worker-").build());
+
+    private final MessageProcessorManager messageProcessorManager;
+
+    public TutelaryClient(MessageProcessorManager messageProcessorManager) {
+        this.messageProcessorManager = messageProcessorManager;
+    }
 
     public Channel start() throws URISyntaxException, InterruptedException {
         String tutelaryServerUrl = ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getTutelaryServerUrl();
@@ -81,7 +91,7 @@ public class TutelaryClient {
                         // 注册服务
                         .addLast(new HeartbeatHandler())
                         // 业务处理
-                        .addLast(new CmdMessageHandler());
+                        .addLast(new CmdMessageHandler(messageProcessorManager));
                 }
             });
 

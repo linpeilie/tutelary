@@ -1,4 +1,4 @@
-package com.tutelary.store;
+package com.tutelary.server.store;
 
 import com.tutelary.session.Session;
 

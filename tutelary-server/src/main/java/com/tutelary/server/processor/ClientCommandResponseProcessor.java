@@ -1,16 +1,18 @@
 package com.tutelary.server.processor;
 
+import com.tutelary.common.processor.ServerMessageProcessor;
 import com.tutelary.message.ClientCommandResponseMessage;
 import com.tutelary.processor.AbstractMessageProcessor;
 import com.tutelary.session.Session;
-import com.tutelary.store.SessionStore;
+import com.tutelary.server.store.SessionStore;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class ClientCommandResponseProcessor extends AbstractMessageProcessor<ClientCommandResponseMessage> {
+public class ClientCommandResponseProcessor extends AbstractMessageProcessor<ClientCommandResponseMessage>
+        implements ServerMessageProcessor<ClientCommandResponseMessage> {
 
     @Override
     protected void process(ChannelHandlerContext ctx, ClientCommandResponseMessage message) {

@@ -1,14 +1,10 @@
 package com.tutelary.server;
 
-import com.tutelary.common.BaseMessage;
 import com.tutelary.common.constants.TutelaryConstants;
 import com.tutelary.encoder.ProtobufMessageEncoder;
 import com.tutelary.handler.CmdMessageHandler;
-import com.tutelary.processor.MessageProcessor;
 import com.tutelary.processor.MessageProcessorManager;
 import com.tutelary.server.handler.ConnectionManagerHandler;
-import com.tutelary.server.properties.ServerEndpointConfig;
-
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -19,14 +15,12 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
-import java.util.List;
-
-public class TutelaryServerChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class TutelaryWebServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     private final String wsUrl;
     private final MessageProcessorManager messageProcessorManager;
 
-    public TutelaryServerChannelInitializer(String wsUrl, MessageProcessorManager messageProcessorManager) {
+    public TutelaryWebServerChannelInitializer(String wsUrl, MessageProcessorManager messageProcessorManager) {
         this.wsUrl = wsUrl;
         this.messageProcessorManager = messageProcessorManager;
     }
@@ -34,20 +28,20 @@ public class TutelaryServerChannelInitializer extends ChannelInitializer<SocketC
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG))
-            // HTTP 请求解码编码
-            .addLast(new HttpServerCodec())
-            // 把多个消息转换为一个单一的 FullHttpRequest 或是 FullHttpResponse
-            .addLast(new HttpObjectAggregator(TutelaryConstants.MAX_HTTP_CONTENT_LENGTH))
-            // 处理大数据流
-            .addLast(new ChunkedWriteHandler())
-            // websocket 数据压缩
-            .addLast(new WebSocketServerCompressionHandler())
-            // websocket 处理器
-            .addLast(new WebSocketServerProtocolHandler(wsUrl, null, true))
-            // protobuf encoder
-            .addLast(new ProtobufMessageEncoder())
-            // command handler
-            .addLast(new CmdMessageHandler(messageProcessorManager));
+                // HTTP 请求解码编码
+                .addLast(new HttpServerCodec())
+                // 把多个消息转换为一个单一的 FullHttpRequest 或是 FullHttpResponse
+                .addLast(new HttpObjectAggregator(TutelaryConstants.MAX_HTTP_CONTENT_LENGTH))
+                // 处理大数据流
+                .addLast(new ChunkedWriteHandler())
+                // websocket 数据压缩
+                .addLast(new WebSocketServerCompressionHandler())
+                // websocket 处理器
+                .addLast(new WebSocketServerProtocolHandler(wsUrl, null, true))
+                .addLast(new ConnectionManagerHandler())
+                // protobuf encoder
+                .addLast(new ProtobufMessageEncoder())
+                // command handler
+                .addLast(new CmdMessageHandler(messageProcessorManager));
     }
-
 }

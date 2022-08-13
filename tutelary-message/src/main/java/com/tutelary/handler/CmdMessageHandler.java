@@ -6,11 +6,21 @@ import com.tutelary.processor.MessageProcessorManager;
 import com.tutelary.message.ErrorMessage;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
+import java.util.List;
+
+@ChannelHandler.Sharable
 public class CmdMessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
+
+    private final MessageProcessorManager messageProcessorManager;
+
+    public CmdMessageHandler(MessageProcessorManager messageProcessorManager) {
+        this.messageProcessorManager = messageProcessorManager;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame webSocketFrame) throws Exception {
@@ -18,7 +28,7 @@ public class CmdMessageHandler extends SimpleChannelInboundHandler<WebSocketFram
         ByteBuf byteBuf = webSocketFrame.content();
         byte cmd = byteBuf.readByte();
         int length = byteBuf.readInt();
-        MessageProcessor<? extends BaseMessage> handler = MessageProcessorManager.getHandler(cmd);
+        MessageProcessor<? extends BaseMessage> handler = messageProcessorManager.getHandler(cmd);
         if (handler == null) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setLastCmd(String.valueOf(cmd));
