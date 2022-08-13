@@ -59,7 +59,7 @@ public class ProcessUtils {
         }
         File toolsJar = new File(javaHome, "lib/tools.jar");
         if (!toolsJar.exists()) {
-            toolsJar = new File("../lib/tools.jar");
+            toolsJar = new File(javaHome, "../lib/tools.jar");
         }
         if (!toolsJar.exists()) {
             toolsJar = new File(javaHome, "../../lib/tools.jar");

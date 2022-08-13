@@ -26,7 +26,6 @@ public class ClientBootstrap {
 
     public volatile static String instanceId;
 
-    public static Channel channel;
     public static boolean registered = false;
 
     private static MessageProcessorManager MESSAGE_PROCESSOR_MANAGER = new MessageProcessorManager();
@@ -43,6 +42,10 @@ public class ClientBootstrap {
         loadCommandHandler();
 
         startClient();
+
+        connect();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(ClientBootstrap::destroy));
     }
 
     private static void loadMessageProcessor() {
@@ -53,13 +56,20 @@ public class ClientBootstrap {
     private static void loadCommandHandler() {
     }
 
-    private static void startClient() throws URISyntaxException, InterruptedException {
+    private static void startClient() {
         client = new TutelaryClient(MESSAGE_PROCESSOR_MANAGER);
-        channel = client.start();
     }
 
     private static void loadService() {
         services = ServiceLoaderUtil.loadList(ClientService.class);
+    }
+
+    public static void connect() {
+        client.connect();
+    }
+
+    public static void destroy() {
+        client.destroy();
     }
 
 }

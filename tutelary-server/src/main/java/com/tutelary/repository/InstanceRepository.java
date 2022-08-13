@@ -9,4 +9,6 @@ public interface InstanceRepository extends BaseRepository<InstanceQuery, Instan
 
     Instance getByInstanceId(String instanceId);
 
+    boolean del(String instanceId);
+
 }

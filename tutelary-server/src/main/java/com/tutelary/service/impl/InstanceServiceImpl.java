@@ -26,6 +26,11 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
+    public boolean removeInstance(String instanceId) {
+        return instanceRepository.del(instanceId);
+    }
+
+    @Override
     public Instance getInstanceByInstanceId(String instanceId) {
         return instanceRepository.getByInstanceId(instanceId);
     }

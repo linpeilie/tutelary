@@ -1,7 +1,9 @@
 package com.tutelary.config;
 
+import com.tutelary.common.listener.ServerEventListener;
 import com.tutelary.common.processor.ServerMessageProcessor;
 import com.tutelary.common.processor.WebServerMessageProcessor;
+import com.tutelary.event.ChannelEvents;
 import com.tutelary.processor.MessageProcessor;
 import com.tutelary.processor.MessageProcessorManager;
 import com.tutelary.server.TutelaryServer;
@@ -19,17 +21,16 @@ import java.util.List;
 public class ServerConfig {
 
     @Bean(initMethod = "start", destroyMethod = "destroy")
-    public TutelaryServer tutelaryServer(ServerEndpointConfig serverEndpointConfig, List<ServerMessageProcessor<?>> serverMessageProcessors) {
+    public TutelaryServer tutelaryServer(ServerEndpointConfig serverEndpointConfig,
+                                         List<ServerMessageProcessor<?>> serverMessageProcessors,
+                                         List<ServerEventListener> eventListeners) {
+        // message processor
         MessageProcessorManager messageProcessorManager = new MessageProcessorManager();
         serverMessageProcessors.forEach(messageProcessorManager::register);
-        return new TutelaryServer(serverEndpointConfig, messageProcessorManager);
-    }
+        // event listener
+        ChannelEvents channelEvents = new ChannelEvents(eventListeners);
 
-    @Bean(initMethod = "start", destroyMethod = "destroy")
-    public TutelaryWebServer tutelaryWebServer(ServerEndpointConfig serverEndpointConfig, List<WebServerMessageProcessor<?>> messageProcessors) {
-        MessageProcessorManager messageProcessorManager = new MessageProcessorManager();
-        messageProcessors.forEach(messageProcessorManager::register);
-        return new TutelaryWebServer(serverEndpointConfig, messageProcessorManager);
+        return new TutelaryServer(serverEndpointConfig, messageProcessorManager, channelEvents);
     }
 
 }

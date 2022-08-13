@@ -28,4 +28,9 @@ public class InstanceRepositoryImpl
         queryWrapper.eq(InstanceEntity::getInstanceId, instanceId);
         return converter.entityToDomain(super.getOne(queryWrapper));
     }
+
+    @Override
+    public boolean del(String instanceId) {
+        return super.remove(Wrappers.lambdaQuery(InstanceEntity.class).eq(InstanceEntity::getInstanceId, instanceId));
+    }
 }

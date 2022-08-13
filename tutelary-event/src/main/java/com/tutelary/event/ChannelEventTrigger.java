@@ -6,33 +6,39 @@ import io.netty.channel.ChannelPromise;
 
 public class ChannelEventTrigger extends ChannelDuplexHandler {
 
+    private final ChannelEvents channelEvents;
+
+    public ChannelEventTrigger(ChannelEvents channelEvents) {
+        this.channelEvents = channelEvents;
+    }
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ChannelEvents.fireEventActive(ctx);
+        channelEvents.fireEventActive(ctx);
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        ChannelEvents.fireEventInActive(ctx);
+        channelEvents.fireEventInActive(ctx);
         super.channelInactive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        ChannelEvents.fireEventExceptionCause(ctx, cause);
+        channelEvents.fireEventExceptionCause(ctx, cause);
         super.exceptionCaught(ctx, cause);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ChannelEvents.fireEventRead(ctx, msg);
+        channelEvents.fireEventRead(ctx, msg);
         super.channelRead(ctx, msg);
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        ChannelEvents.fireEventWrite(ctx, msg);
+        channelEvents.fireEventWrite(ctx, msg);
         super.write(ctx, msg, promise);
     }
 }

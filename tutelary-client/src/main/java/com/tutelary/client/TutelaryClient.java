@@ -3,7 +3,9 @@ package com.tutelary.client;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import com.tutelary.client.handler.netty.ClientLifeCycleListener;
 import com.tutelary.client.handler.netty.HeartbeatHandler;
 import com.tutelary.common.BaseMessage;
 import com.tutelary.common.constants.TutelaryConstants;
@@ -18,10 +20,7 @@ import com.tutelary.handler.CmdMessageHandler;
 import com.tutelary.processor.MessageProcessor;
 import com.tutelary.processor.MessageProcessorManager;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -41,16 +40,23 @@ public class TutelaryClient {
 
     private static final Log LOG = LogFactory.get();
 
+    private Bootstrap bootstrap;
+
     private static final EventLoopGroup WORK_GROUP =
-        new NioEventLoopGroup(ThreadFactoryBuilder.create().setNamePrefix("tutelary-client-worker-").build());
+            new NioEventLoopGroup(ThreadFactoryBuilder.create().setNamePrefix("tutelary-client-worker-").build());
 
     private final MessageProcessorManager messageProcessorManager;
 
     public TutelaryClient(MessageProcessorManager messageProcessorManager) {
         this.messageProcessorManager = messageProcessorManager;
+        try {
+            this.start();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public Channel start() throws URISyntaxException, InterruptedException {
+    private void start() throws URISyntaxException {
         String tutelaryServerUrl = ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getTutelaryServerUrl();
         LOG.info("tutelary service url : {}", tutelaryServerUrl);
         QueryStringEncoder queryEncoder = new QueryStringEncoder(tutelaryServerUrl);
@@ -64,38 +70,53 @@ public class TutelaryClient {
         Assert.isTrue(StrUtil.equalsAny(scheme, "ws", "wss"), "only ws(s) is supported.");
 
         WebSocketClientProtocolConfig webSocketClientProtocolConfig =
-            WebSocketClientProtocolConfig.newBuilder().webSocketUri(uri).subprotocol(null).allowExtensions(true)
-                .version(WebSocketVersion.V13).customHeaders(new DefaultHttpHeaders()).build();
-        WebSocketClientProtocolHandler webSocketClientProtocolHandler =
-            new WebSocketClientProtocolHandler(webSocketClientProtocolConfig);
+                WebSocketClientProtocolConfig.newBuilder().webSocketUri(uri).subprotocol(null).allowExtensions(true)
+                        .version(WebSocketVersion.V13).customHeaders(new DefaultHttpHeaders()).build();
 
-        Bootstrap bootstrap = new Bootstrap();
+        bootstrap = new Bootstrap();
         bootstrap.group(WORK_GROUP)
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getConnectTimeout())
-            .channel(NioSocketChannel.class).remoteAddress(host, port).handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO))
-                        // http请求的解码和编码
-                        .addLast(new HttpClientCodec())
-                        // 把多个消息转换为一个单一的 FullHttpRequest 或 FullHttpResponse
-                        .addLast(new HttpObjectAggregator(TutelaryConstants.MAX_HTTP_CONTENT_LENGTH))
-                        // 处理大数据流
-                        .addLast(new ChunkedWriteHandler())
-                        // 数据压缩
-                        .addLast(new WebSocketServerCompressionHandler())
-                        // websocket
-                        .addLast(webSocketClientProtocolHandler)
-                        // protobuf encoder
-                        .addLast(new ProtobufMessageEncoder())
-                        // 注册服务
-                        .addLast(new HeartbeatHandler())
-                        // 业务处理
-                        .addLast(new CmdMessageHandler(messageProcessorManager));
-                }
-            });
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getConnectTimeout())
+                .remoteAddress(host, port)
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO))
+                                // http请求的解码和编码
+                                .addLast(new HttpClientCodec())
+                                // 把多个消息转换为一个单一的 FullHttpRequest 或 FullHttpResponse
+                                .addLast(new HttpObjectAggregator(TutelaryConstants.MAX_HTTP_CONTENT_LENGTH))
+                                // 处理大数据流
+                                .addLast(new ChunkedWriteHandler())
+                                // 数据压缩
+                                .addLast(new WebSocketServerCompressionHandler())
+                                // websocket
+                                .addLast(new WebSocketClientProtocolHandler(webSocketClientProtocolConfig))
+                                // protobuf encoder
+                                .addLast(new ProtobufMessageEncoder())
+                                // client life cycle
+                                .addLast(new ClientLifeCycleListener())
+                                // 注册服务
+                                .addLast(new HeartbeatHandler())
+                                // 业务处理
+                                .addLast(new CmdMessageHandler(messageProcessorManager));
+                    }
+                });
+    }
 
-        return bootstrap.connect().sync().channel();
+    public void connect() {
+        ChannelFuture cf = bootstrap.connect();
+        cf.addListener((ChannelFutureListener) channelFuture -> {
+            if (channelFuture.isSuccess()) {
+                LOG.info("连接 tutelary server 成功");
+            } else {
+                cf.channel().eventLoop().schedule(this::connect, 30, TimeUnit.SECONDS);
+            }
+        });
+    }
+
+    public void destroy() {
+        WORK_GROUP.shutdownGracefully();
     }
 
 }

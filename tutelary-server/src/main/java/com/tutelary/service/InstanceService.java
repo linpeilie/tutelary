@@ -11,6 +11,8 @@ public interface InstanceService {
 
     boolean addInstance(Instance instanceEntity);
 
+    boolean removeInstance(String instanceId);
+
     Instance getInstanceByInstanceId(String instanceId);
 
     PageResult<Instance> pageList(InstanceQuery instanceQuery, PageQueryRequest pageRequest);
