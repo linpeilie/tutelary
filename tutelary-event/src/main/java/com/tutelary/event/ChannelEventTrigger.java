@@ -3,6 +3,7 @@ package com.tutelary.event;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 
 public class ChannelEventTrigger extends ChannelDuplexHandler {
 
@@ -16,6 +17,14 @@ public class ChannelEventTrigger extends ChannelDuplexHandler {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         channelEvents.fireEventActive(ctx);
         super.channelActive(ctx);
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            channelEvents.fireEventHandshakeComplete(ctx);
+        }
+        super.userEventTriggered(ctx, evt);
     }
 
     @Override

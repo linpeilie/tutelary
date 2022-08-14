@@ -14,8 +14,8 @@ public class ClientRegisterResponseProcessor extends AbstractMessageProcessor<Cl
     @Override
     protected void process(ChannelHandlerContext ctx, ClientRegisterResponseMessage message) {
         LOG.info("client register success : {}", message);
-        ClientBootstrap.instanceId = message.getInstanceId();
         ClientBootstrap.registered = true;
+        ClientBootstrap.channelEvents.fireEventClientRegistered(ctx);
     }
 
     @Override

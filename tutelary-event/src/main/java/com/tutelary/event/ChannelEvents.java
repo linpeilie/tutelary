@@ -14,23 +14,31 @@ public class ChannelEvents {
         this.LISTENERS = listeners;
     }
 
-    void fireEventActive(ChannelHandlerContext ctx) {
+    public void fireEventActive(ChannelHandlerContext ctx) {
         LISTENERS.forEach(listener -> listener.onActive(ctx));
     }
 
-    void fireEventInActive(ChannelHandlerContext ctx) {
+    public void fireEventInActive(ChannelHandlerContext ctx) {
         LISTENERS.forEach(listener -> listener.onInactive(ctx));
     }
 
-    void fireEventExceptionCause(ChannelHandlerContext ctx, Throwable e) {
+    public void fireEventHandshakeComplete(ChannelHandlerContext ctx) {
+        LISTENERS.forEach(listener -> listener.onHandshakeComplete(ctx));
+    }
+
+    public void fireEventClientRegistered(ChannelHandlerContext ctx) {
+        LISTENERS.forEach(listener -> listener.onClientRegistered(ctx));
+    }
+
+    public void fireEventExceptionCause(ChannelHandlerContext ctx, Throwable e) {
         LISTENERS.forEach(listener -> listener.onExceptionCaught(ctx, e));
     }
 
-    void fireEventRead(ChannelHandlerContext ctx, Object obj) {
+    public void fireEventRead(ChannelHandlerContext ctx, Object obj) {
         LISTENERS.forEach(listener -> listener.onRead(ctx, obj));
     }
 
-    void fireEventWrite(ChannelHandlerContext ctx, Object msg) {
+    public void fireEventWrite(ChannelHandlerContext ctx, Object msg) {
         LISTENERS.forEach(listener -> listener.onWrite(ctx, msg));
     }
 

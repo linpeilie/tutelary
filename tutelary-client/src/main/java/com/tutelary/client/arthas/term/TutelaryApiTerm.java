@@ -1,5 +1,7 @@
 package com.tutelary.client.arthas.term;
 
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.taobao.arthas.core.shell.cli.Completion;
 import com.taobao.arthas.core.shell.handlers.Handler;
 import com.taobao.arthas.core.shell.session.Session;
@@ -11,6 +13,8 @@ import io.termd.core.function.Function;
  * 暂时适配 arthas，后面考虑删除
  */
 public class TutelaryApiTerm implements Term {
+
+    private static final Log LOG = LogFactory.get();
 
     private Session session;
 
@@ -80,12 +84,12 @@ public class TutelaryApiTerm implements Term {
 
     @Override
     public void readline(String prompt, Handler<String> lineHandler) {
-
+        LOG.info("readLine ..........");
     }
 
     @Override
     public void readline(String prompt, Handler<String> lineHandler, Handler<Completion> completionHandler) {
-
+        LOG.info("readLine ..........");
     }
 
     @Override

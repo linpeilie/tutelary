@@ -8,6 +8,13 @@ public interface ChannelEventListener {
 
     void onInactive(ChannelHandlerContext ctx);
 
+    /**
+     * 握手完成
+     */
+    void onHandshakeComplete(ChannelHandlerContext ctx);
+
+    void onClientRegistered(ChannelHandlerContext ctx);
+
     void onExceptionCaught(ChannelHandlerContext ctx, Throwable e);
 
     void onRead(ChannelHandlerContext ctx, Object obj);

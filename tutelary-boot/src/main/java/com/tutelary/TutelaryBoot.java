@@ -29,6 +29,8 @@ public class TutelaryBoot {
 
     private String tutelaryServerUrl;
 
+    private String basePackage;
+
     public static void main(String[] args) throws IOException {
         System.out.println("args : " + ArrayUtil.toString(args));
         TutelaryBoot tutelaryBoot = new TutelaryBoot();
@@ -72,5 +74,10 @@ public class TutelaryBoot {
     @Option(longName = ArgumentConstants.TUTELARY_SERVER_URL, required = true)
     public void setTutelaryServerUrl(String tutelaryServerUrl) {
         this.tutelaryServerUrl = tutelaryServerUrl;
+    }
+
+    @Option(longName = ArgumentConstants.BASE_PACKAGE, required = true)
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
     }
 }

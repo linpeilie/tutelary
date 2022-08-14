@@ -7,6 +7,8 @@ public class ArgumentConstants {
     public static final String TUTELARY_AGENT_PATH = "tutelary-agent-path";
     public static final String TUTELARY_SERVER_URL = "tutelary-server-url";
 
+    public static final String BASE_PACKAGE = "back-package";
+
     public static final String METHOD = "method";
 
 }

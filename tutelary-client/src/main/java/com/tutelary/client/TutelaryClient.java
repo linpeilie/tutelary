@@ -2,12 +2,9 @@ package com.tutelary.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.tutelary.client.handler.netty.ClientLifeCycleListener;
 import com.tutelary.client.handler.netty.HeartbeatHandler;
-import com.tutelary.common.BaseMessage;
 import com.tutelary.common.constants.TutelaryConstants;
 import com.tutelary.encoder.ProtobufMessageEncoder;
 
@@ -16,8 +13,8 @@ import cn.hutool.core.thread.ThreadFactoryBuilder;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import com.tutelary.event.ChannelEventTrigger;
 import com.tutelary.handler.CmdMessageHandler;
-import com.tutelary.processor.MessageProcessor;
 import com.tutelary.processor.MessageProcessorManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -35,6 +32,7 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketSe
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class TutelaryClient {
 
@@ -94,12 +92,12 @@ public class TutelaryClient {
                                 .addLast(new WebSocketClientProtocolHandler(webSocketClientProtocolConfig))
                                 // protobuf encoder
                                 .addLast(new ProtobufMessageEncoder())
-                                // client life cycle
-                                .addLast(new ClientLifeCycleListener())
-                                // 注册服务
-                                .addLast(new HeartbeatHandler())
+                                .addLast(new ChannelEventTrigger(ClientBootstrap.channelEvents))
                                 // 业务处理
-                                .addLast(new CmdMessageHandler(messageProcessorManager));
+                                .addLast(new CmdMessageHandler(messageProcessorManager))
+                                // 心跳
+                                .addLast(new IdleStateHandler(0, 10, 0, TimeUnit.SECONDS))
+                                .addLast(new HeartbeatHandler());
                     }
                 });
     }
