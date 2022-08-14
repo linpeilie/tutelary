@@ -40,13 +40,13 @@ public class TutelaryServer extends AbstractServer {
                         .addLast(new WebSocketServerCompressionHandler())
                         // websocket 处理器
                         .addLast(new WebSocketServerProtocolHandler(config.getPath(), null, true))
-                        .addLast(new ChannelEventTrigger(channelEvents))
-                        .addLast(new IdleStateHandler(0, 0, 1, TimeUnit.MINUTES))
                         .addLast(new InstanceConnectionManageHandler())
                         // protobuf encoder
                         .addLast(new ProtobufMessageEncoder())
+                        .addLast(new CmdMessageHandler(messageProcessorManager))
+                        .addLast(new ChannelEventTrigger(channelEvents))
+                        .addLast(new IdleStateHandler(1, 0, 0, TimeUnit.MINUTES));
                         // command handler
-                        .addLast(new CmdMessageHandler(messageProcessorManager));
             }
         });
     }

@@ -27,16 +27,6 @@ public class InstanceLifeCycleListener extends AbstractChannelEventListener impl
 
     @Override
     public void onActive(ChannelHandlerContext ctx) {
-        Channel channel = ctx.channel();
-        executorService.schedule(() -> {
-            if (channel.isActive()) {
-                boolean bind = instanceManager.isBind(channel);
-                if (bind) {
-                    ChannelHelper.closeChannel(channel);
-                }
-            }
-
-        }, 2, TimeUnit.MINUTES);
     }
 
     @Override

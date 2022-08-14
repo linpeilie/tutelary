@@ -14,7 +14,8 @@ public class InstanceConnectionManageHandler extends ChannelInboundHandlerAdapte
         if (evt instanceof IdleStateEvent) {
             log.info("channel : {} is idle", ChannelHelper.getChannelIP(ctx.channel()));
             ChannelHelper.closeChannel(ctx);
+        } else {
+            super.userEventTriggered(ctx, evt);
         }
-        super.userEventTriggered(ctx, evt);
     }
 }
