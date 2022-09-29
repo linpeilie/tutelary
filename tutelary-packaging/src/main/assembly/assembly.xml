@@ -17,6 +17,11 @@
             <source>../tutelary-agent/target/tutelary-agent-jar-with-dependencies.jar</source>
             <destName>tutelary-agent.jar</destName>
         </file>
+        <file>
+            <source>../tutelary-client/target/tutelary-client-jar-with-dependencies.jar</source>
+            <destName>tutelary-client.jar</destName>
+        </file>
+
     </files>
 
 </assembly>

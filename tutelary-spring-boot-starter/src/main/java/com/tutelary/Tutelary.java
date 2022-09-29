@@ -83,8 +83,8 @@ public class Tutelary {
         args.add(pid);
         args.add(StrUtil.DASHED + ArgumentConstants.APP_NAME);
         args.add(applicationName);
-        args.add(StrUtil.DASHED + ArgumentConstants.TUTELARY_AGENT_PATH);
-        args.add(tutelaryAgentJar.getAbsolutePath());
+        args.add(StrUtil.DASHED + ArgumentConstants.TUTELARY_WORKSPACE);
+        args.add(tutelaryAgentJar.getParent());
         args.add(StrUtil.DASHED + ArgumentConstants.TUTELARY_SERVER_URL);
         args.add(tutelaryServerUrl);
         args.add(StrUtil.DASHED + ArgumentConstants.BASE_PACKAGE);

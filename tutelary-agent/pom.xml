@@ -23,10 +23,6 @@
             <artifactId>tutelary-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>tutelary-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.taobao.arthas</groupId>
             <artifactId>arthas-core</artifactId>
             <optional>true</optional>
@@ -61,14 +57,6 @@
     <build>
         <finalName>${artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <target>1.8</target>
-                    <source>1.8</source>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

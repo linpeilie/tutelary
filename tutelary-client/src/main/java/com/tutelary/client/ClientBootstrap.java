@@ -29,22 +29,27 @@ public class ClientBootstrap {
     public static ChannelEvents channelEvents;
 
     public static void start(Instrumentation instrumentation, TutelaryAgentProperties tutelaryAgentProperties) throws URISyntaxException, InterruptedException {
-        INSTRUMENTATION = instrumentation;
-        TUTELARY_AGENT_PROPERTIES = tutelaryAgentProperties;
-
-        instanceId = UUID.randomUUID().toString(true);
-
-        loadMessageProcessor();
-
-        loadCommandHandler();
-
-        loadChannelEventListeners();
-
-        startClient();
-
-        connect();
-
-        Runtime.getRuntime().addShutdownHook(new Thread(ClientBootstrap::destroy));
+        Class[] initiatedClasses = instrumentation.getInitiatedClasses(ClientBootstrap.class.getClassLoader().getParent());
+//        Class[] allLoadedClasses = instrumentation.getAllLoadedClasses();
+        for (Class allLoadedClass : initiatedClasses) {
+            System.out.println(allLoadedClass.getName());
+        }
+//        INSTRUMENTATION = instrumentation;
+//        TUTELARY_AGENT_PROPERTIES = tutelaryAgentProperties;
+//
+//        instanceId = UUID.randomUUID().toString(true);
+//
+//        loadMessageProcessor();
+//
+//        loadCommandHandler();
+//
+//        loadChannelEventListeners();
+//
+//        startClient();
+//
+//        connect();
+//
+//        Runtime.getRuntime().addShutdownHook(new Thread(ClientBootstrap::destroy));
     }
 
     private static void loadChannelEventListeners() {

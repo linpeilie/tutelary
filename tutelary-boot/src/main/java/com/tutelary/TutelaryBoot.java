@@ -14,6 +14,7 @@ import com.taobao.middleware.cli.annotations.Option;
 import com.tutelary.common.config.TutelaryAgentProperties;
 import com.tutelary.common.constants.ArgumentConstants;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
@@ -25,7 +26,7 @@ public class TutelaryBoot {
 
     private String appName;
 
-    private String tutelaryAgentPath;
+    private String tutelaryWorkspace;
 
     private String tutelaryServerUrl;
 
@@ -41,11 +42,13 @@ public class TutelaryBoot {
         TutelaryAgentProperties tutelaryAgentProperties = new TutelaryAgentProperties();
         tutelaryAgentProperties.setTutelaryServerUrl(tutelaryBoot.tutelaryServerUrl);
         tutelaryAgentProperties.setAppName(tutelaryBoot.appName);
+        tutelaryAgentProperties.setTutelaryWorkspace(tutelaryBoot.tutelaryWorkspace);
 
         VirtualMachine virtualMachine = null;
         try {
             virtualMachine = VirtualMachine.attach(tutelaryBoot.pid);
-            virtualMachine.loadAgent(tutelaryBoot.tutelaryAgentPath, JSONUtil.toJsonStr(tutelaryAgentProperties));
+            String agentJar = tutelaryBoot.tutelaryWorkspace + File.separator + "tutelary-agent.jar";
+            virtualMachine.loadAgent(agentJar, JSONUtil.toJsonStr(tutelaryAgentProperties));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
@@ -66,14 +69,14 @@ public class TutelaryBoot {
         this.appName = appName;
     }
 
-    @Option(longName = ArgumentConstants.TUTELARY_AGENT_PATH, required = true)
-    public void setTutelaryAgentPath(String tutelaryAgentPath) {
-        this.tutelaryAgentPath = tutelaryAgentPath;
-    }
-
     @Option(longName = ArgumentConstants.TUTELARY_SERVER_URL, required = true)
     public void setTutelaryServerUrl(String tutelaryServerUrl) {
         this.tutelaryServerUrl = tutelaryServerUrl;
+    }
+
+    @Option(longName = ArgumentConstants.TUTELARY_WORKSPACE, required = true)
+    public void setTutelaryWorkspace(String tutelaryWorkspace) {
+        this.tutelaryWorkspace = tutelaryWorkspace;
     }
 
     @Option(longName = ArgumentConstants.BASE_PACKAGE, required = true)

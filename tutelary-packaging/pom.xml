@@ -22,6 +22,21 @@
             <groupId>com.tutelary</groupId>
             <artifactId>tutelary-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-agent</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-client</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-boot</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>

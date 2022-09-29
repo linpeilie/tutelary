@@ -12,6 +12,8 @@ public class TutelaryAgentProperties {
 
     private Integer connectTimeout;
 
+    private String tutelaryWorkspace;
+
 
     public String getAppName() {
         return appName;
@@ -61,6 +63,14 @@ public class TutelaryAgentProperties {
         this.connectTimeout = connectTimeout;
     }
 
+    public String getTutelaryWorkspace() {
+        return tutelaryWorkspace;
+    }
+
+    public void setTutelaryWorkspace(String tutelaryWorkspace) {
+        this.tutelaryWorkspace = tutelaryWorkspace;
+    }
+
     @Override
     public String toString() {
         return "TutelaryAgentProperties{" +
@@ -70,6 +80,7 @@ public class TutelaryAgentProperties {
                 ", tutelaryServerUrl='" + tutelaryServerUrl + '\'' +
                 ", startup=" + startup +
                 ", connectTimeout=" + connectTimeout +
+                ", tutelaryWorkspace='" + tutelaryWorkspace + '\'' +
                 '}';
     }
 }
