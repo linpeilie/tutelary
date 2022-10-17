@@ -14,6 +14,8 @@ public class TutelaryAgentProperties {
 
     private String tutelaryWorkspace;
 
+    private String applicationBasePackage;
+
 
     public String getAppName() {
         return appName;
@@ -71,6 +73,14 @@ public class TutelaryAgentProperties {
         this.tutelaryWorkspace = tutelaryWorkspace;
     }
 
+    public String getApplicationBasePackage() {
+        return applicationBasePackage;
+    }
+
+    public void setApplicationBasePackage(String applicationBasePackage) {
+        this.applicationBasePackage = applicationBasePackage;
+    }
+
     @Override
     public String toString() {
         return "TutelaryAgentProperties{" +
@@ -81,6 +91,7 @@ public class TutelaryAgentProperties {
                 ", startup=" + startup +
                 ", connectTimeout=" + connectTimeout +
                 ", tutelaryWorkspace='" + tutelaryWorkspace + '\'' +
+                ", applicationBasePackage='" + applicationBasePackage + '\'' +
                 '}';
     }
 }

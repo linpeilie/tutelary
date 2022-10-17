@@ -21,7 +21,10 @@
             <source>../tutelary-client/target/tutelary-client-jar-with-dependencies.jar</source>
             <destName>tutelary-client.jar</destName>
         </file>
-
+        <file>
+            <source>../tutelary-spy/target/tutelary-spy-jar-with-dependencies.jar</source>
+            <destName>tutelary-spy.jar</destName>
+        </file>
     </files>
 
 </assembly>

@@ -23,6 +23,11 @@
             <artifactId>tutelary-common</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-spy</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.taobao.arthas</groupId>
             <artifactId>arthas-core</artifactId>
             <optional>true</optional>

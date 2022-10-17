@@ -9,6 +9,7 @@ import com.tutelary.common.config.TutelaryAgentProperties;
 
 import java.io.File;
 import java.lang.instrument.Instrumentation;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public class TutelaryAgent {
@@ -34,12 +35,13 @@ public class TutelaryAgent {
             LOG.info("入参 : {}", tutelaryAgentProperties);
 
             String tutelaryClientJar = tutelaryAgentProperties.getTutelaryWorkspace() + File.separator + "tutelary-client.jar";
-            AgentClassLoader agentClassLoader = new AgentClassLoader(tutelaryClientJar, TutelaryAgent.class.getClassLoader());
+            AgentClassLoader agentClassLoader = new AgentClassLoader(tutelaryClientJar, Thread.currentThread().getContextClassLoader());
 
             Class<?> clientBootstrap = agentClassLoader.loadClass("com.tutelary.client.ClientBootstrap");
-            ReflectUtil.invokeStatic(clientBootstrap.getMethod("start", Instrumentation.class, TutelaryAgentProperties.class),
-                    instrumentation, tutelaryAgentProperties);
 
+            ReflectUtil.invokeStatic(clientBootstrap.getDeclaredMethod("start", Instrumentation.class,
+                            agentClassLoader.loadClass("com.tutelary.common.config.TutelaryAgentProperties")),
+                    instrumentation, tutelaryAgentProperties);
         } catch (Exception e) {
             LOG.error("exception occurred at tutelary client startup", e);
         }

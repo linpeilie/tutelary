@@ -52,7 +52,7 @@ public class Tutelary {
             Map<String, Object> applicationMap =
                     applicationContext.getBeansWithAnnotation(SpringBootApplication.class);
             Object application = CollectionUtil.getFirst(applicationMap.values());
-            basePackage = applicationName.getClass().getPackage().getName();
+            basePackage = application.getClass().getPackage().getName();
         }
         LOGGER.debug("project base package : {}", basePackage);
 

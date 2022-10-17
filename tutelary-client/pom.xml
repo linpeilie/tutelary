@@ -35,6 +35,12 @@
             <artifactId>tutelary-event</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-spy</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
@@ -47,6 +53,11 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>bytekit-core</artifactId>
+            <version>${bytekit.version}</version>
         </dependency>
     </dependencies>
 

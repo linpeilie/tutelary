@@ -26,6 +26,7 @@ public class  MessageProcessorManager {
             LOG.error("Class [ {} ] @Message annotation cannot null", cmdClass.getName());
             throw new RuntimeException("Class [" + cmdClass.getName() + "] @Message annotation cannot null");
         }
+        LOG.debug("MessageProcessor[ {} ] register, cmd : {}", handler.getClass().getName(), message.cmd());
         MessageProcessor<? extends BaseMessage> oldMessageHandler = HANDLER_MAP.putIfAbsent(message.cmd(), handler);
         if (oldMessageHandler != null) {
             LOG.error("MessageHandler [ {} ] and [ {} ] repeated command", handler.getClass().getName(),

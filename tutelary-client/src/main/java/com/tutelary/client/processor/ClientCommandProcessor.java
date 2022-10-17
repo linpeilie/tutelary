@@ -1,6 +1,8 @@
 package com.tutelary.client.processor;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.taobao.arthas.core.command.BuiltinCommandPack;
 import com.taobao.arthas.core.shell.cli.CliTokens;
@@ -21,13 +23,13 @@ import com.tutelary.message.ClientCommandRequestMessage;
 import com.tutelary.message.ClientCommandResponseMessage;
 import com.tutelary.processor.AbstractMessageProcessor;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Collections;
 
-@Slf4j
 public class ClientCommandProcessor extends AbstractMessageProcessor<ClientCommandRequestMessage> {
+
+    private static final Log LOG = LogFactory.get();
 
     private static final int COMMAND_TIMEOUT = 1000;
 
@@ -55,7 +57,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
                 clientCommandResponseMessage.setData(Any.pack(commandResult));
                 clientCommandResponseMessage.setStatus(Boolean.TRUE);
             } catch (IOException e) {
-                log.error("ClientCommandProcessor Any.pack error", e);
+                LOG.error("ClientCommandProcessor Any.pack error", e);
                 clientCommandResponseMessage.setStatus(Boolean.FALSE);
                 clientCommandResponseMessage.setMessage("系统异常[" + e.getMessage() + "]");
             }
@@ -82,7 +84,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
 
         boolean timeExpired = !waitForJob(job, COMMAND_TIMEOUT);
         if (timeExpired) {
-            log.warn("Job is exceeded time limit, force interrupt it, command : {}", command);
+            LOG.warn("Job is exceeded time limit, force interrupt it, command : {}", command);
             job.interrupt();
         }
 

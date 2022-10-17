@@ -32,6 +32,7 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
 
     private void registerClient(ChannelHandlerContext ctx) {
         if (!ClientBootstrap.registered) {
+            LOG.debug("tutelary connected server, try to register");
             ClientRegisterRequestMessage clientRegisterRequestMessage = new ClientRegisterRequestMessage();
             clientRegisterRequestMessage.setAppName(ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getAppName());
             clientRegisterRequestMessage.setInstanceId(ClientBootstrap.instanceId);

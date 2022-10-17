@@ -43,6 +43,7 @@ public class TutelaryBoot {
         tutelaryAgentProperties.setTutelaryServerUrl(tutelaryBoot.tutelaryServerUrl);
         tutelaryAgentProperties.setAppName(tutelaryBoot.appName);
         tutelaryAgentProperties.setTutelaryWorkspace(tutelaryBoot.tutelaryWorkspace);
+        tutelaryAgentProperties.setApplicationBasePackage(tutelaryBoot.basePackage);
 
         VirtualMachine virtualMachine = null;
         try {

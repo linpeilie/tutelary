@@ -79,10 +79,10 @@ public class TutelaryClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO))
+                        ch.pipeline()
                                 // http请求的解码和编码
                                 .addLast(new HttpClientCodec())
-                                // 把多个消息转换为一个单一的 FullHttpRequest 或 FullHttpResponse
+                                // 把多个消息转换为一个单一的
                                 .addLast(new HttpObjectAggregator(TutelaryConstants.MAX_HTTP_CONTENT_LENGTH))
                                 // 处理大数据流
                                 .addLast(new ChunkedWriteHandler())
