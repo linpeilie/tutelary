@@ -1,7 +1,4 @@
-package com.tutelary;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+package java.tutelary;
 
 public class WeaveSpy {
 

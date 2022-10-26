@@ -2,7 +2,7 @@ package com.tutelary.client.enhance.spy;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
-import com.tutelary.Spy;
+import java.tutelary.Spy;
 
 public class EnhancedSpy implements Spy {
 

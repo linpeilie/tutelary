@@ -3,7 +3,7 @@ package com.tutelary.client.enhance.interceptor;
 import com.alibaba.bytekit.asm.binding.Binding;
 import com.alibaba.bytekit.asm.interceptor.annotation.AtInvoke;
 import com.alibaba.bytekit.asm.interceptor.annotation.AtInvokeException;
-import com.tutelary.WeaveSpy;
+import java.tutelary.WeaveSpy;
 
 public class SpyInvokeInterceptor {
 

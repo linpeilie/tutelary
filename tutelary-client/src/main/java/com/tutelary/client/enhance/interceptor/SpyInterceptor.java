@@ -4,7 +4,7 @@ import com.alibaba.bytekit.asm.binding.Binding;
 import com.alibaba.bytekit.asm.interceptor.annotation.AtEnter;
 import com.alibaba.bytekit.asm.interceptor.annotation.AtExceptionExit;
 import com.alibaba.bytekit.asm.interceptor.annotation.AtExit;
-import com.tutelary.WeaveSpy;
+import java.tutelary.WeaveSpy;
 
 public class SpyInterceptor {
 

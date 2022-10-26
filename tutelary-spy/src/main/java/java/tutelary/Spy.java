@@ -1,4 +1,4 @@
-package com.tutelary;
+package java.tutelary;
 
 public interface Spy {
 
