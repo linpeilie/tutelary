@@ -170,7 +170,7 @@ public abstract class AbstractEnhanceCommand<T> implements Command<T>, ClassFile
     }
 
     private static void dumpClassIfNecessary(String className, byte[] data) {
-        final File dumpClassFile = new File("./arthas-class-dump/" + className + ".class");
+        final File dumpClassFile = new File("./tutelary-class-dump/" + className + ".class");
         final File classPath = new File(dumpClassFile.getParent());
 
         // 创建类所在的包路径

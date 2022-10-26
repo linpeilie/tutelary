@@ -120,17 +120,6 @@
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
-            <!-- arthas -->
-            <dependency>
-                <groupId>com.taobao.arthas</groupId>
-                <artifactId>arthas-packaging</artifactId>
-                <version>${arthas.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.taobao.arthas</groupId>
-                <artifactId>arthas-core</artifactId>
-                <version>${arthas.version}</version>
-            </dependency>
             <!-- alibaba.middleware.cli -->
             <dependency>
                 <groupId>com.alibaba.middleware</groupId>

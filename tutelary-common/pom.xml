@@ -16,13 +16,4 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.taobao.arthas</groupId>
-            <artifactId>arthas-common</artifactId>
-            <version>${arthas.version}</version>
-        </dependency>
-    </dependencies>
-
 </project>

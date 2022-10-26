@@ -8,7 +8,7 @@ import java.tutelary.WeaveSpy;
 public class SpyInvokeInterceptor {
 
     @AtInvoke(name = "", inline = true, whenComplete = false, excludes = {
-            "com.tutelary.WeaveSpy",
+            "java.tutelary.WeaveSpy",
             "java.lang.Byte",
             "java.lang.Boolean",
             "java.lang.Short",
@@ -26,7 +26,7 @@ public class SpyInvokeInterceptor {
 
 
     @AtInvoke(name = "", inline = true, whenComplete = true, excludes = {
-            "com.tutelary.WeaveSpy",
+            "java.tutelary.WeaveSpy",
             "java.lang.Byte",
             "java.lang.Boolean",
             "java.lang.Short",
@@ -43,7 +43,7 @@ public class SpyInvokeInterceptor {
     }
 
     @AtInvokeException(name = "", inline = true, excludes = {
-            "com.tutelary.WeaveSpy",
+            "java.tutelary.WeaveSpy",
             "java.lang.Byte",
             "java.lang.Boolean",
             "java.lang.Short",

@@ -1,12 +1,7 @@
 package com.tutelary.utils;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.log.Log;
-import com.taobao.arthas.common.JavaVersionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +91,7 @@ public class ProcessUtils {
     }
 
     private static File findToolsJar(String javaHome) {
-        if (JavaVersionUtils.isGreaterThanJava8()) {
+        if (!JavaVersionUtils.isLessThanJava9()) {
             return null;
         }
         File toolsJar = new File(javaHome, "lib/tools.jar");
