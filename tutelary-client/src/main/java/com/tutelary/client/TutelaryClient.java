@@ -1,18 +1,14 @@
 package com.tutelary.client;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.TimeUnit;
-
-import com.tutelary.client.handler.netty.HeartbeatHandler;
-import com.tutelary.common.constants.TutelaryConstants;
-import com.tutelary.encoder.ProtobufMessageEncoder;
-
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
+import com.tutelary.client.handler.netty.GlobalExceptionHandler;
+import com.tutelary.client.handler.netty.HeartbeatHandler;
+import com.tutelary.common.constants.TutelaryConstants;
+import com.tutelary.common.log.Log;
+import com.tutelary.common.log.LogFactory;
+import com.tutelary.encoder.ProtobufMessageEncoder;
 import com.tutelary.event.ChannelEventTrigger;
 import com.tutelary.handler.CmdMessageHandler;
 import com.tutelary.processor.MessageProcessorManager;
@@ -29,14 +25,16 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolConfig;
 import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolHandler;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
+
 public class TutelaryClient {
 
-    private static final Log LOG = LogFactory.get();
+    private static final Log LOGGER = LogFactory.get(TutelaryClient.class);
 
     private Bootstrap bootstrap;
 
@@ -49,14 +47,14 @@ public class TutelaryClient {
         this.messageProcessorManager = messageProcessorManager;
         try {
             this.start();
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void start() throws URISyntaxException {
+    private void start() throws URISyntaxException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         String tutelaryServerUrl = ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getTutelaryServerUrl();
-        LOG.info("tutelary service url : {}", tutelaryServerUrl);
+        LOGGER.info("tutelary service url : {}", tutelaryServerUrl);
         QueryStringEncoder queryEncoder = new QueryStringEncoder(tutelaryServerUrl);
         URI uri = queryEncoder.toUri();
         String host = uri.getHost();
@@ -70,6 +68,9 @@ public class TutelaryClient {
         WebSocketClientProtocolConfig webSocketClientProtocolConfig =
                 WebSocketClientProtocolConfig.newBuilder().webSocketUri(uri).subprotocol(null).allowExtensions(true)
                         .version(WebSocketVersion.V13).customHeaders(new DefaultHttpHeaders()).build();
+
+//        Class<?> protobufMessageEncoderClass = ClassLoaderWrapper.getAgentClassLoader().loadClass("com.tutelary.encoder.ProtobufMessageEncoder");
+//        ProtobufMessageEncoder protobufMessageEncoder = (ProtobufMessageEncoder) protobufMessageEncoderClass.newInstance();
 
         bootstrap = new Bootstrap();
         bootstrap.group(WORK_GROUP)
@@ -97,7 +98,8 @@ public class TutelaryClient {
                                 .addLast(new CmdMessageHandler(messageProcessorManager))
                                 // 心跳
                                 .addLast(new IdleStateHandler(0, 10, 0, TimeUnit.SECONDS))
-                                .addLast(new HeartbeatHandler());
+                                .addLast(new HeartbeatHandler())
+                                .addLast(new GlobalExceptionHandler());
                     }
                 });
     }
@@ -106,7 +108,7 @@ public class TutelaryClient {
         ChannelFuture cf = bootstrap.connect();
         cf.addListener((ChannelFutureListener) channelFuture -> {
             if (channelFuture.isSuccess()) {
-                LOG.info("连接 tutelary server 成功");
+                LOGGER.info("连接 tutelary server 成功");
             } else {
                 cf.channel().eventLoop().schedule(this::connect, 30, TimeUnit.SECONDS);
             }

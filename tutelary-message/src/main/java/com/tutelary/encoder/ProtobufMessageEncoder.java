@@ -1,12 +1,11 @@
 package com.tutelary.encoder;
 
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.tutelary.annotation.Message;
-
 import com.tutelary.common.BaseMessage;
+import com.tutelary.common.log.Log;
+import com.tutelary.common.log.LogFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
@@ -18,7 +17,7 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
  */
 public class ProtobufMessageEncoder extends ChannelOutboundHandlerAdapter {
 
-    private static final Log LOG = LogFactory.get();
+    private static final Log LOGGER = LogFactory.get(ProtobufMessageEncoder.class);
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
@@ -31,8 +30,9 @@ public class ProtobufMessageEncoder extends ChannelOutboundHandlerAdapter {
     }
 
     private ByteBuf encode(ChannelHandlerContext ctx, BaseMessage msg) throws Exception {
-        LOG.debug("protobuf message encoder : {}", msg);
+        LOGGER.debug("protobuf message encoder : {}", msg);
         Class<BaseMessage> clazz = (Class<BaseMessage>)msg.getClass();
+        LOGGER.info("ProtobufMessageEncoder current class loader : {}", Thread.currentThread().getContextClassLoader());
         Codec<BaseMessage> codec = ProtobufProxy.create(clazz);
         byte[] bytes = codec.encode(msg);
         int length = bytes.length;

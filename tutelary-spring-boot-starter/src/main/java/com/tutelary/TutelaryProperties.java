@@ -7,8 +7,6 @@ public class TutelaryProperties {
 
     private String serverUrl;
 
-    private String basePackage;
-
     public String getServerUrl() {
         return serverUrl;
     }
@@ -17,11 +15,4 @@ public class TutelaryProperties {
         this.serverUrl = serverUrl;
     }
 
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
 }

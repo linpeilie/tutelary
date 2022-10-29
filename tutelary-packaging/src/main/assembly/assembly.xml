@@ -10,6 +10,10 @@
 
     <files>
         <file>
+            <source>../tutelary-client/src/main/java/logback.xml</source>
+            <destName>logback.xml</destName>
+        </file>
+        <file>
             <source>../tutelary-boot/target/tutelary-boot-jar-with-dependencies.jar</source>
             <destName>tutelary-boot.jar</destName>
         </file>

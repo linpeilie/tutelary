@@ -77,7 +77,7 @@ public class ProcessUtils {
         LOGGER.error("cannot find tools.jar under java home : {}", javaHomeEnv);
         return null;
     }
-    
+
     private static File findJava(String javaHome) {
         String[] paths = {"bin/java", "bin/java.exe", "../bin/java", "../bin/java.exe"};
         for (String path : paths) {

@@ -18,6 +18,15 @@ public enum CommandEnum {
      * thread b
      */
     ARTHAS_THREAD_BLOCK(CommandTypeConstants.ARTHAS, 10022, "thread"),
+
+    TUTELARY_ENHANCE(CommandTypeConstants.TUTELARY, 21010, "enhance"),
+
+    /**
+     * tutelary - trace
+     */
+    TUTELARY_TRACE_METHOD(CommandTypeConstants.TUTELARY, 21011, "trace"),
+
+    TUTELARY_ENHANCE_TASK_COMPLETE(CommandTypeConstants.TUTELARY, 21099, "complete")
     ;
 
     private final Integer type;

@@ -1,9 +1,9 @@
 package com.tutelary.client.listener;
 
 import cn.hutool.core.thread.ThreadFactoryBuilder;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
 import com.tutelary.client.ClientBootstrap;
+import com.tutelary.common.log.Log;
+import com.tutelary.common.log.LogFactory;
 import com.tutelary.common.thread.LoggingUncaughtExceptionHandler;
 import com.tutelary.event.AbstractChannelEventListener;
 import com.tutelary.message.ClientRegisterRequestMessage;
@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ClientLifeCycleListener extends AbstractChannelEventListener {
 
+    private static final Log LOGGER = LogFactory.get(ClientLifeCycleListener.class);
+
     private final ScheduledExecutorService scheduledExecutorService;
 
     public ClientLifeCycleListener() {
@@ -23,7 +25,6 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
                         .setUncaughtExceptionHandler(new LoggingUncaughtExceptionHandler()).build());
     }
 
-    private static final Log LOG = LogFactory.get();
 
     @Override
     public void onHandshakeComplete(ChannelHandlerContext ctx) {
@@ -32,11 +33,11 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
 
     private void registerClient(ChannelHandlerContext ctx) {
         if (!ClientBootstrap.registered) {
-            LOG.debug("tutelary connected server, try to register");
+            LOGGER.debug("tutelary connected server, try to register");
             ClientRegisterRequestMessage clientRegisterRequestMessage = new ClientRegisterRequestMessage();
             clientRegisterRequestMessage.setAppName(ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getAppName());
             clientRegisterRequestMessage.setInstanceId(ClientBootstrap.instanceId);
-            LOG.info("client register info : {}", clientRegisterRequestMessage);
+            LOGGER.info("client register info : {}", clientRegisterRequestMessage);
             ctx.channel().writeAndFlush(clientRegisterRequestMessage);
             scheduledExecutorService.schedule(() -> this.registerClient(ctx), 10, TimeUnit.SECONDS);
         }
@@ -44,7 +45,7 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
 
     @Override
     public void onInactive(ChannelHandlerContext ctx) {
-        LOG.error("服务端断开连接");
+        LOGGER.error("服务端断开连接");
         ClientBootstrap.registered = false;
         ClientBootstrap.connect();
     }

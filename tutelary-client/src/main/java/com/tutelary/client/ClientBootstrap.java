@@ -1,15 +1,15 @@
 package com.tutelary.client;
 
 import cn.hutool.core.lang.UUID;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
-import java.tutelary.WeaveSpy;
-import com.tutelary.client.enhance.Enhance;
+import cn.hutool.core.util.ServiceLoaderUtil;
+import com.alibaba.arthas.deps.ch.qos.logback.classic.LoggerContext;
 import com.tutelary.client.enhance.spy.EnhancedSpy;
-import com.tutelary.client.listener.ClientLifeCycleListener;
-import com.tutelary.client.processor.ClientCommandProcessor;
-import com.tutelary.client.processor.ClientRegisterResponseProcessor;
+import com.tutelary.client.loader.ClassLoaderWrapper;
+import com.tutelary.client.util.LogUtil;
 import com.tutelary.common.config.TutelaryAgentProperties;
+import com.tutelary.common.log.Log;
+import com.tutelary.common.log.LogFactory;
+import com.tutelary.common.log.dialect.console.ConsoleLog;
 import com.tutelary.event.ChannelEventListener;
 import com.tutelary.event.ChannelEvents;
 import com.tutelary.processor.MessageProcessor;
@@ -18,13 +18,13 @@ import com.tutelary.processor.MessageProcessorManager;
 import java.io.File;
 import java.lang.instrument.Instrumentation;
 import java.security.CodeSource;
-import java.util.ArrayList;
+import java.tutelary.WeaveSpy;
 import java.util.List;
 import java.util.jar.JarFile;
 
 public class ClientBootstrap {
 
-    private static final Log LOG = LogFactory.get();
+    private static Log LOGGER = new ConsoleLog(ClientBootstrap.class);
 
     public static Instrumentation INSTRUMENTATION;
 
@@ -36,17 +36,22 @@ public class ClientBootstrap {
 
     public static boolean registered = false;
 
-    private static MessageProcessorManager MESSAGE_PROCESSOR_MANAGER = new MessageProcessorManager();
-
     public static ChannelEvents channelEvents;
+
+    private static LoggerContext loggerContext;
 
     public static void start(Instrumentation instrumentation, TutelaryAgentProperties tutelaryAgentProperties) throws Exception {
         INSTRUMENTATION = instrumentation;
         TUTELARY_AGENT_PROPERTIES = tutelaryAgentProperties;
 
+        // init logger
+        initLog(tutelaryAgentProperties);
+
         instanceId = UUID.randomUUID().toString(true);
 
-        loadMessageProcessor();
+        final MessageProcessorManager messageProcessorManager = new MessageProcessorManager();
+
+        loadMessageProcessor(messageProcessorManager);
 
         loadCommandHandler();
 
@@ -54,13 +59,18 @@ public class ClientBootstrap {
 
         installSyp();
 
-        Enhance.enhance(instrumentation, tutelaryAgentProperties.getApplicationBasePackage());
-
-        startClient();
+        startClient(messageProcessorManager);
 
         connect();
 
         Runtime.getRuntime().addShutdownHook(new Thread(ClientBootstrap::destroy));
+    }
+
+    private static void initLog(TutelaryAgentProperties properties) {
+        loggerContext = LogUtil.initLogger(properties.getTutelaryWorkspace());
+        if (loggerContext != null) {
+            LOGGER = LogFactory.get(ClientBootstrap.class);
+        }
     }
 
     private static void installSyp() throws Exception {
@@ -87,23 +97,20 @@ public class ClientBootstrap {
     }
 
     private static void loadChannelEventListeners() {
-        List<ChannelEventListener> channelEventListeners = new ArrayList<>();
-        channelEventListeners.add(new ClientLifeCycleListener());
+        List<ChannelEventListener> channelEventListeners = ServiceLoaderUtil.loadList(ChannelEventListener.class, ClassLoaderWrapper.getAgentClassLoader());
         channelEvents = new ChannelEvents(channelEventListeners);
     }
 
-    private static void loadMessageProcessor() {
-        List<MessageProcessor> messageProcessors = new ArrayList<>();
-        messageProcessors.add(new ClientCommandProcessor());
-        messageProcessors.add(new ClientRegisterResponseProcessor());
-        messageProcessors.forEach(MESSAGE_PROCESSOR_MANAGER::register);
+    private static void loadMessageProcessor(MessageProcessorManager messageProcessorManager) {
+        List<MessageProcessor> messageProcessors = ServiceLoaderUtil.loadList(MessageProcessor.class, ClassLoaderWrapper.getAgentClassLoader());
+        messageProcessors.forEach(messageProcessorManager::register);
     }
 
     private static void loadCommandHandler() {
     }
 
-    private static void startClient() {
-        client = new TutelaryClient(MESSAGE_PROCESSOR_MANAGER);
+    private static void startClient(MessageProcessorManager messageProcessorManager) {
+        client = new TutelaryClient(messageProcessorManager);
     }
 
     public static void connect() {
@@ -111,9 +118,9 @@ public class ClientBootstrap {
     }
 
     public static void destroy() {
-        LOG.info("Tutelary Agent Start Destroy");
+        LOGGER.info("Tutelary Agent Start Destroy");
         client.destroy();
-        LOG.info("Tutelary Agent Destroyed");
+        LOGGER.info("Tutelary Agent Destroyed");
     }
 
 }

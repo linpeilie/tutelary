@@ -19,12 +19,24 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.baidu</groupId>
             <artifactId>jprotobuf</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
             <artifactId>jprotobuf-precompile-plugin</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>

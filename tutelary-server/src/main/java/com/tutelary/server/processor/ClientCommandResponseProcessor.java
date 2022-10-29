@@ -22,7 +22,7 @@ public class ClientCommandResponseProcessor extends AbstractMessageProcessor<Cli
             log.warn("客户端 : {} 已断开连接", message.getSessionId());
             return;
         }
-        session.writeAndFlush(message);
+        session.sendData(message);
     }
 
     @Override

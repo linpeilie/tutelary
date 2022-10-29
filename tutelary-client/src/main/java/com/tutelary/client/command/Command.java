@@ -1,10 +1,15 @@
 package com.tutelary.client.command;
 
-public interface Command<T> {
+public interface Command<Result> {
 
     /**
      * 执行命令
      */
-    void execute(T param);
+    Result execute();
+
+    /**
+     * 中断命令
+     */
+    void terminated();
 
 }

@@ -2,12 +2,9 @@ package com.tutelary;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.json.JSONUtil;
-import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
 import com.taobao.middleware.cli.CLI;
 import com.taobao.middleware.cli.CommandLine;
-import com.taobao.middleware.cli.annotations.Argument;
 import com.taobao.middleware.cli.annotations.CLIConfigurator;
 import com.taobao.middleware.cli.annotations.Name;
 import com.taobao.middleware.cli.annotations.Option;
@@ -17,7 +14,6 @@ import com.tutelary.common.constants.ArgumentConstants;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Properties;
 
 @Name("tutelary-boot")
 public class TutelaryBoot {
@@ -49,6 +45,7 @@ public class TutelaryBoot {
         try {
             virtualMachine = VirtualMachine.attach(tutelaryBoot.pid);
             String agentJar = tutelaryBoot.tutelaryWorkspace + File.separator + "tutelary-agent.jar";
+            System.out.println(JSONUtil.toJsonStr(tutelaryAgentProperties));
             virtualMachine.loadAgent(agentJar, JSONUtil.toJsonStr(tutelaryAgentProperties));
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,8 +77,4 @@ public class TutelaryBoot {
         this.tutelaryWorkspace = tutelaryWorkspace;
     }
 
-    @Option(longName = ArgumentConstants.BASE_PACKAGE, required = true)
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
 }

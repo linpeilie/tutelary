@@ -27,7 +27,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <lombok.version>1.18.22</lombok.version>
         <netty.version>4.1.71.Final</netty.version>
-        <hutool.version>5.7.22</hutool.version>
+        <hutool.version>5.8.9</hutool.version>
         <arthas.version>3.6.3</arthas.version>
         <spring-boot.version>2.4.5</spring-boot.version>
         <log4j2.version>2.17.1</log4j2.version>
@@ -43,12 +43,19 @@
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <byte-buddy.version>1.12.18</byte-buddy.version>
         <bytekit.version>0.0.7</bytekit.version>
+        <log4j.version>2.19.0</log4j.version>
+        <arthas-repackage-logger.version>0.0.12</arthas-repackage-logger.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
             <version>${hutool.version}</version>
         </dependency>
         <dependency>
@@ -177,7 +184,11 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.alibaba.arthas</groupId>
+                <artifactId>arthas-repackage-logger</artifactId>
+                <version>${arthas-repackage-logger.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -196,6 +207,7 @@
                     <configuration>
                         <target>1.8</target>
                         <source>1.8</source>
+                        <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
                 <plugin>

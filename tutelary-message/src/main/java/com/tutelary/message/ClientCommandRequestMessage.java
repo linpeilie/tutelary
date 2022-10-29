@@ -1,5 +1,8 @@
 package com.tutelary.message;
 
+import com.baidu.bjf.remoting.protobuf.Any;
+import com.baidu.bjf.remoting.protobuf.FieldType;
+import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.tutelary.MessageCmd;
 import com.tutelary.annotation.Message;
 import com.tutelary.common.RequestBaseMessage;
@@ -17,6 +20,7 @@ public class ClientCommandRequestMessage extends RequestBaseMessage {
 
     private Integer commandCode;
 
-    private String command;
+    @Protobuf(fieldType = FieldType.OBJECT)
+    private Any param;
 
 }

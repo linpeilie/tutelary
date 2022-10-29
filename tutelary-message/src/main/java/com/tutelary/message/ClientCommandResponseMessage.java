@@ -14,8 +14,6 @@ public class ClientCommandResponseMessage extends ResponseBaseMessage {
 
     private String sessionId;
 
-    private String command;
-
     private Integer commandType;
 
     private Integer commandCode;

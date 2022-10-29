@@ -1,7 +1,7 @@
 package com.tutelary.common.thread;
 
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
+import com.tutelary.common.log.Log;
+import com.tutelary.common.log.LogFactory;
 
 public class LoggingUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
