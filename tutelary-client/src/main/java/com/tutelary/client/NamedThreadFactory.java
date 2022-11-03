@@ -1,5 +1,7 @@
 package com.tutelary.client;
 
+import com.tutelary.common.thread.LoggingUncaughtExceptionHandler;
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,6 +21,7 @@ public class NamedThreadFactory implements ThreadFactory {
     public Thread newThread(Runnable r) {
         Thread thread = new Thread(r, namePrefix + threadSeq.getAndIncrement());
         thread.setDaemon(true);
+        thread.setUncaughtExceptionHandler(new LoggingUncaughtExceptionHandler());
         return thread;
     }
 }

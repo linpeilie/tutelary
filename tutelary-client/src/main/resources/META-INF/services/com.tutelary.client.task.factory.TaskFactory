@@ -1,1 +1,3 @@
-com.tutelary.client.task.factory.TraceTaskFactory
+com.tutelary.client.task.factory.trace.TraceTaskFactory
+com.tutelary.client.task.factory.baseinfo.BaseInfoTaskFactory
+com.tutelary.client.task.factory.host.HostTaskFactory

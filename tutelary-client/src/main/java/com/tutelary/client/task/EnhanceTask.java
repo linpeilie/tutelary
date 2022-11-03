@@ -17,39 +17,18 @@ import java.io.IOException;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
-public class EnhanceTask implements Task {
+public class EnhanceTask extends AbstractTask {
 
     private static final Log LOG = LogFactory.get(EnhanceTask.class);
 
-    public static final ExecutorService EXECUTOR = new ThreadPoolExecutor(
-            1,
-            Runtime.getRuntime().availableProcessors(),
-            1,
-            TimeUnit.HOURS,
-            new LinkedBlockingQueue<>(),
-            new NamedThreadFactory("task-executor"));
-
-    private final AbstractEnhanceCommand command;
-
-    private final CommandEnum commandInfo;
-
-    private final Session session;
-
     public EnhanceTask(Session session, CommandEnum commandInfo, AbstractEnhanceCommand command) {
-        this.session = session;
-        this.commandInfo = commandInfo;
-        this.command = command;
-    }
-
-    @Override
-    public String getId() {
-        return null;
+        super(commandInfo, session, command);
     }
 
     @Override
     public void execute() {
         // 结果回调
-        command.registerResultCallback(new RCallback(o -> {
+        ((AbstractEnhanceCommand) command).registerResultCallback(new RCallback(o -> {
             LOG.debug("session : [ {} ], command code : [ {} ], execute result : {}",
                     session.getSessionId(), commandInfo.getCommandCode(), o);
             ClientCommandResponseMessage responseMessage = new ClientCommandResponseMessage();
@@ -64,7 +43,7 @@ public class EnhanceTask implements Task {
             session.sendData(responseMessage);
         }));
         // 命令执行完成回调
-        command.completionHandler(() -> {
+        ((AbstractEnhanceCommand) command).completionHandler(() -> {
             LOG.debug("session : [ {} ], command code : [ {} ], execute complete",
                     session.getSessionId(), commandInfo.getCommandCode());
             EnhanceCommandComplete enhanceCommandComplete = new EnhanceCommandComplete();

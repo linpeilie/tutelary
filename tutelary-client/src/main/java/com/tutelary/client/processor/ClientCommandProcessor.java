@@ -4,7 +4,9 @@ import cn.hutool.core.util.ServiceLoaderUtil;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.loader.ClassLoaderWrapper;
 import com.tutelary.client.task.Task;
+import com.tutelary.client.task.factory.NonParameterTaskFactory;
 import com.tutelary.client.task.factory.TaskFactory;
+import com.tutelary.client.task.factory.WithParameterTaskFactory;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.ClientCommandRequestMessage;
@@ -40,18 +42,35 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
     protected void process(ChannelHandlerContext ctx, ClientCommandRequestMessage message) {
         // 执行任务
         TaskFactory taskFactory = TASK_FACTORY_MAP.get(message.getCommandCode());
+        Session session = new Session(message.getSessionId(), ctx.channel());
+        LOGGER.debug("session : [ {} ], execute command : {}", session, message);
+        Task task = null;
+        if (taskFactory instanceof WithParameterTaskFactory) {
+            task = createTaskWithParameter((WithParameterTaskFactory) taskFactory, message, session);
+        } else {
+            task = createTaskWithoutParameter((NonParameterTaskFactory) taskFactory, session);
+        }
+
+        task.execute();
+    }
+
+    private Task createTaskWithParameter(WithParameterTaskFactory taskFactory,
+                                         ClientCommandRequestMessage message,
+                                         Session session) {
         // 转换入参
         Object param = null;
         try {
             LOGGER.debug("execute command param : {}", message);
-            param = message.getParam().unpack(taskFactory.paramClass());
+            param = message.getParam().unpack(taskFactory.parameterClass());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Session session = new Session(message.getSessionId(), ctx.channel());
-        LOGGER.debug("session : [ {} ], execute command : {}", session, message);
-        Task task = taskFactory.create(session, ClientBootstrap.INSTRUMENTATION, param);
-        task.execute();
+        return taskFactory.create(session, ClientBootstrap.INSTRUMENTATION, param);
+    }
+
+    private Task createTaskWithoutParameter(NonParameterTaskFactory taskFactory,
+                                            Session session) {
+        return taskFactory.create(session, ClientBootstrap.INSTRUMENTATION);
     }
 
     @Override

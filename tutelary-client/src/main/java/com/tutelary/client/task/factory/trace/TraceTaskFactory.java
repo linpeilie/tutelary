@@ -1,21 +1,17 @@
-package com.tutelary.client.task.factory;
+package com.tutelary.client.task.factory.trace;
 
-import cn.hutool.json.JSONUtil;
-import com.tutelary.annotation.Command;
-import com.tutelary.client.command.TraceCommand;
-import com.tutelary.client.enhance.callback.RCallback;
+import com.tutelary.client.command.trace.TraceCommand;
 import com.tutelary.client.task.EnhanceTask;
 import com.tutelary.client.task.Task;
+import com.tutelary.client.task.factory.TaskFactory;
+import com.tutelary.client.task.factory.WithParameterTaskFactory;
 import com.tutelary.constants.CommandEnum;
-import com.tutelary.message.command.EnhanceAffect;
 import com.tutelary.message.command.TraceParam;
-import com.tutelary.message.command.TraceResult;
 import com.tutelary.session.Session;
-import io.netty.channel.ChannelHandlerContext;
 
 import java.lang.instrument.Instrumentation;
 
-public class TraceTaskFactory implements TaskFactory<TraceParam> {
+public class TraceTaskFactory implements WithParameterTaskFactory<TraceParam> {
 
     @Override
     public Task create(Session session, Instrumentation inst, TraceParam param) {
@@ -31,7 +27,7 @@ public class TraceTaskFactory implements TaskFactory<TraceParam> {
     }
 
     @Override
-    public Class<TraceParam> paramClass() {
+    public Class<TraceParam> parameterClass() {
         return TraceParam.class;
     }
 }

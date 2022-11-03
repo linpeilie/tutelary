@@ -1,7 +1,5 @@
 package com.tutelary.common.config;
 
-import java.util.Objects;
-
 public class TutelaryAgentProperties {
 
     private String appName;
