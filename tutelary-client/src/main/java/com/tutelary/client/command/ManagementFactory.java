@@ -1,12 +1,17 @@
 package com.tutelary.client.command;
 
+import com.sun.management.GarbageCollectorMXBean;
 import com.sun.management.OperatingSystemMXBean;
 import com.sun.management.ThreadMXBean;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 
 import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.RuntimeMXBean;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManagementFactory {
 
@@ -26,6 +31,17 @@ public class ManagementFactory {
 
     public static ClassLoadingMXBean getClassLoadingMXBean() {
         return java.lang.management.ManagementFactory.getClassLoadingMXBean();
+    }
+
+    public static List<MemoryPoolMXBean> getMemoryPoolMXBeans() {
+        return java.lang.management.ManagementFactory.getMemoryPoolMXBeans();
+    }
+
+    public static List<GarbageCollectorMXBean> getGarbageCollectorMXBeans() {
+        return java.lang.management.ManagementFactory.getGarbageCollectorMXBeans()
+                .stream()
+                .map(garbageCollectorMXBean -> (GarbageCollectorMXBean) garbageCollectorMXBean)
+                .collect(Collectors.toList());
     }
 
 }

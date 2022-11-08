@@ -42,6 +42,10 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
     protected void process(ChannelHandlerContext ctx, ClientCommandRequestMessage message) {
         // 执行任务
         TaskFactory taskFactory = TASK_FACTORY_MAP.get(message.getCommandCode());
+        if (taskFactory == null) {
+            LOGGER.warn("unsupported command : {}", message.getCommandCode());
+            return;
+        }
         Session session = new Session(message.getSessionId(), ctx.channel());
         LOGGER.debug("session : [ {} ], execute command : {}", session, message);
         Task task = null;

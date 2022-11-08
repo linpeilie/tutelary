@@ -20,7 +20,7 @@ public enum CommandEnum {
     ARTHAS_THREAD_BLOCK(CommandTypeConstants.ARTHAS, 10022, "thread"),
 
     /****************************** 普通任务，不需要增强 ****************************/
-    TUTELARY_INSTANCE_INFO(CommandTypeConstants.TUTELARY, 20010, "instanceInfo"),
+    TUTELARY_OVERVIEW(CommandTypeConstants.TUTELARY, 20010, "overview"),
 
     TUTELARY_HOST_INFO(CommandTypeConstants.TUTELARY, 20011, "host"),
 

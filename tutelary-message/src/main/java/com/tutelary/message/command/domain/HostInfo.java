@@ -1,15 +1,13 @@
-package com.tutelary.message.command;
+package com.tutelary.message.command.domain;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
-import com.tutelary.annotation.Command;
-import com.tutelary.common.CommandResult;
-import com.tutelary.constants.CommandEnum;
 import lombok.Data;
+
+import java.io.Serializable;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_HOST_INFO)
-public class HostInfo extends CommandResult {
+public class HostInfo implements Serializable {
 
     /**
      * 主机名
