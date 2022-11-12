@@ -1,6 +1,6 @@
 package com.tutelary.client.command.domain;
 
-import com.tutelary.message.command.TraceResult;
+import com.tutelary.message.command.result.TraceResult;
 import com.tutelary.message.command.domain.TraceNode;
 
 import java.util.Stack;

@@ -22,7 +22,7 @@ public enum CommandEnum {
     /****************************** 普通任务，不需要增强 ****************************/
     TUTELARY_OVERVIEW(CommandTypeConstants.TUTELARY, 20010, "overview"),
 
-    TUTELARY_HOST_INFO(CommandTypeConstants.TUTELARY, 20011, "host"),
+    TUTELARY_THREAD_LIST(CommandTypeConstants.TUTELARY, 20011, "thread base info list"),
 
     /****************************** 增强任务 ****************************/
     TUTELARY_ENHANCE(CommandTypeConstants.TUTELARY, 21010, "enhance"),

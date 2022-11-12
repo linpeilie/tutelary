@@ -5,7 +5,7 @@ import com.tutelary.client.command.domain.TraceEntity;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import com.tutelary.message.command.TraceResult;
+import com.tutelary.message.command.result.TraceResult;
 import com.tutelary.message.command.domain.TraceNode;
 
 import java.util.Optional;

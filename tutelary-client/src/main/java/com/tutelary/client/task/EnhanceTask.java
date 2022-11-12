@@ -1,21 +1,17 @@
 package com.tutelary.client.task;
 
 import com.baidu.bjf.remoting.protobuf.Any;
-import com.tutelary.client.NamedThreadFactory;
 import com.tutelary.client.command.AbstractEnhanceCommand;
-import com.tutelary.client.enhance.callback.CompletionHandler;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.ClientCommandResponseMessage;
-import com.tutelary.message.command.EnhanceAffect;
-import com.tutelary.message.command.EnhanceCommandComplete;
+import com.tutelary.message.command.result.EnhanceCommandComplete;
 import com.tutelary.session.Session;
 
 import java.io.IOException;
 import java.util.concurrent.*;
-import java.util.function.Consumer;
 
 public class EnhanceTask extends AbstractTask {
 

@@ -17,7 +17,7 @@ public class JvmInfo implements Serializable {
     private String libraryPath;
 
     /**
-     * Java 虚拟机实现版本
+     * Java 虚拟机实现供应商
      */
     private String vmVendor;
 

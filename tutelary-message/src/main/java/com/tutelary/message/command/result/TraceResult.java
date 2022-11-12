@@ -1,4 +1,4 @@
-package com.tutelary.message.command;
+package com.tutelary.message.command.result;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import com.tutelary.annotation.Command;

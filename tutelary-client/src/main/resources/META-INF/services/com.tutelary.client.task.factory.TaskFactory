@@ -1,2 +1,3 @@
 com.tutelary.client.task.factory.trace.TraceTaskFactory
 com.tutelary.client.task.factory.overview.OverviewTaskFactory
+com.tutelary.client.task.factory.thread.ThreadTaskFactory

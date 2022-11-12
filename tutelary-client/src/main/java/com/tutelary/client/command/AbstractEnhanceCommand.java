@@ -25,7 +25,7 @@ import com.tutelary.client.util.ClassUtil;
 import com.tutelary.common.exception.BaseException;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import com.tutelary.message.command.EnhanceAffect;
+import com.tutelary.message.command.result.EnhanceAffect;
 
 import java.io.File;
 import java.lang.instrument.ClassFileTransformer;

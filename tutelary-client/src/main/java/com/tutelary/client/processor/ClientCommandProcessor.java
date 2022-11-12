@@ -64,8 +64,8 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
         // 转换入参
         Object param = null;
         try {
-            LOGGER.debug("execute command param : {}", message);
             param = message.getParam().unpack(taskFactory.parameterClass());
+            LOGGER.debug("execute command param : {}", param);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
