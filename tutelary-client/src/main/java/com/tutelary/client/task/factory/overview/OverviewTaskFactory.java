@@ -2,6 +2,7 @@ package com.tutelary.client.task.factory.overview;
 
 import com.tutelary.client.command.overview.OverviewCommand;
 import com.tutelary.client.task.DefaultTask;
+import com.tutelary.client.task.ReusedTask;
 import com.tutelary.client.task.Task;
 import com.tutelary.client.task.factory.NonParameterTaskFactory;
 import com.tutelary.constants.CommandEnum;
@@ -13,7 +14,7 @@ public class OverviewTaskFactory implements NonParameterTaskFactory {
     @Override
     public Task create(Session session, Instrumentation inst) {
         OverviewCommand overviewCommand = new OverviewCommand();
-        return new DefaultTask(commandType(), session, overviewCommand);
+        return new ReusedTask(commandType(), session, overviewCommand);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class EnhanceTask extends AbstractTask {
     }
 
     @Override
-    public void execute() {
+    protected void executeBefore() {
         // 结果回调
         ((AbstractEnhanceCommand) command).registerResultCallback(new RCallback(o -> {
             LOG.debug("session : [ {} ], command code : [ {} ], execute result : {}",
@@ -56,21 +56,21 @@ public class EnhanceTask extends AbstractTask {
             }
             session.sendData(responseMessage);
         });
-        // 类加强回调
-        CompletableFuture.supplyAsync(command::execute, EXECUTOR)
-                .thenAccept(enhanceAffect -> {
-                    LOG.debug("session : [ {} ], command code : [ {} ], enhance success, enhance affect : {}",
-                            session.getSessionId(), commandInfo.getCommandCode(), enhanceAffect);
-                    ClientCommandResponseMessage responseMessage = new ClientCommandResponseMessage();
-                    responseMessage.setSessionId(session.getSessionId());
-                    responseMessage.setCommandType(CommandEnum.TUTELARY_ENHANCE.getType());
-                    responseMessage.setCommandCode(CommandEnum.TUTELARY_ENHANCE.getCommandCode());
-                    try {
-                        responseMessage.setData(Any.pack(enhanceAffect));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    session.sendData(responseMessage);
-                });
+    }
+
+    @Override
+    protected void complete(Object commandResult) {
+        LOG.debug("session : [ {} ], command code : [ {} ], enhance success, enhance affect : {}",
+                session.getSessionId(), commandInfo.getCommandCode(), commandResult);
+        ClientCommandResponseMessage responseMessage = new ClientCommandResponseMessage();
+        responseMessage.setSessionId(session.getSessionId());
+        responseMessage.setCommandType(CommandEnum.TUTELARY_ENHANCE.getType());
+        responseMessage.setCommandCode(CommandEnum.TUTELARY_ENHANCE.getCommandCode());
+        try {
+            responseMessage.setData(Any.pack(commandResult));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        session.sendData(responseMessage);
     }
 }
