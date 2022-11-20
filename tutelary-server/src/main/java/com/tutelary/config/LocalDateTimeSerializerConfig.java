@@ -1,5 +1,6 @@
 package com.tutelary.config;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -56,6 +57,7 @@ public class LocalDateTimeSerializerConfig {
                 .deserializerByType(Date.class,
                         new DateDeserializers.DateDeserializer(DateDeserializers.DateDeserializer.instance,
                                 new SimpleDateFormat(dateFormat), dateFormat))
+                .featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
                 ;
     }
 

@@ -1,6 +1,7 @@
 package com.tutelary.bean.api.resp;
 
 import com.tutelary.common.bean.api.resp.AbstractResponse;
+import com.tutelary.common.enums.InstanceStateEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,5 +18,9 @@ public class InstanceInfoResponse extends AbstractResponse {
     private String ip;
 
     private LocalDateTime registerDate;
+
+    private InstanceStateEnum state;
+
+    private LocalDateTime startTime;
 
 }

@@ -12,6 +12,8 @@ public interface BaseRepository<QueryParam extends BaseQueryDomain, DTO extends 
 
     boolean add(DTO dto);
 
+    boolean addAll(List<DTO> dtoList);
+
     List<DTO> list(QueryParam queryParam);
 
     PageResult<DTO> pageList(QueryParam queryParam, PageQueryRequest pageRequest);

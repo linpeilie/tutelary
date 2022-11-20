@@ -11,4 +11,8 @@ public interface InstanceRepository extends BaseRepository<InstanceQuery, Instan
 
     boolean del(String instanceId);
 
+    boolean validedInstance(String instanceId);
+
+    boolean invalidedInstance(String instanceId);
+
 }

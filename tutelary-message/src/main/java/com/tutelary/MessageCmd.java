@@ -12,4 +12,6 @@ public interface MessageCmd {
 
     byte CLIENT_COMMAND_RESPONSE = 4;
 
+    byte INSTANCE_INFO_REPORT = 5;
+
 }

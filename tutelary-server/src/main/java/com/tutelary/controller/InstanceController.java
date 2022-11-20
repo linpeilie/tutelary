@@ -2,6 +2,7 @@ package com.tutelary.controller;
 
 import com.tutelary.bean.api.req.InstancePageQueryRequest;
 import com.tutelary.bean.api.req.InstanceQueryRequest;
+import com.tutelary.bean.api.resp.InstanceDetailInfoResponse;
 import com.tutelary.bean.api.resp.InstanceInfoResponse;
 import com.tutelary.bean.converter.InstanceConverter;
 import com.tutelary.bean.domain.Instance;
@@ -38,9 +39,9 @@ public class InstanceController {
     }
 
     @GetMapping(value = "detail")
-    public R<InstanceInfoResponse> detail(@RequestParam("instanceId") String instanceId) {
+    public R<InstanceDetailInfoResponse> detail(@RequestParam("instanceId") String instanceId) {
         Instance instance = instanceService.getInstanceByInstanceId(instanceId);
-        return R.success(instanceConverter.domainToResponse(instance));
+        return R.success(instanceConverter.instanceToDetailResponse(instance));
     }
 
 }

@@ -6,6 +6,7 @@ import com.tutelary.event.ChannelEventTrigger;
 import com.tutelary.event.ChannelEvents;
 import com.tutelary.handler.CmdMessageHandler;
 import com.tutelary.processor.MessageProcessorManager;
+import com.tutelary.server.handler.GlobalExceptionHandler;
 import com.tutelary.server.handler.InstanceConnectionManageHandler;
 import com.tutelary.server.properties.ServerEndpointConfig;
 import io.netty.channel.ChannelInitializer;
@@ -45,8 +46,8 @@ public class TutelaryServer extends AbstractServer {
                         .addLast(new ProtobufMessageEncoder())
                         .addLast(new CmdMessageHandler(messageProcessorManager))
                         .addLast(new ChannelEventTrigger(channelEvents))
-                        .addLast(new IdleStateHandler(1, 0, 0, TimeUnit.MINUTES));
-                        // command handler
+                        .addLast(new IdleStateHandler(1, 0, 0, TimeUnit.MINUTES))
+                        .addLast(new GlobalExceptionHandler());
             }
         });
     }

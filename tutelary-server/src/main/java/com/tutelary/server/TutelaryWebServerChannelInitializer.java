@@ -5,6 +5,7 @@ import com.tutelary.encoder.ProtobufMessageEncoder;
 import com.tutelary.handler.CmdMessageHandler;
 import com.tutelary.processor.MessageProcessorManager;
 import com.tutelary.server.handler.ConnectionManagerHandler;
+import com.tutelary.server.handler.GlobalExceptionHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -42,6 +43,7 @@ public class TutelaryWebServerChannelInitializer extends ChannelInitializer<Sock
                 // protobuf encoder
                 .addLast(new ProtobufMessageEncoder())
                 // command handler
-                .addLast(new CmdMessageHandler(messageProcessorManager));
+                .addLast(new CmdMessageHandler(messageProcessorManager))
+                .addLast(new GlobalExceptionHandler());
     }
 }

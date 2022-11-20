@@ -29,6 +29,11 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
     }
 
     @Override
+    public boolean addAll(List<D> ds) {
+        return super.saveBatch(converter.domainListToEntities(ds));
+    }
+
+    @Override
     public List<D> list(Q q) {
         LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildQueryWrapper(q);
         return converter.entitiesToDomainList(super.list(queryWrapper));

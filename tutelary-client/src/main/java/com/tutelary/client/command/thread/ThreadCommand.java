@@ -56,7 +56,7 @@ public class ThreadCommand implements Command<ThreadList> {
 
         ThreadList result = new ThreadList();
 
-        result.setThreadOverview(mxBeanUtil.getThreadOverview());
+        result.setThreadStatistic(mxBeanUtil.getThreadStatistic());
         result.setThreads(threadInfos);
 
         return result;

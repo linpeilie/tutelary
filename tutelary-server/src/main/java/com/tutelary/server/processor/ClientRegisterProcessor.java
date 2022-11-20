@@ -1,7 +1,10 @@
 package com.tutelary.server.processor;
 
 import cn.hutool.core.lang.UUID;
+import cn.hutool.json.JSONUtil;
+import com.tutelary.bean.converter.InstanceConverter;
 import com.tutelary.bean.domain.Instance;
+import com.tutelary.common.enums.InstanceStateEnum;
 import com.tutelary.common.helper.ChannelHelper;
 import com.tutelary.common.processor.ServerMessageProcessor;
 import com.tutelary.message.ClientRegisterResponseMessage;
@@ -26,19 +29,25 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
     @Autowired
     private InstanceManager appManager;
 
+    @Autowired
+    private InstanceConverter instanceConverter;
+
     @Override
     public void process(ChannelHandlerContext ctx, ClientRegisterRequestMessage clientRegisterRequestMessage) {
         log.info("client register info : {}", clientRegisterRequestMessage);
 
-        String instanceId = Optional.ofNullable(clientRegisterRequestMessage.getInstanceId()).orElse(UUID.randomUUID().toString(true));
+        String instanceId = clientRegisterRequestMessage.getInstanceId();
 
         Instance instanceEntity = Instance.builder()
                 .instanceId(instanceId)
                 .appName(clientRegisterRequestMessage.getAppName())
                 .ip(ChannelHelper.getChannelIP(ctx.channel()))
                 .registerDate(LocalDateTime.now())
+                .state(InstanceStateEnum.VALID)
                 .channel(ctx.channel())
                 .build();
+
+        instanceConverter.jvmInfoToInstance(clientRegisterRequestMessage.getJvmInfo(), instanceEntity);
 
         appManager.registerInstance(instanceEntity);
 
@@ -46,10 +55,5 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
         ClientRegisterResponseMessage clientRegisterResponseMessage = new ClientRegisterResponseMessage();
         clientRegisterResponseMessage.setInstanceId(instanceEntity.getInstanceId());
         ctx.channel().writeAndFlush(clientRegisterResponseMessage);
-    }
-
-    @Override
-    public Class<ClientRegisterRequestMessage> getCmdClass() {
-        return ClientRegisterRequestMessage.class;
     }
 }

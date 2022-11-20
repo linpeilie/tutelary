@@ -12,9 +12,6 @@ import java.time.LocalDateTime;
 @Data
 public class AppEntity extends BaseEntity {
 
-    @TableId(type = IdType.AUTO)
-    private Long id;
-
     private String appName;
 
     private LocalDateTime registerDate;

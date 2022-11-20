@@ -76,9 +76,4 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
                                             Session session) {
         return taskFactory.create(session, ClientBootstrap.INSTRUMENTATION);
     }
-
-    @Override
-    public Class<ClientCommandRequestMessage> getCmdClass() {
-        return ClientCommandRequestMessage.class;
-    }
 }

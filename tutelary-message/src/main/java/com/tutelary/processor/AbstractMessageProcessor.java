@@ -1,5 +1,6 @@
 package com.tutelary.processor;
 
+import com.tutelary.common.RequestBaseMessage;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.baidu.bjf.remoting.protobuf.Codec;
@@ -22,6 +23,9 @@ public abstract class AbstractMessageProcessor<T extends BaseMessage> implements
         } catch (IOException e) {
             LOGGER.error("exception occurred at protobuf decode, cmd class : {}", getCmdClass().getName(), e);
             throw new ProtobufDecodeException(e);
+        }
+        if (message instanceof RequestBaseMessage) {
+            ((RequestBaseMessage) message).checkInput();
         }
         process(ctx, message);
     }

@@ -24,9 +24,4 @@ public class ClientCommandResponseProcessor extends AbstractMessageProcessor<Cli
         }
         session.sendData(message);
     }
-
-    @Override
-    public Class<ClientCommandResponseMessage> getCmdClass() {
-        return ClientCommandResponseMessage.class;
-    }
 }

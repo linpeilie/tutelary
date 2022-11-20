@@ -17,9 +17,4 @@ public class ClientRegisterResponseProcessor extends AbstractMessageProcessor<Cl
         ClientBootstrap.registered = true;
         ClientBootstrap.channelEvents.fireEventClientRegistered(ctx);
     }
-
-    @Override
-    public Class<ClientRegisterResponseMessage> getCmdClass() {
-        return ClientRegisterResponseMessage.class;
-    }
 }

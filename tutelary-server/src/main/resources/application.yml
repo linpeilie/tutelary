@@ -4,9 +4,6 @@ logging:
     com.tutelary: debug
     io.netty: debug
 
-tutelary:
-  server:
-    persistent: memory
 server:
   port: 9988
 spring:

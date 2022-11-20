@@ -5,6 +5,7 @@ public class BaseException extends RuntimeException {
     private String errorMessage;
 
     public BaseException(String errorMessage) {
+        super(errorMessage);
         this.errorMessage = errorMessage;
     }
 

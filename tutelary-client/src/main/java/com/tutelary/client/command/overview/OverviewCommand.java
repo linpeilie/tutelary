@@ -14,8 +14,7 @@ public class OverviewCommand implements Command<Overview> {
     public Overview execute() {
         Overview overview = new Overview();
         overview.setHostInfo(mxBeanUtil.getHostInfo());
-        overview.setJvmInfo(mxBeanUtil.getJvmInfo());
-        overview.setThreadInfo(mxBeanUtil.getThreadOverview());
+        overview.setThreadStatistic(mxBeanUtil.getThreadStatistic());
         overview.setHeapMemory(mxBeanUtil.getJvmMemoryInfo(MemoryType.HEAP));
         overview.setNonHeapMemory(mxBeanUtil.getJvmMemoryInfo(MemoryType.NON_HEAP));
         overview.setGarbageCollectors(mxBeanUtil.getGarbageCollectors());

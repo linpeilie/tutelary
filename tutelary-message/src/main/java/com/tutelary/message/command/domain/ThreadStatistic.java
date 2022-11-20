@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @ProtobufClass
-public class ThreadOverview implements Serializable {
+public class ThreadStatistic implements Serializable {
 
     private int threadCount;
 

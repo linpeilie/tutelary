@@ -44,7 +44,7 @@ public class InstanceManager {
     public void removeChannel(Channel channel) {
         String instanceId = channel.attr(INSTANCE_ID_KEY).get();
         if (StrUtil.isNotEmpty(instanceId)) {
-            instanceService.removeInstance(instanceId);
+            instanceService.invalidInstance(instanceId);
             INSTANCE_MAP.remove(instanceId);
         }
     }

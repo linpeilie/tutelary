@@ -35,9 +35,4 @@ public class ClientCommandRequestProcessor extends AbstractMessageProcessor<Clie
 
         instanceOptional.get().writeAndFlush(message);
     }
-
-    @Override
-    public Class<ClientCommandRequestMessage> getCmdClass() {
-        return ClientCommandRequestMessage.class;
-    }
 }

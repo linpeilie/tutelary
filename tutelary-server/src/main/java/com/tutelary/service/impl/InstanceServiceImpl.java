@@ -1,9 +1,10 @@
 package com.tutelary.service.impl;
 
+import com.tutelary.bean.domain.InstanceOverview;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
-import com.tutelary.repository.InstanceRepository;
+import com.tutelary.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,18 +17,31 @@ import java.util.List;
 @Component
 public class InstanceServiceImpl implements InstanceService {
 
-    @Autowired
     private InstanceRepository instanceRepository;
 
+    private InstanceHostRepository instanceHostRepository;
+
+    private InstanceThreadStatisticRepository instanceThreadStatisticRepository;
+
+    private InstanceJvmMemoryRepository instanceJvmMemoryRepository;
+
+    private InstanceGarbageCollectorsRepository instanceGarbageCollectorsRepository;
+
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean addInstance(Instance instance) {
-        return instanceRepository.add(instance);
+        Instance oldInstance =
+                instanceRepository.getByInstanceId(instance.getInstanceId());
+        if (oldInstance == null) {
+            return instanceRepository.add(instance);
+        } else {
+            return instanceRepository.validedInstance(instance.getInstanceId());
+        }
     }
 
     @Override
-    public boolean removeInstance(String instanceId) {
-        return instanceRepository.del(instanceId);
+    public boolean invalidInstance(String instanceId) {
+        return instanceRepository.invalidedInstance(instanceId);
     }
 
     @Override
@@ -43,5 +57,40 @@ public class InstanceServiceImpl implements InstanceService {
     @Override
     public List<Instance> list(InstanceQuery queryParam) {
         return instanceRepository.list(queryParam);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveReportData(InstanceOverview overview) {
+        instanceHostRepository.add(overview.getHost());
+        instanceThreadStatisticRepository.add(overview.getThreadStatistic());
+        instanceJvmMemoryRepository.addAll(overview.getJvmMemories());
+        instanceGarbageCollectorsRepository.addAll(overview.getGarbageCollectors());
+    }
+
+
+    @Autowired
+    public void setInstanceRepository(InstanceRepository instanceRepository) {
+        this.instanceRepository = instanceRepository;
+    }
+
+    @Autowired
+    public void setInstanceHostRepository(InstanceHostRepository instanceHostRepository) {
+        this.instanceHostRepository = instanceHostRepository;
+    }
+
+    @Autowired
+    public void setInstanceThreadStatisticRepository(InstanceThreadStatisticRepository instanceThreadStatisticRepository) {
+        this.instanceThreadStatisticRepository = instanceThreadStatisticRepository;
+    }
+
+    @Autowired
+    public void setInstanceJvmMemoryRepository(InstanceJvmMemoryRepository instanceJvmMemoryRepository) {
+        this.instanceJvmMemoryRepository = instanceJvmMemoryRepository;
+    }
+
+    @Autowired
+    public void setInstanceGarbageCollectorsRepository(InstanceGarbageCollectorsRepository instanceGarbageCollectorsRepository) {
+        this.instanceGarbageCollectorsRepository = instanceGarbageCollectorsRepository;
     }
 }

@@ -74,6 +74,7 @@ public class MXBeanUtil {
     public JvmInfo getJvmInfo() {
         JvmInfo jvmInfo = new JvmInfo();
         jvmInfo.setInputArguments(runtimeMXBean.getInputArguments());
+        jvmInfo.setSystemProperties(runtimeMXBean.getSystemProperties());
         jvmInfo.setClassPath(runtimeMXBean.getClassPath());
         jvmInfo.setLibraryPath(runtimeMXBean.getLibraryPath());
         jvmInfo.setVmVendor(runtimeMXBean.getVmVendor());
@@ -81,17 +82,16 @@ public class MXBeanUtil {
         jvmInfo.setVmVersion(runtimeMXBean.getVmVersion());
         jvmInfo.setJdkVersion(runtimeMXBean.getSystemProperties().get("java.runtime.version"));
         jvmInfo.setStartTime(runtimeMXBean.getStartTime());
-        jvmInfo.setProcessCpuTime(operatingSystemMXBean.getProcessCpuTime() / 1000000);
         return jvmInfo;
     }
 
-    public ThreadOverview getThreadOverview() {
-        ThreadOverview threadOverview = new ThreadOverview();
-        threadOverview.setThreadCount(threadMXBean.getThreadCount());
-        threadOverview.setPeakThreadCount(threadMXBean.getPeakThreadCount());
-        threadOverview.setDaemonThreadCount(threadMXBean.getDaemonThreadCount());
-        threadOverview.setTotalStartedThreadCount(threadMXBean.getTotalStartedThreadCount());
-        return threadOverview;
+    public ThreadStatistic getThreadStatistic() {
+        ThreadStatistic threadStatistic = new ThreadStatistic();
+        threadStatistic.setThreadCount(threadMXBean.getThreadCount());
+        threadStatistic.setPeakThreadCount(threadMXBean.getPeakThreadCount());
+        threadStatistic.setDaemonThreadCount(threadMXBean.getDaemonThreadCount());
+        threadStatistic.setTotalStartedThreadCount(threadMXBean.getTotalStartedThreadCount());
+        return threadStatistic;
     }
 
     public List<JvmMemory> getJvmMemoryInfo(MemoryType memoryType) {

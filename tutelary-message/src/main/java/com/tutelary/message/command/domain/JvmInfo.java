@@ -5,12 +5,15 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @ProtobufClass
 public class JvmInfo implements Serializable {
 
     private List<String> inputArguments;
+
+    private Map<String, String> systemProperties;
 
     private String classPath;
 
@@ -40,11 +43,5 @@ public class JvmInfo implements Serializable {
      * JVM 启动时间戳
      */
     private long startTime;
-
-    /**
-     * 运行 Java 虚拟机的 CPU 时间，单位：毫秒
-     * 如果平台不支持此操作，则返回 -1
-     */
-    private long processCpuTime;
 
 }

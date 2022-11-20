@@ -16,9 +16,7 @@ public class Overview extends CommandResult {
 
     private HostInfo hostInfo;
 
-    private JvmInfo jvmInfo;
-
-    private ThreadOverview threadInfo;
+    private ThreadStatistic threadStatistic;
 
     private List<JvmMemory> heapMemory;
 
