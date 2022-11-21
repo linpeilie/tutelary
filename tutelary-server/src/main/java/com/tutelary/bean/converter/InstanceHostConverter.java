@@ -1,7 +1,9 @@
 package com.tutelary.bean.converter;
 
+import com.tutelary.bean.api.resp.InstanceHostResponse;
 import com.tutelary.bean.domain.InstanceHost;
 import com.tutelary.bean.entity.InstanceHostEntity;
+import com.tutelary.common.converter.DomainResponseConverter;
 import com.tutelary.common.converter.EntityDomainConverter;
 import com.tutelary.message.command.domain.HostInfo;
 import org.mapstruct.Mapper;
@@ -13,7 +15,8 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface InstanceHostConverter
-    extends EntityDomainConverter<InstanceHostEntity, InstanceHost> {
+    extends EntityDomainConverter<InstanceHostEntity, InstanceHost>,
+        DomainResponseConverter<InstanceHost, InstanceHostResponse> {
 
     InstanceHost hostToInstanceHost(HostInfo hostInfo, String instanceId, LocalDateTime reportTime);
 

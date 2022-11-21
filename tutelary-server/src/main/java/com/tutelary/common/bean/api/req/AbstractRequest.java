@@ -6,4 +6,8 @@ import java.io.Serializable;
 
 @Data
 public class AbstractRequest implements Serializable {
+
+    public void checkInput() {
+    }
+
 }

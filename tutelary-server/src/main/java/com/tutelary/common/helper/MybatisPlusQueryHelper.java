@@ -33,10 +33,11 @@ public class MybatisPlusQueryHelper {
                 Sort sort = queryMeta.getSort();
                 if (sort != null) {
                     SortDirection direction = sort.direction();
+                    String fieldName = StringUtils.camelToUnderline(queryMeta.getField().getName());
                     if (SortDirection.ASC.equals(direction)) {
-                        queryWrapper.orderByAsc(queryMeta.getField().getName());
+                        queryWrapper.orderByAsc(fieldName);
                     } else {
-                        queryWrapper.orderByDesc(queryMeta.getField().getName());
+                        queryWrapper.orderByDesc(fieldName);
                     }
                 }
 

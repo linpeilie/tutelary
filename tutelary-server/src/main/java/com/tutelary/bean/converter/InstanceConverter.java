@@ -1,9 +1,11 @@
 package com.tutelary.bean.converter;
 
+import com.tutelary.bean.api.req.OverviewQueryRequest;
 import com.tutelary.bean.api.resp.InstanceDetailInfoResponse;
 import com.tutelary.bean.domain.Instance;
 import com.tutelary.bean.domain.InstanceOverview;
 import com.tutelary.bean.domain.query.InstanceQuery;
+import com.tutelary.bean.domain.query.OverviewQuery;
 import com.tutelary.bean.entity.InstanceEntity;
 import com.tutelary.bean.api.req.InstancePageQueryRequest;
 import com.tutelary.bean.api.req.InstanceQueryRequest;
@@ -28,6 +30,8 @@ public interface InstanceConverter
     Instance jvmInfoToInstance(JvmInfo jvmInfo, @MappingTarget Instance instance);
 
     InstanceDetailInfoResponse instanceToDetailResponse(Instance instance);
+
+    OverviewQuery overviewQueryRequestToDomain(OverviewQueryRequest request);
 
 
 

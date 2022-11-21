@@ -1,17 +1,19 @@
 package com.tutelary.service.impl;
 
-import com.tutelary.bean.domain.InstanceOverview;
-import com.tutelary.bean.domain.query.InstanceQuery;
+import com.tutelary.bean.api.req.OverviewQueryRequest;
+import com.tutelary.bean.domain.*;
+import com.tutelary.bean.domain.query.*;
 import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
+import com.tutelary.message.command.result.Overview;
 import com.tutelary.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tutelary.bean.domain.Instance;
 import com.tutelary.service.InstanceService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -68,6 +70,27 @@ public class InstanceServiceImpl implements InstanceService {
         instanceGarbageCollectorsRepository.addAll(overview.getGarbageCollectors());
     }
 
+    @Override
+    public List<InstanceHost> listHostInfo(OverviewQuery query) {
+        return instanceHostRepository.list(query);
+    }
+
+    @Override
+    public List<InstanceThreadStatistic> listThreadStatistics(OverviewQuery query) {
+        return instanceThreadStatisticRepository.list(query);
+    }
+
+    @Override
+    public List<InstanceJvmMemory> listJvmMemories(OverviewQuery query) {
+        return instanceJvmMemoryRepository.list(query);
+    }
+
+    @Override
+    public List<InstanceGarbageCollectors> listGarbageCollectors(OverviewQuery query) {
+        return instanceGarbageCollectorsRepository.list(query);
+    }
+
+    /************************* setter *******************************/
 
     @Autowired
     public void setInstanceRepository(InstanceRepository instanceRepository) {
