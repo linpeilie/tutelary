@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface InstanceGarbageCollectorConverter
-        extends EntityDomainConverter<InstanceGarbageCollectorsEntity, InstanceGarbageCollectors>,
-        DomainResponseConverter<InstanceGarbageCollectors, InstanceGarbageCollectorsResponse> {
+        extends EntityDomainConverter<InstanceGarbageCollectorsEntity, InstanceGarbageCollectors> {
 
     @Mappings({
             @Mapping(target = "memoryPoolNames",

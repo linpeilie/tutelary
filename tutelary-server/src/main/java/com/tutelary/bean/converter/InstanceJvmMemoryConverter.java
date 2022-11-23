@@ -14,8 +14,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface InstanceJvmMemoryConverter
-    extends EntityDomainConverter<InstanceJvmMemoryEntity, InstanceJvmMemory>,
-        DomainResponseConverter<InstanceJvmMemory, InstanceJvmMemoryResponse> {
+    extends EntityDomainConverter<InstanceJvmMemoryEntity, InstanceJvmMemory> {
 
     InstanceJvmMemory jvmMemoryToDomain(JvmMemory jvmMemory, String instanceId, LocalDateTime reportTime, String type);
 

@@ -1,9 +1,11 @@
 package com.tutelary.bean.api.resp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tutelary.common.bean.api.resp.AbstractResponse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class InstanceJvmMemoryResponse extends AbstractResponse {
@@ -12,12 +14,12 @@ public class InstanceJvmMemoryResponse extends AbstractResponse {
 
     private String name;
 
-    private Integer used;
+    private List<Integer> used;
 
-    private Integer committed;
+    private List<Integer> committed;
 
-    private Integer max;
+    private List<Integer> max;
 
-    private LocalDateTime reportTime;
+    private List<Long> reportTimestamps;
 
 }

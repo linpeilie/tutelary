@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface InstanceHostConverter
-    extends EntityDomainConverter<InstanceHostEntity, InstanceHost>,
-        DomainResponseConverter<InstanceHost, InstanceHostResponse> {
+    extends EntityDomainConverter<InstanceHostEntity, InstanceHost> {
 
     InstanceHost hostToInstanceHost(HostInfo hostInfo, String instanceId, LocalDateTime reportTime);
 

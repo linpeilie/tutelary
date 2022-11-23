@@ -1,9 +1,12 @@
 package com.tutelary.bean.api.resp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tutelary.common.bean.api.resp.AbstractResponse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class InstanceHostResponse extends AbstractResponse {
@@ -16,17 +19,17 @@ public class InstanceHostResponse extends AbstractResponse {
 
     private String arch;
 
-    private Integer availableProcessors;
+    private List<Integer> availableProcessors;
 
-    private Long committedVirtualMemory;
+    private List<Long> committedVirtualMemory;
 
-    private Long totalPhysicalMemorySize;
+    private List<Long> totalPhysicalMemorySize;
 
-    private Long freePhysicalMemorySize;
+    private List<Long> freePhysicalMemorySize;
 
-    private Long totalSwapSpaceSize;
+    private List<Long> totalSwapSpaceSize;
 
-    private Long freeSwapSpaceSize;
+    private List<Long> freeSwapSpaceSize;
 
     private Long diskFreeSpace;
 
@@ -34,6 +37,6 @@ public class InstanceHostResponse extends AbstractResponse {
 
     private Long diskTotalSpace;
 
-    private LocalDateTime reportTime;
+    private List<Long> reportTimestamps;
 
 }

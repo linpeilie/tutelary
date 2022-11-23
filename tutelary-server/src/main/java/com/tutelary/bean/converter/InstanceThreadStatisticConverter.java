@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface InstanceThreadStatisticConverter
-    extends EntityDomainConverter<InstanceThreadStatisticEntity, InstanceThreadStatistic>,
-        DomainResponseConverter<InstanceThreadStatistic, InstanceThreadStatisticResponse> {
+    extends EntityDomainConverter<InstanceThreadStatisticEntity, InstanceThreadStatistic> {
 
     InstanceThreadStatistic threadStatisticToDomain(ThreadStatistic threadStatistic, String instanceId, LocalDateTime reportTime);
 

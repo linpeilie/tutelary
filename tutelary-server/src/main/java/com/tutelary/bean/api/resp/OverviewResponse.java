@@ -8,9 +8,9 @@ import java.util.List;
 @Data
 public class OverviewResponse extends AbstractResponse {
 
-    private List<InstanceHostResponse> hosts;
+    private InstanceHostResponse host;
 
-    private List<InstanceThreadStatisticResponse> threadStatistics;
+    private InstanceThreadStatisticResponse threadStatistic;
 
     private List<InstanceJvmMemoryResponse> heapMemory;
 

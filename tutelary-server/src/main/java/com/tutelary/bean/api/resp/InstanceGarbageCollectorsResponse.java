@@ -1,7 +1,7 @@
 package com.tutelary.bean.api.resp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tutelary.common.bean.api.resp.AbstractResponse;
-import com.tutelary.common.bean.domain.BaseDomain;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,12 +12,12 @@ public class InstanceGarbageCollectorsResponse extends AbstractResponse {
 
     private String name;
 
-    private Integer collectionCount;
-
-    private Integer collectionTime;
-
     private List<String> memoryPoolNames;
 
-    private LocalDateTime reportTime;
+    private List<Integer> collectionCounts;
+
+    private List<Integer> collectionTimes;
+
+    private List<Long> reportTimestamps;
 
 }
