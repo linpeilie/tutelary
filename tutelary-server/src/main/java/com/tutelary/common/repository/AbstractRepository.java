@@ -1,7 +1,11 @@
 package com.tutelary.common.repository;
 
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tutelary.common.bean.api.resp.PageResult;
@@ -12,10 +16,12 @@ import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.converter.EntityDomainConverter;
 import com.tutelary.common.helper.MybatisPlusQueryHelper;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends BaseDomain, E extends BaseEntity, M extends BaseMapper<E>>
-    extends ServiceImpl<M, E> implements BaseRepository<Q, D, E> {
+        extends ServiceImpl<M, E> implements BaseRepository<Q, D, E> {
 
     protected EntityDomainConverter<E, D> converter;
 
@@ -35,13 +41,20 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
 
     @Override
     public List<D> list(Q q) {
-        LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildQueryWrapper(q);
+        LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildLambdaQueryWrapper(q);
         return converter.entitiesToDomainList(super.list(queryWrapper));
     }
 
     @Override
     public PageResult<D> pageList(Q q, PageQueryRequest pageRequest) {
-        LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildQueryWrapper(q);
+        QueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildQueryWrapper(q);
+        String keyword = q.getKeyword();
+        queryWrapper.and(StrUtil.isNotEmpty(keyword) && ArrayUtil.isNotEmpty(q.getKeywordFields()),
+                wrapper -> {
+                    for (String keywordField : q.getKeywordFields()) {
+                        wrapper.or().like(keywordField, q.getKeyword());
+                    }
+                });
         Page<E> page = Page.of(pageRequest.getPageNo(), pageRequest.getPageSize());
         return converter.entityPageToDomainPage(super.page(page, queryWrapper));
     }

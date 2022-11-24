@@ -21,10 +21,15 @@ import java.util.List;
 @Slf4j
 public class MybatisPlusQueryHelper {
 
-    public static <T, V> LambdaQueryWrapper<T> buildQueryWrapper(V queryParam) {
+    public static <T, V> LambdaQueryWrapper<T> buildLambdaQueryWrapper(V queryParam) {
+        QueryWrapper<T> queryWrapper = buildQueryWrapper(queryParam);
+        return queryWrapper.lambda();
+    }
+
+    public static <T, V> QueryWrapper<T> buildQueryWrapper(V queryParam) {
         QueryWrapper<T> queryWrapper = Wrappers.query();
         if (queryParam == null) {
-            return queryWrapper.lambda();
+            return queryWrapper;
         }
         try {
             List<QueryMeta> queryMetas = QueryMetaStore.getQueryMeta(queryParam.getClass());
@@ -105,7 +110,7 @@ public class MybatisPlusQueryHelper {
         } catch (Exception e) {
             log.error("MybatisPlusQueryHelper.buildQueryWrapper 构建查询条件异常", e);
         }
-        return queryWrapper.lambda();
+        return queryWrapper;
     }
 
 }

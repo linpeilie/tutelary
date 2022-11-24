@@ -11,6 +11,9 @@ import java.lang.annotation.Target;
 @Retention (RetentionPolicy.RUNTIME)
 public @interface Query {
 
+    /**
+     * 对应数据库名称，如果不指定，会基于当前属性名称转下划线
+     */
     String field() default "";
 
     QueryType queryType() default QueryType.EQ;
