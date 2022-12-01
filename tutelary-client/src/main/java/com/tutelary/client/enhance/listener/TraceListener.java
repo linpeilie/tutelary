@@ -38,7 +38,7 @@ public class TraceListener extends TraceAdviceListenerAdapter {
 
     @Override
     public void afterReturning(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args, Object returnObject) throws Throwable {
-        LOGGER.info("method : {} ----- afterReturning", methodName);
+        LOGGER.debug("method : {} ----- afterReturning", methodName);
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> {
             traceEntity.end();
             finish(traceEntity);
@@ -47,7 +47,7 @@ public class TraceListener extends TraceAdviceListenerAdapter {
 
     @Override
     public void afterThrowing(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args, Throwable throwable) throws Throwable {
-        LOGGER.info("method : {} ----- afterThrowing", methodName);
+        LOGGER.debug("method : {} ----- afterThrowing", methodName);
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> {
             traceEntity.end();
             finish(traceEntity);
@@ -58,7 +58,7 @@ public class TraceListener extends TraceAdviceListenerAdapter {
         if (traceEntity.isFinish()) {
             traceEntityThreadLocal.remove();
             for (TraceNode node : traceEntity.getTraceResult().getNode().getChildren()) {
-                LOGGER.info("method : {}，cost ms : {}", node.getMethodName(), TimeUnit.NANOSECONDS.toMillis(node.getEndTimestamp() - node.getBeginTimestamp()));
+                LOGGER.debug("method : {}，cost ms : {}", node.getMethodName(), TimeUnit.NANOSECONDS.toMillis(node.getEndTimestamp() - node.getBeginTimestamp()));
             }
             rCallback.callback(traceEntity.getTraceResult());
         }
@@ -66,19 +66,19 @@ public class TraceListener extends TraceAdviceListenerAdapter {
 
     @Override
     public void invokeBeforeTracing(ClassLoader classLoader, String tracingClassName, String tracingMethodName, String tracingMethodDesc, int tracingLineNumber) throws Throwable {
-        LOGGER.info("method : {} ----- invokeBeforeTracing", tracingMethodName);
+        LOGGER.debug("method : {} ----- invokeBeforeTracing", tracingMethodName);
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> traceEntity.start(tracingClassName, tracingMethodName, tracingLineNumber));
     }
 
     @Override
     public void invokeThrowTracing(ClassLoader classLoader, String tracingClassName, String tracingMethodName, String tracingMethodDesc, int tracingLineNumber) throws Throwable {
-        LOGGER.info("method : {} ----- invokeThrowTracing", tracingMethodName);
+        LOGGER.debug("method : {} ----- invokeThrowTracing", tracingMethodName);
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(TraceEntity::end);
     }
 
     @Override
     public void invokeAfterTracing(ClassLoader classLoader, String tracingClassName, String tracingMethodName, String tracingMethodDesc, int tracingLineNumber) throws Throwable {
-        LOGGER.info("method : {} ----- invokeAfterTracing", tracingMethodName);
+        LOGGER.debug("method : {} ----- invokeAfterTracing", tracingMethodName);
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(TraceEntity::end);
     }
 }

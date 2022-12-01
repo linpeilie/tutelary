@@ -32,6 +32,11 @@ public enum CommandEnum {
      */
     TUTELARY_TRACE_METHOD(CommandTypeConstants.TUTELARY, 21011, "trace"),
 
+    /**
+     * tutelary - stack
+     */
+    TUTELARY_STACK_METHOD(CommandTypeConstants.TUTELARY, 21012, "stack"),
+
     TUTELARY_ENHANCE_TASK_COMPLETE(CommandTypeConstants.TUTELARY, 21099, "complete")
     ;
 

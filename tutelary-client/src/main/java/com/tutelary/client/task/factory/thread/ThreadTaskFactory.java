@@ -22,9 +22,4 @@ public class ThreadTaskFactory implements WithParameterTaskFactory<ThreadListPar
         ThreadCommand threadCommand = new ThreadCommand(param);
         return new DefaultTask(commandType(), session, threadCommand);
     }
-
-    @Override
-    public Class<ThreadListParam> parameterClass() {
-        return ThreadListParam.class;
-    }
 }

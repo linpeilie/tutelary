@@ -7,6 +7,7 @@ import com.tutelary.client.task.Task;
 import com.tutelary.client.task.factory.NonParameterTaskFactory;
 import com.tutelary.client.task.factory.TaskFactory;
 import com.tutelary.client.task.factory.WithParameterTaskFactory;
+import com.tutelary.common.BaseCommandParam;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.ClientCommandRequestMessage;
@@ -62,9 +63,9 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<ClientComma
                                          ClientCommandRequestMessage message,
                                          Session session) {
         // 转换入参
-        Object param = null;
+        BaseCommandParam param = null;
         try {
-            param = message.getParam().unpack(taskFactory.parameterClass());
+            param = (BaseCommandParam) message.getParam().unpack(taskFactory.parameterClass());
             LOGGER.debug("execute command param : {}", param);
         } catch (IOException e) {
             throw new RuntimeException(e);

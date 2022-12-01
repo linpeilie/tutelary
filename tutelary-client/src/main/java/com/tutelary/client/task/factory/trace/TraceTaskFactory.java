@@ -24,9 +24,4 @@ public class TraceTaskFactory implements WithParameterTaskFactory<TraceParam> {
     public CommandEnum commandType() {
         return CommandEnum.TUTELARY_TRACE_METHOD;
     }
-
-    @Override
-    public Class<TraceParam> parameterClass() {
-        return TraceParam.class;
-    }
 }

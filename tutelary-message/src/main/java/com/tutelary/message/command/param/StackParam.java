@@ -10,27 +10,13 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_TRACE_METHOD)
-public class TraceParam extends BaseCommandParam {
+@Command(CommandEnum.TUTELARY_STACK_METHOD)
+public class StackParam extends BaseCommandParam {
 
-    /**
-     * 类名
-     */
     private String className;
 
-    /**
-     * 方法名
-     */
     private List<String> methodNames;
 
-    /**
-     * 执行次数
-     */
     private int times = 1;
-
-    /**
-     * 方法执行耗时
-     */
-    private int cost = 0;
 
 }
