@@ -15,6 +15,8 @@ public interface AppService {
 
     boolean addInstance(String appName);
 
+    boolean removeInstance(String appName);
+
     PageResult<App> pageListApp(AppQuery queryParam, PageQueryRequest pageRequest);
 
     List<App> list(AppQuery appQuery);

@@ -2,7 +2,7 @@ package com.tutelary.repository.impl;
 
 import com.tutelary.bean.converter.InstanceHostConverter;
 import com.tutelary.bean.domain.InstanceHost;
-import com.tutelary.bean.domain.query.OverviewQuery;
+import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.bean.entity.InstanceHostEntity;
 import com.tutelary.common.repository.AbstractRepository;
 import com.tutelary.mapper.InstanceHostMapper;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InstanceHostRepositoryImpl
-        extends AbstractRepository<OverviewQuery, InstanceHost, InstanceHostEntity, InstanceHostMapper>
+        extends AbstractRepository<StatisticQuery, InstanceHost, InstanceHostEntity, InstanceHostMapper>
         implements InstanceHostRepository {
 
     @Autowired

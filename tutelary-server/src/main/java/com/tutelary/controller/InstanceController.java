@@ -1,26 +1,22 @@
 package com.tutelary.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.date.DateUtil;
 import com.tutelary.bean.api.req.InstancePageQueryRequest;
 import com.tutelary.bean.api.req.InstanceQueryRequest;
-import com.tutelary.bean.api.req.OverviewQueryRequest;
+import com.tutelary.bean.api.req.StatisticQueryRequest;
 import com.tutelary.bean.api.resp.*;
 import com.tutelary.bean.converter.*;
 import com.tutelary.bean.domain.*;
 import com.tutelary.bean.domain.query.InstanceQuery;
-import com.tutelary.bean.domain.query.OverviewQuery;
+import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.common.bean.api.R;
 import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.common.utils.DateUtils;
-import com.tutelary.message.command.result.Overview;
 import com.tutelary.service.InstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.management.MemoryType;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,9 +52,9 @@ public class InstanceController {
         return R.success(instanceConverter.instanceToDetailResponse(instance));
     }
 
-    @PostMapping(value = "overview")
-    public R<OverviewResponse> overview(@RequestBody OverviewQueryRequest overviewQueryRequest) {
-        OverviewQuery query = instanceConverter.overviewQueryRequestToDomain(overviewQueryRequest);
+    @PostMapping(value = "statistic/overview")
+    public R<OverviewResponse> overview(@RequestBody StatisticQueryRequest statisticQueryRequest) {
+        StatisticQuery query = instanceConverter.overviewQueryRequestToDomain(statisticQueryRequest);
 
         List<InstanceHost> instanceHosts = instanceService.listHostInfo(query);
         List<InstanceJvmMemory> instanceJvmMemories = instanceService.listJvmMemories(query);
@@ -73,6 +69,21 @@ public class InstanceController {
         overview.setGarbageCollectors(transGarbageCollectors(instanceGarbageCollectors));
 
         return R.success(overview);
+    }
+
+    @PostMapping(value = "statistic/jvm")
+    public R<JvmStatisticResponse> jvmStatistic(@RequestBody StatisticQueryRequest statisticQueryRequest) {
+        StatisticQuery query = instanceConverter.overviewQueryRequestToDomain(statisticQueryRequest);
+
+        List<InstanceJvmMemory> instanceJvmMemories = instanceService.listJvmMemories(query);
+        List<InstanceGarbageCollectors> instanceGarbageCollectors = instanceService.listGarbageCollectors(query);
+
+        JvmStatisticResponse jvmStatistic = new JvmStatisticResponse();
+        jvmStatistic.setHeapMemory(transJvmMemoryInfo(instanceJvmMemories, MemoryType.HEAP));
+        jvmStatistic.setNonHeapMemory(transJvmMemoryInfo(instanceJvmMemories, MemoryType.NON_HEAP));
+        jvmStatistic.setGarbageCollectors(transGarbageCollectors(instanceGarbageCollectors));
+
+        return R.success(jvmStatistic);
     }
 
     private List<InstanceGarbageCollectorsResponse> transGarbageCollectors(List<InstanceGarbageCollectors> garbageCollectors) {

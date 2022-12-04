@@ -14,6 +14,8 @@ import com.tutelary.repository.InstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class InstanceRepositoryImpl
         extends AbstractRepository<InstanceQuery, Instance, InstanceEntity, InstanceMapper>
@@ -50,5 +52,12 @@ public class InstanceRepositoryImpl
         updateWrapper.eq(InstanceEntity::getInstanceId, instanceId);
         updateWrapper.set(InstanceEntity::getState, InstanceStateEnum.INVALID);
         return super.update(new InstanceEntity(), updateWrapper);
+    }
+
+    @Override
+    public List<Instance> listEnabled() {
+        LambdaQueryWrapper<InstanceEntity> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(InstanceEntity::getState, InstanceStateEnum.VALID.getValue());
+        return converter.entitiesToDomainList(super.list(queryWrapper));
     }
 }

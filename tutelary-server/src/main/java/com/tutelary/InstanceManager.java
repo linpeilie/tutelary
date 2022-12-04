@@ -11,7 +11,9 @@ import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +29,12 @@ public class InstanceManager {
     private AppService appService;
     @Autowired
     private InstanceService instanceService;
+
+    @PostConstruct
+    private void reset() {
+        List<Instance> instances = instanceService.listEnabled();
+        instances.forEach(this::removeInstance);
+    }
 
     public Instance registerInstance(Instance instanceEntity) {
 
@@ -44,9 +52,19 @@ public class InstanceManager {
     public void removeChannel(Channel channel) {
         String instanceId = channel.attr(INSTANCE_ID_KEY).get();
         if (StrUtil.isNotEmpty(instanceId)) {
-            instanceService.invalidInstance(instanceId);
+            removeInstance(instanceId);
             INSTANCE_MAP.remove(instanceId);
         }
+    }
+
+    private void removeInstance(String instanceId) {
+        Instance instance = instanceService.getInstanceByInstanceId(instanceId);
+        removeInstance(instance);
+    }
+
+    private void removeInstance(Instance instance) {
+        instanceService.invalidInstance(instance.getInstanceId());
+        appService.removeInstance(instance.getAppName());
     }
 
     public boolean isBind(Channel channel) {

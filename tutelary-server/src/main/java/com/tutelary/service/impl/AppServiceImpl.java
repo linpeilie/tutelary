@@ -44,4 +44,9 @@ public class AppServiceImpl implements AppService {
     public boolean addInstance(String appName) {
         return appRepository.addInstance(appName);
     }
+
+    @Override
+    public boolean removeInstance(String appName) {
+        return appRepository.removeInstance(appName);
+    }
 }

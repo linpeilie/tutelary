@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OverviewQueryRequest extends QueryRequest {
+public class StatisticQueryRequest extends QueryRequest {
 
     private String instanceId;
 

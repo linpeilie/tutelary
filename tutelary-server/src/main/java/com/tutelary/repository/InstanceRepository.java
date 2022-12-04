@@ -5,6 +5,8 @@ import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.entity.InstanceEntity;
 import com.tutelary.common.repository.BaseRepository;
 
+import java.util.List;
+
 public interface InstanceRepository extends BaseRepository<InstanceQuery, Instance, InstanceEntity> {
 
     Instance getByInstanceId(String instanceId);
@@ -14,5 +16,8 @@ public interface InstanceRepository extends BaseRepository<InstanceQuery, Instan
     boolean validedInstance(String instanceId);
 
     boolean invalidedInstance(String instanceId);
+
+    List<Instance> listEnabled();
+
 
 }

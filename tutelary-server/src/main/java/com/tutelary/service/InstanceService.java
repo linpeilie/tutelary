@@ -1,12 +1,10 @@
 package com.tutelary.service;
 
-import com.tutelary.bean.api.req.OverviewQueryRequest;
 import com.tutelary.bean.domain.*;
 import com.tutelary.bean.domain.query.InstanceQuery;
-import com.tutelary.bean.domain.query.OverviewQuery;
+import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
-import com.tutelary.message.command.result.Overview;
 
 import java.util.List;
 
@@ -22,14 +20,16 @@ public interface InstanceService {
 
     List<Instance> list(InstanceQuery queryParam);
 
+    List<Instance> listEnabled();
+
     void saveReportData(InstanceOverview overview);
 
-    List<InstanceHost> listHostInfo(OverviewQuery query);
+    List<InstanceHost> listHostInfo(StatisticQuery query);
 
-    List<InstanceThreadStatistic> listThreadStatistics(OverviewQuery query);
+    List<InstanceThreadStatistic> listThreadStatistics(StatisticQuery query);
 
-    List<InstanceJvmMemory> listJvmMemories(OverviewQuery query);
+    List<InstanceJvmMemory> listJvmMemories(StatisticQuery query);
 
-    List<InstanceGarbageCollectors> listGarbageCollectors(OverviewQuery query);
+    List<InstanceGarbageCollectors> listGarbageCollectors(StatisticQuery query);
 
 }

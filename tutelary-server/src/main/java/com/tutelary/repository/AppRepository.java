@@ -11,4 +11,6 @@ public interface AppRepository extends BaseRepository<AppQuery, App, AppEntity> 
 
     boolean addInstance(String appName);
 
+    boolean removeInstance(String appName);
+
 }

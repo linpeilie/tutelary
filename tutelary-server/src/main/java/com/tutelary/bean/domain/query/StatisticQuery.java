@@ -10,7 +10,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class OverviewQuery extends BaseQueryDomain {
+public class StatisticQuery extends BaseQueryDomain {
 
     @Query
     private String instanceId;
@@ -21,7 +21,7 @@ public class OverviewQuery extends BaseQueryDomain {
     @Query(queryType = QueryType.LE, field = "report_time")
     private LocalDateTime reportEndTime;
 
-    @Sort(direction = SortDirection.DESC)
+    @Sort(direction = SortDirection.ASC)
     private LocalDateTime reportTime;
 
 }

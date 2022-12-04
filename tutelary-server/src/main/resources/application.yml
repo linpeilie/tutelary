@@ -8,4 +8,4 @@ server:
   port: 9988
 spring:
   profiles:
-    active: @spring.profiles.active@
+    active: mem
