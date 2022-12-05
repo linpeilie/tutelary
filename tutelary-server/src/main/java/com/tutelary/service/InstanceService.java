@@ -26,6 +26,8 @@ public interface InstanceService {
 
     List<InstanceHost> listHostInfo(StatisticQuery query);
 
+    InstanceHost getHostInfo(String instanceId);
+
     List<InstanceThreadStatistic> listThreadStatistics(StatisticQuery query);
 
     List<InstanceJvmMemory> listJvmMemories(StatisticQuery query);

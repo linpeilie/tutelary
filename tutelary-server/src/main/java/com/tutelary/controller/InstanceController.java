@@ -56,13 +56,13 @@ public class InstanceController {
     public R<OverviewResponse> overview(@RequestBody StatisticQueryRequest statisticQueryRequest) {
         StatisticQuery query = instanceConverter.overviewQueryRequestToDomain(statisticQueryRequest);
 
-        List<InstanceHost> instanceHosts = instanceService.listHostInfo(query);
+        InstanceHost instanceHost = instanceService.getHostInfo(query.getInstanceId());
         List<InstanceJvmMemory> instanceJvmMemories = instanceService.listJvmMemories(query);
         List<InstanceThreadStatistic> threadStatistics = instanceService.listThreadStatistics(query);
         List<InstanceGarbageCollectors> instanceGarbageCollectors = instanceService.listGarbageCollectors(query);
 
         OverviewResponse overview = new OverviewResponse();
-        overview.setHost(transHostInfo(instanceHosts));
+        overview.setHost(transHostInfo(instanceHost));
         overview.setThreadStatistic(transThreadStatistic(threadStatistics));
         overview.setHeapMemory(transJvmMemoryInfo(instanceJvmMemories, MemoryType.HEAP));
         overview.setNonHeapMemory(transJvmMemoryInfo(instanceJvmMemories, MemoryType.NON_HEAP));
@@ -150,33 +150,25 @@ public class InstanceController {
         return instanceThreadStatisticResponse;
     }
 
-    private InstanceHostResponse transHostInfo(List<InstanceHost> hosts) {
-        if (CollectionUtil.isEmpty(hosts)) {
+    private InstanceHostResponse transHostInfo(InstanceHost host) {
+        if (host == null) {
             return null;
         }
         InstanceHostResponse instanceHostResponse = new InstanceHostResponse();
-        instanceHostResponse.setHostName(hosts.get(0).getHostName());
-        instanceHostResponse.setHostAddress(hosts.get(0).getHostAddress());
-        instanceHostResponse.setOsName(hosts.get(0).getOsName());
-        instanceHostResponse.setArch(hosts.get(0).getArch());
-        instanceHostResponse.setAvailableProcessors(hosts.stream().map(InstanceHost::getAvailableProcessors)
-                .collect(Collectors.toList()));
-        instanceHostResponse.setCommittedVirtualMemory(hosts.stream().map(InstanceHost::getCommittedVirtualMemory)
-                .collect(Collectors.toList()));
-        instanceHostResponse.setTotalPhysicalMemorySize(hosts.stream().map(InstanceHost::getTotalPhysicalMemorySize)
-                .collect(Collectors.toList()));
-        instanceHostResponse.setFreePhysicalMemorySize(hosts.stream().map(InstanceHost::getFreePhysicalMemorySize)
-                .collect(Collectors.toList()));
-        instanceHostResponse.setTotalSwapSpaceSize(hosts.stream().map(InstanceHost::getTotalSwapSpaceSize)
-                .collect(Collectors.toList()));
-        instanceHostResponse.setFreeSwapSpaceSize(hosts.stream().map(InstanceHost::getFreeSwapSpaceSize)
-                .collect(Collectors.toList()));
-        instanceHostResponse.setDiskFreeSpace(CollectionUtil.getLast(hosts).getDiskFreeSpace());
-        instanceHostResponse.setDiskUsableSpace(CollectionUtil.getLast(hosts).getDiskUsableSpace());
-        instanceHostResponse.setDiskTotalSpace(CollectionUtil.getLast(hosts).getDiskTotalSpace());
-        instanceHostResponse.setReportTimestamps(hosts.stream()
-                .map(host -> DateUtils.getTimestamp(host.getReportTime()))
-                .collect(Collectors.toList()));
+        instanceHostResponse.setHostName(host.getHostName());
+        instanceHostResponse.setHostAddress(host.getHostAddress());
+        instanceHostResponse.setOsName(host.getOsName());
+        instanceHostResponse.setArch(host.getArch());
+        instanceHostResponse.setAvailableProcessors(host.getAvailableProcessors());
+        instanceHostResponse.setCommittedVirtualMemory(host.getCommittedVirtualMemory());
+        instanceHostResponse.setTotalPhysicalMemorySize(host.getTotalPhysicalMemorySize());
+        instanceHostResponse.setFreePhysicalMemorySize(host.getFreePhysicalMemorySize());
+        instanceHostResponse.setTotalSwapSpaceSize(host.getTotalSwapSpaceSize());
+        instanceHostResponse.setFreeSwapSpaceSize(host.getFreeSwapSpaceSize());
+        instanceHostResponse.setDiskFreeSpace(host.getDiskFreeSpace());
+        instanceHostResponse.setDiskUsableSpace(host.getDiskUsableSpace());
+        instanceHostResponse.setDiskTotalSpace(host.getDiskTotalSpace());
+        instanceHostResponse.setReportTimestamps(DateUtils.getTimestamp(host.getReportTime()));
         return instanceHostResponse;
     }
 

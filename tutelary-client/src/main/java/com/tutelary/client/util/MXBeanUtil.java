@@ -67,7 +67,7 @@ public class MXBeanUtil {
         }
         hostInfo.setDiskFreeSpace(diskFreeSpace / KB);
         hostInfo.setDiskUsableSpace(diskUsableSpace / KB);
-        hostInfo.setDiskTotalSpace(diskTotalSpace);
+        hostInfo.setDiskTotalSpace(diskTotalSpace / KB);
         return hostInfo;
     }
 

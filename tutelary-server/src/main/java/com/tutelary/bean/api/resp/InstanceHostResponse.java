@@ -19,17 +19,17 @@ public class InstanceHostResponse extends AbstractResponse {
 
     private String arch;
 
-    private List<Integer> availableProcessors;
+    private Integer availableProcessors;
 
-    private List<Long> committedVirtualMemory;
+    private Long committedVirtualMemory;
 
-    private List<Long> totalPhysicalMemorySize;
+    private Long totalPhysicalMemorySize;
 
-    private List<Long> freePhysicalMemorySize;
+    private Long freePhysicalMemorySize;
 
-    private List<Long> totalSwapSpaceSize;
+    private Long totalSwapSpaceSize;
 
-    private List<Long> freeSwapSpaceSize;
+    private Long freeSwapSpaceSize;
 
     private Long diskFreeSpace;
 
@@ -37,6 +37,6 @@ public class InstanceHostResponse extends AbstractResponse {
 
     private Long diskTotalSpace;
 
-    private List<Long> reportTimestamps;
+    private Long reportTimestamps;
 
 }

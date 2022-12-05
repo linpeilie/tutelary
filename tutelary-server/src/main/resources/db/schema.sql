@@ -69,8 +69,8 @@ create table t_instance_host
     update_time                datetime    not null comment '更新时间'
 );
 
-create index t_instance_host_instance_id
-    on t_instance_host (instance_id, report_time);
+create unique index t_instance_host_instance_id
+    on t_instance_host (instance_id);
 
 -- 应用实例线程统计表
 

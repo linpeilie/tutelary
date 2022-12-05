@@ -7,4 +7,9 @@ import com.tutelary.common.repository.BaseRepository;
 
 public interface InstanceHostRepository
         extends BaseRepository<StatisticQuery, InstanceHost, InstanceHostEntity> {
+
+    InstanceHost getByInstanceId(String instanceId);
+
+    boolean update(InstanceHost instanceHost);
+
 }

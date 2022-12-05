@@ -1,5 +1,6 @@
 package com.tutelary.service.impl;
 
+import com.sun.corba.se.impl.orb.ORBVersionImpl;
 import com.tutelary.bean.domain.*;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
@@ -66,7 +67,13 @@ public class InstanceServiceImpl implements InstanceService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveReportData(InstanceOverview overview) {
-        instanceHostRepository.add(overview.getHost());
+        InstanceHost host = overview.getHost();
+        InstanceHost instanceHost = instanceHostRepository.getByInstanceId(host.getInstanceId());
+        if (instanceHost == null) {
+            instanceHostRepository.add(host);
+        } else {
+            instanceHostRepository.update(instanceHost);;
+        }
         instanceThreadStatisticRepository.add(overview.getThreadStatistic());
         instanceJvmMemoryRepository.addAll(overview.getJvmMemories());
         instanceGarbageCollectorsRepository.addAll(overview.getGarbageCollectors());
@@ -75,6 +82,11 @@ public class InstanceServiceImpl implements InstanceService {
     @Override
     public List<InstanceHost> listHostInfo(StatisticQuery query) {
         return instanceHostRepository.list(query);
+    }
+
+    @Override
+    public InstanceHost getHostInfo(String instanceId) {
+        return instanceHostRepository.getByInstanceId(instanceId);
     }
 
     @Override
