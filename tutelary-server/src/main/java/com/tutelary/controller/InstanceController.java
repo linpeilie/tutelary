@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 @RequestMapping (value = "/api/instance")
 public class InstanceController {
 
+    private static final int KB = 1024;
+
     private InstanceService instanceService;
     private InstanceConverter instanceConverter;
     private InstanceHostConverter instanceHostConverter;
@@ -119,10 +121,13 @@ public class InstanceController {
                     instanceJvmMemoryResponse.setType(CollectionUtil.getFirst(list).getType());
                     instanceJvmMemoryResponse.setName(CollectionUtil.getFirst(list).getName());
                     instanceJvmMemoryResponse.setUsed(list.stream().map(InstanceJvmMemory::getUsed)
+                                    .map(val -> val / KB)
                             .collect(Collectors.toList()));
                     instanceJvmMemoryResponse.setCommitted(list.stream().map(InstanceJvmMemory::getCommitted)
+                            .map(val -> val / KB)
                             .collect(Collectors.toList()));
                     instanceJvmMemoryResponse.setMax(list.stream().map(InstanceJvmMemory::getMax)
+                            .map(val -> val / KB)
                             .collect(Collectors.toList()));
                     instanceJvmMemoryResponse.setReportTimestamps(
                             list.stream().map(item -> DateUtils.getTimestamp(item.getReportTime()))
