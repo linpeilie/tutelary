@@ -24,6 +24,8 @@ public enum CommandEnum {
 
     TUTELARY_THREAD_LIST(CommandTypeConstants.TUTELARY, 20011, "thread base info list"),
 
+    TUTELARY_THREAD_DETAIL(CommandTypeConstants.TUTELARY, 20012, "thread detail"),
+
     /****************************** 增强任务 ****************************/
     TUTELARY_ENHANCE(CommandTypeConstants.TUTELARY, 21010, "enhance"),
 

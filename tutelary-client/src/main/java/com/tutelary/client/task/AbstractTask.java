@@ -61,6 +61,7 @@ public abstract class AbstractTask implements Task {
         responseMessage.setSessionId(session.getSessionId());
         responseMessage.setCommandType(commandInfo.getType());
         responseMessage.setCommandCode(commandInfo.getCommandCode());
+        responseMessage.setTimestamp(System.currentTimeMillis());
         try {
             responseMessage.setData(Any.pack(commandResult));
         } catch (IOException e) {

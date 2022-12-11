@@ -3,6 +3,7 @@ package com.tutelary.client.command.thread;
 import com.sun.management.ThreadMXBean;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.command.ManagementFactory;
+import com.tutelary.client.converter.ManagementConverter;
 import com.tutelary.client.util.MXBeanUtil;
 import com.tutelary.client.util.ThreadUtil;
 import com.tutelary.common.log.Log;
@@ -39,14 +40,7 @@ public class ThreadCommand implements Command<ThreadList> {
         List<BaseThreadInfo> threadInfos = new ArrayList<>();
 
         for (Thread thread : threads) {
-            BaseThreadInfo threadInfo = new BaseThreadInfo();
-
-            threadInfo.setId(thread.getId());
-            threadInfo.setName(thread.getName());
-            threadInfo.setGroup(thread.getThreadGroup().getName());
-            threadInfo.setState(thread.getState().name());
-            threadInfo.setDaemon(thread.isDaemon());
-            threadInfo.setPriority(thread.getPriority());
+            BaseThreadInfo threadInfo = ManagementConverter.CONVERTER.threadToInfo(thread);
 
             threadInfo.setCpu(threadSampler.get(thread.getId()));
 

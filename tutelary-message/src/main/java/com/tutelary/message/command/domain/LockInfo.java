@@ -7,14 +7,10 @@ import java.io.Serializable;
 
 @Data
 @ProtobufClass
-public class StackTraceNode implements Serializable {
+public class LockInfo implements Serializable {
 
-    private String declaringClass;
+    private String className;
 
-    private String methodName;
-
-    private int lineNumber;
-
-    private boolean isNative;
+    private int identityHashCode;
 
 }
