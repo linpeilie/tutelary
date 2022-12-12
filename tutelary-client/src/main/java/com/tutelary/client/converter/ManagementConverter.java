@@ -30,6 +30,10 @@ public interface ManagementConverter {
 
     LockInfo lockInfoTrans(java.lang.management.LockInfo lockInfo);
 
+    @Mappings({
+            @Mapping(target = "native", expression = "java(stackTraceElement.isNativeMethod())"),
+            @Mapping(target = "declaringClass", expression = "java(stackTraceElement.getClassName())")
+    })
     StackTraceNode stackTraceElementToNode(StackTraceElement stackTraceElement);
 
 }

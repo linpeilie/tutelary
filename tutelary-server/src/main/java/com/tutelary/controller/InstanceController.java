@@ -5,7 +5,7 @@ import com.tutelary.bean.api.req.InstancePageQueryRequest;
 import com.tutelary.bean.api.req.InstanceQueryRequest;
 import com.tutelary.bean.api.req.StatisticQueryRequest;
 import com.tutelary.bean.api.resp.*;
-import com.tutelary.bean.converter.*;
+import com.tutelary.bean.converter.InstanceConverter;
 import com.tutelary.bean.domain.*;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
@@ -28,11 +28,6 @@ public class InstanceController {
 
     private InstanceService instanceService;
     private InstanceConverter instanceConverter;
-    private InstanceHostConverter instanceHostConverter;
-    private InstanceThreadStatisticConverter instanceThreadStatisticConverter;
-    private InstanceJvmMemoryConverter instanceJvmMemoryConverter;
-    private InstanceGarbageCollectorConverter instanceGarbageCollectorConverter;
-
 
     @PostMapping (value = "pageQuery")
     public R<PageResult<InstanceInfoResponse>> pageQuery(@RequestBody InstancePageQueryRequest instancePageQueryParam) {
@@ -188,30 +183,6 @@ public class InstanceController {
     @Autowired
     public InstanceController setInstanceConverter(InstanceConverter instanceConverter) {
         this.instanceConverter = instanceConverter;
-        return this;
-    }
-
-    @Autowired
-    public InstanceController setInstanceHostConverter(InstanceHostConverter instanceHostConverter) {
-        this.instanceHostConverter = instanceHostConverter;
-        return this;
-    }
-
-    @Autowired
-    public InstanceController setInstanceThreadStatisticConverter(InstanceThreadStatisticConverter instanceThreadStatisticConverter) {
-        this.instanceThreadStatisticConverter = instanceThreadStatisticConverter;
-        return this;
-    }
-
-    @Autowired
-    public InstanceController setInstanceJvmMemoryConverter(InstanceJvmMemoryConverter instanceJvmMemoryConverter) {
-        this.instanceJvmMemoryConverter = instanceJvmMemoryConverter;
-        return this;
-    }
-
-    @Autowired
-    public InstanceController setInstanceGarbageCollectorConverter(InstanceGarbageCollectorConverter instanceGarbageCollectorConverter) {
-        this.instanceGarbageCollectorConverter = instanceGarbageCollectorConverter;
         return this;
     }
 }

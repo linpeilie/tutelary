@@ -28,7 +28,7 @@ public class ClientCommandRequestProcessor extends AbstractMessageProcessor<Clie
         if (!instanceOptional.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setLastCmd(String.valueOf(message.getCmd()));
-            errorMessage.setMessage(message.getInstanceId() + "实例不存在");
+            errorMessage.setMessage(message.getInstanceId() + "实例不存在或已下线");
             ctx.channel().writeAndFlush(errorMessage);
             return;
         }
