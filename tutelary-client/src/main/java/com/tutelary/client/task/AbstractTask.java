@@ -37,7 +37,7 @@ public abstract class AbstractTask implements Task {
 
     protected final Command command;
 
-    private final AtomicReference<TaskState> state = new AtomicReference<>(TaskState.NEW);
+    protected final AtomicReference<TaskState> state = new AtomicReference<>(TaskState.NEW);
 
     public AbstractTask(CommandEnum commandInfo, Session session, Command command) {
         this.id = UUID.randomUUID().toString(true);
@@ -115,13 +115,30 @@ public abstract class AbstractTask implements Task {
                     changeState(TaskState.COMPLETED, TaskState.RUNNING);
                     this.complete(obj);
                     this.executeAfter(obj);
+                    command.terminated();
                 })
                 .exceptionally(throwable -> {
                     if (throwable instanceof TaskStateChangedException) {
                         return null;
                     }
                     failure(throwable.getMessage());
+                    command.terminated();
                     return null;
                 });
+    }
+
+    @Override
+    public void cancel() {
+        TaskState taskState = state.get();
+        switch (taskState) {
+            case NEW:
+            case RUNNING:
+                state.set(TaskState.CANCEL);
+                command.terminated();
+                break;
+            default:
+                LOG.info("task : {} already completed or canceled", getId());
+                break;
+        }
     }
 }

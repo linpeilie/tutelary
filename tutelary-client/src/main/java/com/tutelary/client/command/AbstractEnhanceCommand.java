@@ -35,6 +35,7 @@ import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public abstract class AbstractEnhanceCommand<Param, Result> implements Command<EnhanceAffect>, ClassFileTransformer {
@@ -54,6 +55,8 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
     protected final AdviceListener listener;
 
     protected final EnhanceAffect enhanceAffect;
+
+    private volatile ClassLoader classLoader;
 
     protected AbstractEnhanceCommand(Instrumentation inst) {
         this.inst = inst;
@@ -169,6 +172,7 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
     public void terminated() {
         // TODO:中断命令
         future.cancel(false);
+        Optional.ofNullable(listener).ifPresent(AdviceListenerManager::unregisterAdviceListener);
     }
 
     protected abstract AdviceListener getListener();

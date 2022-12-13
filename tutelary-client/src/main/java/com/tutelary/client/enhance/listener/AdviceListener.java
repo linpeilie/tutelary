@@ -2,6 +2,8 @@ package com.tutelary.client.enhance.listener;
 
 public interface AdviceListener {
 
+    Long id();
+
     void create();
 
     void destroy();

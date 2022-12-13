@@ -3,6 +3,7 @@ package com.tutelary.client.listener;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.NamedThreadFactory;
+import com.tutelary.client.ScheduledExecutors;
 import com.tutelary.client.command.overview.OverviewCommand;
 import com.tutelary.client.util.MXBeanUtil;
 import com.tutelary.common.log.Log;
@@ -22,12 +23,9 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
 
     private static final Log LOGGER = LogFactory.get(ClientLifeCycleListener.class);
 
-    private final ScheduledExecutorService scheduledExecutorService;
-
     private boolean startReport = false;
 
     public ClientLifeCycleListener() {
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("client-registered"));
     }
 
 
@@ -45,7 +43,7 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
             clientRegisterRequestMessage.setJvmInfo(MXBeanUtil.getInstance().getJvmInfo());
             LOGGER.info("client register info : {}", clientRegisterRequestMessage);
             ctx.channel().writeAndFlush(clientRegisterRequestMessage);
-            scheduledExecutorService.schedule(() -> this.registerClient(ctx), 10, TimeUnit.SECONDS);
+            ScheduledExecutors.schedule(() -> this.registerClient(ctx), 10, TimeUnit.SECONDS);
         }
     }
 

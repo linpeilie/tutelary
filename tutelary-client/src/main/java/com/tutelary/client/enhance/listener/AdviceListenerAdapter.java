@@ -1,6 +1,22 @@
 package com.tutelary.client.enhance.listener;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 public abstract class AdviceListenerAdapter implements AdviceListener {
+
+    private static final AtomicLong ATOMIC = new AtomicLong(0);
+
+    private final Long id;
+
+    public AdviceListenerAdapter() {
+        this.id = ATOMIC.incrementAndGet();
+    }
+
+    @Override
+    public Long id() {
+        return id;
+    }
 
     @Override
     public void create() {

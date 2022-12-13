@@ -1,15 +1,17 @@
 package com.tutelary.client.enhance.listener;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.ConcurrentHashSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.tutelary.client.ScheduledExecutors;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class AdviceListenerManager {
 
@@ -18,6 +20,40 @@ public class AdviceListenerManager {
     private static final FakeBootstrapClassLoader FAKE_BOOTSTRAP_CLASS_LOADER = new FakeBootstrapClassLoader();
 
     private static final Map<ClassLoader, Multimap<String, AdviceListener>> MAP = new ConcurrentHashMap<>();
+
+    private static final Set<Long> UNREGISTER_ADVICE_IDS = ConcurrentHashMap.newKeySet();
+
+    public AdviceListenerManager() {
+        ScheduledExecutors.scheduleWithFixedDelay(() -> {
+            if (UNREGISTER_ADVICE_IDS.size() == 0) {
+                return;
+            }
+            for (Multimap<String, AdviceListener> multimap : MAP.values()) {
+                Set<String> keySet = multimap.keySet();
+                for (String key : keySet) {
+                    Set<Long> removedIds = null;
+                    Collection<AdviceListener> adviceListeners = multimap.get(key);
+                    for (AdviceListener adviceListener : adviceListeners) {
+                        if (UNREGISTER_ADVICE_IDS.remove(adviceListener.id())) {
+                            removedIds = Optional.ofNullable(removedIds).orElse(new HashSet<>());
+                            removedIds.add(adviceListener.id());
+                        }
+                    }
+                    if (removedIds != null && !removedIds.isEmpty()) {
+                        Set<Long> finalRemovedIds = removedIds;
+                        Set<AdviceListener> newSet = adviceListeners.stream()
+                                .filter(adviceListener -> !finalRemovedIds.contains(adviceListener.id()))
+                                .collect(Collectors.toSet());
+                        multimap.putAll(key, newSet);
+                    }
+                }
+            }
+        }, 1, 1, TimeUnit.SECONDS);
+    }
+
+    public static void unregisterAdviceListener(AdviceListener listener) {
+        UNREGISTER_ADVICE_IDS.add(listener.id());
+    }
 
     public static void registerAdviceListener(ClassLoader classLoader, String className, String methodName, String methodDesc, AdviceListener adviceListener) {
         String key = key(className, methodName, methodDesc);
