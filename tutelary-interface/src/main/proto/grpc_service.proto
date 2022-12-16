@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tutelary.grpc.lib";
+
+message Metadata {
+  map<string, string> headers = 1;
+  uint32 type = 2;
+  string client_ip = 3;
+}
+
+message Payload {
+  Metadata metadata = 1;
+  google.protobuf.Any body = 2;
+}
+
+service Request {
+  rpc request(Payload) returns (Payload) {}
+}
+
+service BiStreamRequest {
+  rpc requestBiStream (Payload) returns (stream Payload) {}
+}

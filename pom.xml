@@ -19,6 +19,7 @@
         <module>tutelary-event</module>
         <module>tutelary-packaging</module>
         <module>tutelary-spy</module>
+        <module>tutelary-interface</module>
     </modules>
 
     <properties>
@@ -35,14 +36,17 @@
         <cli.version>1.0.4</cli.version>
         <grpc.protobuf.version>1.32.1</grpc.protobuf.version>
         <protobuf.java.format.version>1.4</protobuf.java.format.version>
-        <jprotobuf.version>2.4.15</jprotobuf.version>
-        <jprotobuf-precompile.version>2.2.7</jprotobuf-precompile.version>
+        <jprotobuf.version>2.4.18</jprotobuf.version>
+        <jprotobuf-precompile.version>2.2.8</jprotobuf-precompile.version>
         <guava.version>31.1-jre</guava.version>
         <mapstruct.version>1.5.1.Final</mapstruct.version>
         <h2.version>2.1.214</h2.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <byte-buddy.version>1.12.18</byte-buddy.version>
         <bytekit.version>0.0.7</bytekit.version>
+        <protobuf.version>3.19.1</protobuf.version>
+        <protobuf-plugin.version>0.6.1</protobuf-plugin.version>
+        <grpc.version>1.42.2</grpc.version>
         <log4j.version>2.19.0</log4j.version>
         <arthas-repackage-logger.version>0.0.12</arthas-repackage-logger.version>
     </properties>
@@ -113,6 +117,11 @@
                 <artifactId>tutelary-spy</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>tutelary-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- springboot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -137,17 +146,17 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-netty</artifactId>
-                <version>${grpc.protobuf.version}</version>
+                <version>${grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-protobuf</artifactId>
-                <version>${grpc.protobuf.version}</version>
+                <version>${grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-stub</artifactId>
-                <version>${grpc.protobuf.version}</version>
+                <version>${grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.protobuf-java-format</groupId>
