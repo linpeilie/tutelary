@@ -19,6 +19,7 @@
         <module>tutelary-event</module>
         <module>tutelary-packaging</module>
         <module>tutelary-spy</module>
+        <module>tutelary-interface</module>
     </modules>
 
     <properties>
@@ -43,6 +44,9 @@
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <byte-buddy.version>1.12.18</byte-buddy.version>
         <bytekit.version>0.0.7</bytekit.version>
+        <protobuf.version>3.19.1</protobuf.version>
+        <protobuf-plugin.version>0.6.1</protobuf-plugin.version>
+        <grpc.version>1.42.2</grpc.version>
     </properties>
 
     <dependencies>
@@ -106,6 +110,11 @@
                 <artifactId>tutelary-spy</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>tutelary-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- springboot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -141,17 +150,17 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-netty</artifactId>
-                <version>${grpc.protobuf.version}</version>
+                <version>${grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-protobuf</artifactId>
-                <version>${grpc.protobuf.version}</version>
+                <version>${grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-stub</artifactId>
-                <version>${grpc.protobuf.version}</version>
+                <version>${grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.protobuf-java-format</groupId>
