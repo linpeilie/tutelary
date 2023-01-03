@@ -28,28 +28,16 @@
             <artifactId>grpc-protobuf</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baidu</groupId>
-            <artifactId>jprotobuf</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>protobuf-java</artifactId>
-                    <groupId>com.google.protobuf</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baidu</groupId>
-            <artifactId>jprotobuf-precompile-plugin</artifactId>
-            <optional>true</optional>
-            <scope>provided</scope>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-message</artifactId>
             <exclusions>
                 <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                    <groupId>com.google.protobuf</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -79,24 +67,6 @@
                         <goals>
                             <goal>compile</goal>
                             <goal>compile-custom</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.baidu</groupId>
-                <artifactId>jprotobuf-precompile-plugin</artifactId>
-                <version>${jprotobuf-precompile.version}</version>
-                <configuration>
-                    <filterClassPackage>com.tutelary.intf.message</filterClassPackage>
-                    <generateProtoFile>true</generateProtoFile>
-                    <compileDependencies>true</compileDependencies>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>precompile</goal>
                         </goals>
                     </execution>
                 </executions>

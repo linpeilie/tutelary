@@ -1,17 +1,12 @@
 package com.tutelary.client.listener;
 
-import cn.hutool.core.thread.ThreadFactoryBuilder;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.NamedThreadFactory;
-import com.tutelary.client.command.overview.OverviewCommand;
 import com.tutelary.client.util.MXBeanUtil;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import com.tutelary.common.thread.LoggingUncaughtExceptionHandler;
 import com.tutelary.event.AbstractChannelEventListener;
-import com.tutelary.message.ClientRegisterRequestMessage;
-import com.tutelary.message.InstanceInfoReportRequestMessage;
-import com.tutelary.message.command.result.Overview;
+import com.tutelary.message.ClientRegisterRequest;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -39,12 +34,12 @@ public class ClientLifeCycleListener extends AbstractChannelEventListener {
     private void registerClient(ChannelHandlerContext ctx) {
         if (!ClientBootstrap.registered && ctx.channel().isActive()) {
             LOGGER.debug("tutelary connected server, try to register");
-            ClientRegisterRequestMessage clientRegisterRequestMessage = new ClientRegisterRequestMessage();
-            clientRegisterRequestMessage.setAppName(ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getAppName());
-            clientRegisterRequestMessage.setInstanceId(ClientBootstrap.instanceId);
-            clientRegisterRequestMessage.setJvmInfo(MXBeanUtil.getInstance().getJvmInfo());
-            LOGGER.info("client register info : {}", clientRegisterRequestMessage);
-            ctx.channel().writeAndFlush(clientRegisterRequestMessage);
+            ClientRegisterRequest clientRegisterRequest = new ClientRegisterRequest();
+            clientRegisterRequest.setAppName(ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getAppName());
+            clientRegisterRequest.setInstanceId(ClientBootstrap.instanceId);
+            clientRegisterRequest.setJvmInfo(MXBeanUtil.getInstance().getJvmInfo());
+            LOGGER.info("client register info : {}", clientRegisterRequest);
+            ctx.channel().writeAndFlush(clientRegisterRequest);
             scheduledExecutorService.schedule(() -> this.registerClient(ctx), 10, TimeUnit.SECONDS);
         }
     }

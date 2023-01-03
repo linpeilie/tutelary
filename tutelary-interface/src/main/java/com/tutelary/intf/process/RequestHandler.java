@@ -1,18 +1,20 @@
 package com.tutelary.intf.process;
 
 import cn.hutool.core.util.TypeUtil;
-import com.tutelary.intf.common.Request;
+import com.tutelary.common.RequestMessage;
+import com.tutelary.grpc.lib.Payload;
+import io.grpc.stub.StreamObserver;
 
 import java.lang.reflect.Type;
 
-public interface MessageProcess<Req extends Request> {
+public interface RequestHandler<Req extends RequestMessage> {
 
-    void process(Req request);
+    void process(Req request, StreamObserver<Payload> observer);
 
     default Class<Req> getRequestClass() {
         Type[] typeArguments = TypeUtil.getTypeArguments(getClass());
         for (Type typeArgument : typeArguments) {
-            if (Request.class.isAssignableFrom(TypeUtil.getClass(typeArgument))) {
+            if (RequestMessage.class.isAssignableFrom(TypeUtil.getClass(typeArgument))) {
                 return (Class<Req>) TypeUtil.getClass(typeArgument);
             }
         }

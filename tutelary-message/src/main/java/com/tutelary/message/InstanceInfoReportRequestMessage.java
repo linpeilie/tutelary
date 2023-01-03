@@ -2,14 +2,14 @@ package com.tutelary.message;
 
 import com.tutelary.MessageCmd;
 import com.tutelary.annotation.Message;
-import com.tutelary.common.RequestBaseMessage;
+import com.tutelary.common.RequestMessage;
 import com.tutelary.common.utils.ParameterUtils;
 import com.tutelary.message.command.result.Overview;
 import lombok.Data;
 
 @Data
 @Message(cmd = MessageCmd.INSTANCE_INFO_REPORT)
-public class InstanceInfoReportRequestMessage extends RequestBaseMessage {
+public class InstanceInfoReportRequestMessage extends RequestMessage {
 
     private String instanceId;
 

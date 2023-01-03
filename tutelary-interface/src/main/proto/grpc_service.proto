@@ -8,7 +8,7 @@ option java_package = "com.tutelary.grpc.lib";
 
 message Metadata {
   map<string, string> headers = 1;
-  uint32 type = 2;
+  string type = 2;
   string client_ip = 3;
 }
 
@@ -18,9 +18,5 @@ message Payload {
 }
 
 service Request {
-  rpc request(Payload) returns (Payload) {}
-}
-
-service BiStreamRequest {
-  rpc requestBiStream (Payload) returns (stream Payload) {}
+  rpc request(stream Payload) returns (stream Payload) {}
 }

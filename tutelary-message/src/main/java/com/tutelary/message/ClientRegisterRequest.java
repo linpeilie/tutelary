@@ -2,17 +2,14 @@ package com.tutelary.message;
 
 import com.tutelary.MessageCmd;
 import com.tutelary.annotation.Message;
-import com.tutelary.common.RequestBaseMessage;
+import com.tutelary.common.RequestMessage;
 import com.tutelary.common.utils.ParameterUtils;
 import com.tutelary.message.command.domain.JvmInfo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Message(cmd = MessageCmd.CLIENT_REGISTER_REQUEST)
-public class ClientRegisterRequestMessage extends RequestBaseMessage {
+public class ClientRegisterRequest extends RequestMessage {
 
     private String appName;
 
