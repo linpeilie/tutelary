@@ -5,19 +5,19 @@ import com.tutelary.client.task.EnhanceTask;
 import com.tutelary.client.task.Task;
 import com.tutelary.client.task.factory.WithParameterTaskFactory;
 import com.tutelary.constants.CommandEnum;
-import com.tutelary.message.command.param.TraceParam;
+import com.tutelary.message.command.param.TraceRequest;
 import com.tutelary.session.Session;
 
 import java.lang.instrument.Instrumentation;
 
-public class TraceTaskFactory implements WithParameterTaskFactory<TraceParam> {
+public class TraceTaskFactory implements WithParameterTaskFactory<TraceRequest> {
 
     @Override
-    public Task create(Session session, Instrumentation inst, TraceParam param) {
+    public Task create(String taskId, Instrumentation inst, TraceRequest param) {
         // 生成命令
         TraceCommand traceCommand = new TraceCommand(inst, param);
         // 构建任务
-        return new EnhanceTask(session, commandType(), traceCommand);
+        return new EnhanceTask(taskId, commandType(), traceCommand);
     }
 
     @Override

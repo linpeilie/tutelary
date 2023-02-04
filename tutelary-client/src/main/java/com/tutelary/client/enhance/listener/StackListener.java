@@ -4,7 +4,7 @@ import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.command.domain.StackTraceNode;
-import com.tutelary.message.command.result.StackResult;
+import com.tutelary.message.command.result.StackResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,21 +17,21 @@ public class StackListener extends AdviceListenerAdapter {
 
     private static final Log LOG = LogFactory.get(StackListener.class);
 
-    private final RCallback<StackResult> rCallback;
+    private final RCallback<StackResponse> rCallback;
 
-    private final ThreadLocal<Queue<StackResult>> stackResultThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<Queue<StackResponse>> stackResultThreadLocal = new ThreadLocal<>();
 
-    public StackListener(RCallback<StackResult> rCallback) {
+    public StackListener(RCallback<StackResponse> rCallback) {
         this.rCallback = rCallback;
     }
 
     @Override
     public void before(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args) throws Throwable {
-        Queue<StackResult> stackQueue = stackResultThreadLocal.get();
+        Queue<StackResponse> stackQueue = stackResultThreadLocal.get();
         if (stackQueue == null) {
             stackQueue = new ConcurrentLinkedQueue<>();
         }
-        StackResult stackResult = new StackResult();
+        StackResponse stackResult = new StackResponse();
         stackResult.setStartTimestamp(System.nanoTime());
         stackQueue.offer(stackResult);
         stackResultThreadLocal.set(stackQueue);
@@ -48,11 +48,11 @@ public class StackListener extends AdviceListenerAdapter {
     }
 
     private void finish() {
-        Queue<StackResult> queue = stackResultThreadLocal.get();
+        Queue<StackResponse> queue = stackResultThreadLocal.get();
         if (queue == null) {
             return;
         }
-        StackResult stackResult = queue.poll();
+        StackResponse stackResult = queue.poll();
         if (stackResult == null) {
             return;
         }

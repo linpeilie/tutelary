@@ -1,7 +1,7 @@
 package com.tutelary.message.command.result;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
-import com.tutelary.common.CommandResult;
+import com.tutelary.common.CommandResponse;
 import com.tutelary.message.command.domain.BaseMethod;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 @ProtobufClass
-public class EnhanceAffect extends CommandResult {
+public class EnhanceAffect extends CommandResponse {
 
     private int cCnt = 0;
 

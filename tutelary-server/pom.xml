@@ -43,6 +43,10 @@
             <groupId>com.tutelary</groupId>
             <artifactId>tutelary-event</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>tutelary-remoting-netty</artifactId>
+        </dependency>
         <!-- db -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

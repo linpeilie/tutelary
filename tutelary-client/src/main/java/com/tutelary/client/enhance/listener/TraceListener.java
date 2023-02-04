@@ -5,7 +5,7 @@ import com.tutelary.client.command.domain.TraceEntity;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import com.tutelary.message.command.result.TraceResult;
+import com.tutelary.message.command.result.TraceResponse;
 import com.tutelary.message.command.domain.TraceNode;
 
 import java.util.Optional;
@@ -15,11 +15,11 @@ public class TraceListener extends TraceAdviceListenerAdapter {
 
     private static final Log LOGGER = LogFactory.get(TraceListener.class);
 
-    private final RCallback<TraceResult> rCallback;
+    private final RCallback<TraceResponse> rCallback;
 
     private final ThreadLocal<TraceEntity> traceEntityThreadLocal = new ThreadLocal<>();
 
-    public TraceListener(RCallback<TraceResult> rCallback) {
+    public TraceListener(RCallback<TraceResponse> rCallback) {
         this.rCallback = rCallback;
     }
 

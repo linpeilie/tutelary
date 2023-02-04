@@ -1,6 +1,6 @@
 package com.tutelary.client.command.domain;
 
-import com.tutelary.message.command.result.TraceResult;
+import com.tutelary.message.command.result.TraceResponse;
 import com.tutelary.message.command.domain.TraceNode;
 
 import java.util.Stack;
@@ -36,8 +36,8 @@ public class TraceEntity {
         return nodeStack.isEmpty();
     }
 
-    public TraceResult getTraceResult() {
-        TraceResult traceResult = new TraceResult();
+    public TraceResponse getTraceResult() {
+        TraceResponse traceResult = new TraceResponse();
         traceResult.setNode(root);;
         return traceResult;
     }

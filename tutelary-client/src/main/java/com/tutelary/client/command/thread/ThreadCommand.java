@@ -9,7 +9,7 @@ import com.tutelary.client.util.ThreadUtil;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.command.domain.BaseThreadInfo;
-import com.tutelary.message.command.param.ThreadListParam;
+import com.tutelary.message.command.param.ThreadListRequest;
 import com.tutelary.message.command.result.ThreadList;
 
 import java.util.*;
@@ -22,9 +22,9 @@ public class ThreadCommand implements Command<ThreadList> {
 
     private final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
-    private final ThreadListParam threadCommandParam;
+    private final ThreadListRequest threadCommandParam;
 
-    public ThreadCommand(ThreadListParam threadCommandParam) {
+    public ThreadCommand(ThreadListRequest threadCommandParam) {
         this.threadCommandParam = threadCommandParam;
     }
 

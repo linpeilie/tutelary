@@ -23,4 +23,10 @@ public class R<T> implements Serializable {
         return r;
     }
 
+    public static R success() {
+        R r = new R();
+        r.setCode(SUCCESS);
+        return r;
+    }
+
 }

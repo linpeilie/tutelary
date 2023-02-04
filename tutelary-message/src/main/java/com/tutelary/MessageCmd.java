@@ -14,4 +14,6 @@ public interface MessageCmd {
 
     byte INSTANCE_INFO_REPORT = 5;
 
+    byte HEARTBEAT = 6;
+
 }

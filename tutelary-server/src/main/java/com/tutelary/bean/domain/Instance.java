@@ -3,7 +3,7 @@ package com.tutelary.bean.domain;
 import com.tutelary.common.BaseMessage;
 import com.tutelary.common.bean.domain.BaseDomain;
 import com.tutelary.common.enums.InstanceStateEnum;
-import io.netty.channel.Channel;
+import com.tutelary.remoting.api.Channel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,9 +51,9 @@ public class Instance extends BaseDomain {
 
     private long lastBeat = System.currentTimeMillis();
 
-    public void writeAndFlush(BaseMessage message) {
-        if (channel.isActive()) {
-            channel.writeAndFlush(message);
+    public void sendData(BaseMessage message) {
+        if (channel.isConnected()) {
+            channel.send(message);
         }
     }
 

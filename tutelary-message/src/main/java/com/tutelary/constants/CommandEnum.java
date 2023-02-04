@@ -1,59 +1,54 @@
 package com.tutelary.constants;
 
+import static com.tutelary.constants.CommandConstants.*;
+
 public enum CommandEnum {
 
     /**
      * dashboard
      */
-    ARTHAS_DASHBOARD(CommandTypeConstants.ARTHAS, 10010, "dashboard"),
+    ARTHAS_DASHBOARD(10010, "dashboard"),
     /**
      * thread
      */
-    ARTHAS_THREAD_LIST(CommandTypeConstants.ARTHAS, 10020, "thread"),
+    ARTHAS_THREAD_LIST(10020, "thread"),
     /**
      * thread [id]
      */
-    ARTHAS_THREAD_STACK_TRACE(CommandTypeConstants.ARTHAS, 10021, "thread"),
+    ARTHAS_THREAD_STACK_TRACE(10021, "thread"),
     /**
      * thread b
      */
-    ARTHAS_THREAD_BLOCK(CommandTypeConstants.ARTHAS, 10022, "thread"),
+    ARTHAS_THREAD_BLOCK(10022, "thread"),
 
     /****************************** 普通任务，不需要增强 ****************************/
-    TUTELARY_OVERVIEW(CommandTypeConstants.TUTELARY, 20010, "overview"),
+    TUTELARY_OVERVIEW(20010, "overview"),
 
-    TUTELARY_THREAD_LIST(CommandTypeConstants.TUTELARY, 20011, "thread base info list"),
+    TUTELARY_THREAD_LIST(threadList, "thread base info list"),
 
-    TUTELARY_THREAD_DETAIL(CommandTypeConstants.TUTELARY, 20012, "thread detail"),
+    TUTELARY_THREAD_DETAIL(20012, "thread detail"),
 
     /****************************** 增强任务 ****************************/
-    TUTELARY_ENHANCE(CommandTypeConstants.TUTELARY, 21010, "enhance"),
+    TUTELARY_ENHANCE(21010, "enhance"),
 
     /**
      * tutelary - trace
      */
-    TUTELARY_TRACE_METHOD(CommandTypeConstants.TUTELARY, 21011, "trace"),
+    TUTELARY_TRACE_METHOD(21011, "trace"),
 
     /**
      * tutelary - stack
      */
-    TUTELARY_STACK_METHOD(CommandTypeConstants.TUTELARY, 21012, "stack"),
+    TUTELARY_STACK_METHOD(21012, "stack"),
 
-    TUTELARY_ENHANCE_TASK_COMPLETE(CommandTypeConstants.TUTELARY, 21099, "complete")
-    ;
+    TUTELARY_ENHANCE_TASK_COMPLETE(21099, "complete");
 
-    private final Integer type;
     private final Integer commandCode;
     private final String command;
 
-    CommandEnum(Integer type, Integer commandCode, String command) {
-        this.type = type;
+    CommandEnum(Integer commandCode, String command) {
         this.commandCode = commandCode;
         this.command = command;
-    }
-
-    public Integer getType() {
-        return type;
     }
 
     public Integer getCommandCode() {
@@ -64,9 +59,9 @@ public enum CommandEnum {
         return command;
     }
 
-    public static CommandEnum getByTypeAndCode(Integer type, Integer code) {
+    public static CommandEnum getByTypeAndCode(Integer code) {
         for (CommandEnum commandEnum : CommandEnum.values()) {
-            if (commandEnum.getType().equals(type) && commandEnum.getCommandCode().equals(code)) {
+            if (commandEnum.getCommandCode().equals(code)) {
                 return commandEnum;
             }
         }

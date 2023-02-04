@@ -5,12 +5,12 @@ import com.tutelary.client.task.DefaultTask;
 import com.tutelary.client.task.Task;
 import com.tutelary.client.task.factory.WithParameterTaskFactory;
 import com.tutelary.constants.CommandEnum;
-import com.tutelary.message.command.param.ThreadListParam;
+import com.tutelary.message.command.param.ThreadListRequest;
 import com.tutelary.session.Session;
 
 import java.lang.instrument.Instrumentation;
 
-public class ThreadTaskFactory implements WithParameterTaskFactory<ThreadListParam> {
+public class ThreadTaskFactory implements WithParameterTaskFactory<ThreadListRequest> {
 
     @Override
     public CommandEnum commandType() {
@@ -18,8 +18,8 @@ public class ThreadTaskFactory implements WithParameterTaskFactory<ThreadListPar
     }
 
     @Override
-    public Task create(Session session, Instrumentation inst, ThreadListParam param) {
+    public Task create(String taskId, Instrumentation inst, ThreadListRequest param) {
         ThreadCommand threadCommand = new ThreadCommand(param);
-        return new DefaultTask(commandType(), session, threadCommand);
+        return new DefaultTask(taskId, commandType(), threadCommand);
     }
 }

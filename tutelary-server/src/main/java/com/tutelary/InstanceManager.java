@@ -4,10 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Objects;
 import com.tutelary.bean.domain.App;
 import com.tutelary.bean.domain.Instance;
+import com.tutelary.remoting.api.Channel;
 import com.tutelary.service.AppService;
 import com.tutelary.service.InstanceService;
-import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InstanceManager {
 
     private static final Map<String, Instance> INSTANCE_MAP = new ConcurrentHashMap<>();
-
-    private static final AttributeKey<String> INSTANCE_ID_KEY = AttributeKey.valueOf("instanceId");
 
     @Autowired
     private AppService appService;
@@ -42,19 +39,9 @@ public class InstanceManager {
 
         createApp(appName);
 
-        bindChannel(instanceEntity.getInstanceId(), instanceEntity.getChannel());
-
         addInstance(instanceEntity);
 
         return instanceEntity;
-    }
-
-    public void removeChannel(Channel channel) {
-        String instanceId = channel.attr(INSTANCE_ID_KEY).get();
-        if (StrUtil.isNotEmpty(instanceId)) {
-            removeInstance(instanceId);
-            INSTANCE_MAP.remove(instanceId);
-        }
     }
 
     private void removeInstance(String instanceId) {
@@ -65,11 +52,6 @@ public class InstanceManager {
     private void removeInstance(Instance instance) {
         instanceService.invalidInstance(instance.getInstanceId());
         appService.removeInstance(instance.getAppName());
-    }
-
-    public boolean isBind(Channel channel) {
-        String instanceId = channel.attr(INSTANCE_ID_KEY).get();
-        return StrUtil.isNotEmpty(instanceId) && INSTANCE_MAP.containsKey(instanceId);
     }
 
     public Optional<Instance> getInstance(String instanceId) {
@@ -89,10 +71,6 @@ public class InstanceManager {
 
     private App getApp(String appName) {
         return appService.getAppByName(appName);
-    }
-
-    private void bindChannel(String instanceId, Channel channel) {
-        channel.attr(INSTANCE_ID_KEY).set(instanceId);
     }
 
     private void addInstance(Instance instance) {

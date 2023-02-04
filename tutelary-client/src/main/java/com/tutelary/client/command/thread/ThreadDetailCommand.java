@@ -1,23 +1,21 @@
 package com.tutelary.client.command.thread;
 
-import cn.hutool.core.util.ArrayUtil;
 import com.sun.management.ThreadMXBean;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.command.ManagementFactory;
 import com.tutelary.client.converter.ManagementConverter;
-import com.tutelary.message.command.param.ThreadDetailParam;
+import com.tutelary.message.command.param.ThreadDetailRequest;
 import com.tutelary.message.command.result.ThreadDetail;
 
 import java.lang.management.ThreadInfo;
-import java.util.Arrays;
 
 public class ThreadDetailCommand implements Command<ThreadDetail> {
 
-    private final ThreadDetailParam param;
+    private final ThreadDetailRequest param;
 
     private final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
-    public ThreadDetailCommand(ThreadDetailParam param) {
+    public ThreadDetailCommand(ThreadDetailRequest param) {
         this.param = param;
     }
 

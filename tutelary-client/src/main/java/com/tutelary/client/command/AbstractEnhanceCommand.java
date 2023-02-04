@@ -21,7 +21,7 @@ import com.tutelary.client.enhance.listener.AdviceListenerManager;
 import com.tutelary.client.enhance.listener.InvokeTraceListener;
 import com.tutelary.client.exception.EnhanceNotAllowedException;
 import com.tutelary.client.loader.ClassLoaderWrapper;
-import com.tutelary.client.util.ClassUtil;
+import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.common.exception.BaseException;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;

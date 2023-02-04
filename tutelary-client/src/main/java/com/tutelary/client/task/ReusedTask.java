@@ -22,8 +22,8 @@ public class ReusedTask extends AbstractTask {
      */
     private static final Map<Integer, ConcurrentLinkedQueue<ReusedTask>> QUEUE_MAP = new ConcurrentHashMap<>();
 
-    public ReusedTask(CommandEnum commandInfo, Session session, Command command) {
-        super(commandInfo, session, command);
+    public ReusedTask(String taskId, CommandEnum commandInfo, Command command) {
+        super(taskId, commandInfo, command);
         if (!QUEUE_MAP.containsKey(commandInfo.getCommandCode())) {
             QUEUE_MAP.putIfAbsent(commandInfo.getCommandCode(), new ConcurrentLinkedQueue<>());
         }

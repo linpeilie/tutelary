@@ -2,47 +2,39 @@ package com.tutelary.client.task;
 
 import cn.hutool.core.lang.UUID;
 import com.baidu.bjf.remoting.protobuf.Any;
+import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.NamedThreadFactory;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.exception.TaskStateChangedException;
-import com.tutelary.common.CommandResult;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.constants.CommandEnum;
-import com.tutelary.message.ClientCommandResponseMessage;
+import com.tutelary.message.CommandExecuteResponse;
 import com.tutelary.session.Session;
 
 import java.io.IOException;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 
 public abstract class AbstractTask implements Task {
 
     private static final Log LOG = LogFactory.get(AbstractTask.class);
 
-    protected static final ExecutorService EXECUTOR = new ThreadPoolExecutor(
-            1,
-            Runtime.getRuntime().availableProcessors(),
-            1,
-            TimeUnit.HOURS,
-            new LinkedBlockingQueue<>(),
-            new NamedThreadFactory("task-executor"));
+    protected static final ExecutorService EXECUTOR =
+        new ThreadPoolExecutor(1, Runtime.getRuntime().availableProcessors(), 1, TimeUnit.HOURS,
+            new LinkedBlockingQueue<>(), new NamedThreadFactory("task-executor"));
 
     private final String id;
 
     protected final CommandEnum commandInfo;
 
-    protected final Session session;
-
     protected final Command command;
 
     private final AtomicReference<TaskState> state = new AtomicReference<>(TaskState.NEW);
 
-    public AbstractTask(CommandEnum commandInfo, Session session, Command command) {
-        this.id = UUID.randomUUID().toString(true);
+    public AbstractTask(String taskId, CommandEnum commandInfo, Command command) {
+        this.id = taskId;
         this.commandInfo = commandInfo;
-        this.session = session;
         this.command = command;
     }
 
@@ -51,38 +43,32 @@ public abstract class AbstractTask implements Task {
         return id;
     }
 
-    protected void executeBefore() {
-    }
+    protected void executeBefore() {}
 
     protected void complete(Object commandResult) {
         LOG.debug("session : [ {} ], command code : [ {} ], execute completed, result : [ {} ]",
-                session.getSessionId(), commandInfo.getCommandCode(), commandResult);
-        ClientCommandResponseMessage responseMessage = new ClientCommandResponseMessage();
-        responseMessage.setSessionId(session.getSessionId());
-        responseMessage.setCommandType(commandInfo.getType());
-        responseMessage.setCommandCode(commandInfo.getCommandCode());
+            commandInfo.getCommandCode(), commandResult);
+        CommandExecuteResponse responseMessage = new CommandExecuteResponse();
+        responseMessage.setCode(commandInfo.getCommandCode());
         responseMessage.setTimestamp(System.currentTimeMillis());
         try {
             responseMessage.setData(Any.pack(commandResult));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        session.sendData(responseMessage);
+        ClientBootstrap.sendData(responseMessage);
     }
 
     protected void failure(String message) {
         LOG.error("task : [ {} ], execute failure : {}", getId(), message);
-        ClientCommandResponseMessage responseMessage = new ClientCommandResponseMessage();
+        CommandExecuteResponse responseMessage = new CommandExecuteResponse();
         responseMessage.setStatus(Boolean.FALSE);
         responseMessage.setMessage(message);
-        responseMessage.setSessionId(session.getSessionId());
-        responseMessage.setCommandType(commandInfo.getType());
-        responseMessage.setCommandCode(commandInfo.getCommandCode());
-        session.sendData(responseMessage);
+        responseMessage.setCode(commandInfo.getCommandCode());
+        ClientBootstrap.sendData(responseMessage);
     }
 
-    protected void executeAfter(Object result) {
-    }
+    protected void executeAfter(Object result) {}
 
     @Override
     public TaskState getState() {
@@ -110,18 +96,16 @@ public abstract class AbstractTask implements Task {
 
     @Override
     public void execute() {
-        CompletableFuture.supplyAsync(this::executeWrapper, EXECUTOR)
-                .thenAccept(obj -> {
-                    changeState(TaskState.COMPLETED, TaskState.RUNNING);
-                    this.complete(obj);
-                    this.executeAfter(obj);
-                })
-                .exceptionally(throwable -> {
-                    if (throwable instanceof TaskStateChangedException) {
-                        return null;
-                    }
-                    failure(throwable.getMessage());
-                    return null;
-                });
+        CompletableFuture.supplyAsync(this::executeWrapper, EXECUTOR).thenAccept(obj -> {
+            changeState(TaskState.COMPLETED, TaskState.RUNNING);
+            this.complete(obj);
+            this.executeAfter(obj);
+        }).exceptionally(throwable -> {
+            if (throwable instanceof TaskStateChangedException) {
+                return null;
+            }
+            failure(throwable.getMessage());
+            return null;
+        });
     }
 }

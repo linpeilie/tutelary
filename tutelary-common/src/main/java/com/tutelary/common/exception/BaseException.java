@@ -1,15 +1,20 @@
 package com.tutelary.common.exception;
 
-public class BaseException extends RuntimeException {
-
-    private String errorMessage;
+public abstract class BaseException extends RuntimeException {
 
     public BaseException(String errorMessage) {
         super(errorMessage);
-        this.errorMessage = errorMessage;
+    }
+
+    public BaseException(String errorMessage, Throwable cause) {
+        super(errorMessage, cause);
+    }
+
+    public BaseException(Throwable cause) {
+        super(cause);
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return getMessage();
     }
 }

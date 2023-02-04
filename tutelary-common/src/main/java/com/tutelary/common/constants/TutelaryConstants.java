@@ -5,4 +5,8 @@ public class TutelaryConstants {
 
     public static final long KB = 1024;
 
+    public static final int DEFAULT_CONNECTION_TIMEOUT = 3000;
+
+    public static final int DEFAULT_HEARTBEAT_INTERVAL = 10 * 1000;
+
 }

@@ -12,13 +12,13 @@ public class MessageProcessorManager {
 
     private static final Log LOGGER = LogFactory.get(MessageProcessorManager.class);
 
-    private final Map<Byte, MessageProcessor<? extends BaseMessage>> HANDLER_MAP = new ConcurrentHashMap<>();
+    private static final Map<Byte, MessageProcessor<? extends BaseMessage>> HANDLER_MAP = new ConcurrentHashMap<>();
 
-    public MessageProcessor<? extends BaseMessage> getHandler(byte cmd) {
+    public static MessageProcessor<? extends BaseMessage> getHandler(byte cmd) {
         return HANDLER_MAP.get(cmd);
     }
 
-    public void register(MessageProcessor<? extends BaseMessage> handler) {
+    public static void register(MessageProcessor<? extends BaseMessage> handler) {
         Class<? extends BaseMessage> cmdClass = handler.getCmdClass();
         Message message = cmdClass.getAnnotation(Message.class);
         if (message == null) {

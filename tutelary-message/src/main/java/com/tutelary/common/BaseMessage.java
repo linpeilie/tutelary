@@ -10,12 +10,6 @@ import cn.hutool.core.lang.UUID;
 @ProtobufClass
 public abstract class BaseMessage implements Serializable {
 
-    // protected final String messageId;
-
-    public BaseMessage() {
-        // this.messageId = UUID.randomUUID().toString(true);
-    }
-
     public byte getCmd() {
         Message message = getClass().getAnnotation(Message.class);
         return message.cmd();

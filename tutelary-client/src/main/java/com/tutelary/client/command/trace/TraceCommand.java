@@ -4,20 +4,20 @@ import com.tutelary.client.command.AbstractEnhanceCommand;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.client.enhance.listener.AdviceListener;
 import com.tutelary.client.enhance.listener.TraceListener;
-import com.tutelary.message.command.param.TraceParam;
-import com.tutelary.message.command.result.TraceResult;
+import com.tutelary.message.command.param.TraceRequest;
+import com.tutelary.message.command.result.TraceResponse;
 
 import java.lang.instrument.Instrumentation;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TraceCommand extends AbstractEnhanceCommand<TraceParam, TraceResult> {
+public class TraceCommand extends AbstractEnhanceCommand<TraceRequest, TraceResponse> {
 
-    private final TraceParam param;
+    private final TraceRequest param;
 
     private final AtomicInteger execCnt = new AtomicInteger(0);
 
-    public TraceCommand(Instrumentation inst, TraceParam param) {
+    public TraceCommand(Instrumentation inst, TraceRequest param) {
         super(inst);
         this.param = param;
     }

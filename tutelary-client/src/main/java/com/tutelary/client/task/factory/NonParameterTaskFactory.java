@@ -7,6 +7,6 @@ import java.lang.instrument.Instrumentation;
 
 public interface NonParameterTaskFactory extends TaskFactory {
 
-    Task create(Session session, Instrumentation inst);
+    Task create(String taskId, Instrumentation inst);
 
 }

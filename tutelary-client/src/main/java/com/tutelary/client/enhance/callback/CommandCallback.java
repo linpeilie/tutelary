@@ -1,12 +1,12 @@
 package com.tutelary.client.enhance.callback;
 
-import com.tutelary.common.CommandResult;
+import com.tutelary.common.CommandResponse;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandCallback {
 
-    private final RCallback<CommandResult> callback;
+    private final RCallback<CommandResponse> callback;
 
     private final int limit;
 

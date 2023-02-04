@@ -12,9 +12,9 @@ import java.lang.instrument.Instrumentation;
 
 public class OverviewTaskFactory implements NonParameterTaskFactory {
     @Override
-    public Task create(Session session, Instrumentation inst) {
+    public Task create(String taskId, Instrumentation inst) {
         OverviewCommand overviewCommand = new OverviewCommand();
-        return new ReusedTask(commandType(), session, overviewCommand);
+        return new ReusedTask(taskId, commandType(), overviewCommand);
     }
 
     @Override

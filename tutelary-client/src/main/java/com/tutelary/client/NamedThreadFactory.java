@@ -1,10 +1,10 @@
 package com.tutelary.client;
 
-import com.tutelary.client.util.ThreadUtil;
-import com.tutelary.common.thread.LoggingUncaughtExceptionHandler;
-
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.tutelary.client.util.ThreadUtil;
+import com.tutelary.common.thread.LoggingUncaughtExceptionHandler;
 
 public class NamedThreadFactory implements ThreadFactory {
 

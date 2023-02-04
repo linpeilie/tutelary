@@ -1,12 +1,13 @@
 package com.tutelary.processor;
 
-import com.tutelary.common.RequestBaseMessage;
+import com.tutelary.common.RequestMessage;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.tutelary.common.BaseMessage;
 import com.tutelary.exception.ProtobufDecodeException;
+import com.tutelary.remoting.api.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.io.IOException;
@@ -16,25 +17,11 @@ public abstract class AbstractMessageProcessor<T extends BaseMessage> implements
     private static final Log LOGGER = LogFactory.get(AbstractMessageProcessor.class);
 
     @Override
-    public void process(ChannelHandlerContext ctx, byte[] bytes) {
-        T message;
-        try {
-            message = this.decode(bytes);
-        } catch (IOException e) {
-            LOGGER.error("exception occurred at protobuf decode, cmd class : {}", getCmdClass().getName(), e);
-            throw new ProtobufDecodeException(e);
-        }
-        if (message instanceof RequestBaseMessage) {
-            ((RequestBaseMessage) message).checkInput();
-        }
-        process(ctx, message);
+    public void process(Channel channel, Object msg) {
+        T message = (T) msg;
+        process(channel, message);
     }
 
-    protected abstract void process(ChannelHandlerContext ctx, T message);
-
-    private T decode(byte[] bytes) throws IOException {
-        Codec<T> tCodec = ProtobufProxy.create(getCmdClass());
-        return tCodec.decode(bytes);
-    }
+    protected abstract void process(Channel channel, T msg);
 
 }
