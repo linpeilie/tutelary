@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_THREAD_LIST)
+@Command(CommandEnum.THREAD_LIST)
 public class ThreadList extends CommandResponse {
 
     private ThreadStatistic threadStatistic;

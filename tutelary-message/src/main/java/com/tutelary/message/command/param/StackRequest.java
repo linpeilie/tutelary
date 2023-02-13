@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_STACK_METHOD)
+@Command(CommandEnum.STACK_METHOD)
 public class StackRequest extends CommandRequest {
 
     private String className;

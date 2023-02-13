@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_THREAD_DETAIL)
+@Command(CommandEnum.THREAD_DETAIL)
 public class ThreadDetail extends CommandResponse {
 
     private long id;

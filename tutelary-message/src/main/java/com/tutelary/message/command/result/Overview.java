@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_OVERVIEW)
+@Command(CommandEnum.OVERVIEW)
 public class Overview extends CommandResponse {
 
     private HostInfo hostInfo;

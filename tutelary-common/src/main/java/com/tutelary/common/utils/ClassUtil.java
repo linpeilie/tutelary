@@ -1,6 +1,9 @@
 package com.tutelary.common.utils;
 
+import cn.hutool.core.util.TypeUtil;
+
 import java.lang.instrument.Instrumentation;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -48,6 +51,17 @@ public class ClassUtil {
 
             cls = cls.getSuperclass();
         }
+    }
+
+    public static <T> Class<T> getGenericsBySuperClass(Class<?> clazz, Class<?> genericsSuperClass) {
+        Type[] typeArguments = TypeUtil.getTypeArguments(clazz);
+        for (Type typeArgument : typeArguments) {
+            if (genericsSuperClass.isAssignableFrom(TypeUtil.getClass(typeArgument))) {
+                return (Class<T>)TypeUtil.getClass(typeArgument);
+            }
+        }
+        throw new RuntimeException("get generics by super class failed, generics super class : "
+            + genericsSuperClass.getSimpleName() + ", current class : " + clazz.getSimpleName());
     }
 
 }

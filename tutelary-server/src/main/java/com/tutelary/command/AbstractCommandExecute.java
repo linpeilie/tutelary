@@ -7,7 +7,9 @@ import com.tutelary.bean.domain.Instance;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.CommandResponse;
 import com.tutelary.common.exception.InstanceNotExistsException;
+import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.message.CommandExecuteRequest;
+import com.tutelary.message.CommandExecuteResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,8 +40,20 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
     }
 
     @Override
-    public void callResult(RESPONSE response) {
+    public void callResult(CommandExecuteResponse response) {
+        Any data = response.getData();
+        try {
+            RESPONSE result = data.unpack(getResponseClass());
+            callResult(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    protected abstract void callResult(RESPONSE response);
+
+    protected Class<RESPONSE> getResponseClass() {
+        return ClassUtil.getGenericsBySuperClass(getClass(), CommandResponse.class);
     }
 
 }

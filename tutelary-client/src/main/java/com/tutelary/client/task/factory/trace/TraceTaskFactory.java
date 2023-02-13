@@ -2,14 +2,18 @@ package com.tutelary.client.task.factory.trace;
 
 import java.lang.instrument.Instrumentation;
 
+import com.tutelary.annotation.Command;
 import com.tutelary.client.command.trace.TraceCommand;
 import com.tutelary.client.task.EnhanceTask;
 import com.tutelary.client.task.Task;
-import com.tutelary.client.task.factory.WithParameterTaskFactory;
+import com.tutelary.client.task.factory.TaskFactory;
+import com.tutelary.common.extension.Extension;
+import com.tutelary.constants.CommandConstants;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.TraceRequest;
 
-public class TraceTaskFactory implements WithParameterTaskFactory<TraceRequest> {
+@Extension(commandCode = CommandConstants.traceMethod)
+public class TraceTaskFactory implements TaskFactory<TraceRequest> {
 
     @Override
     public Task create(String taskId, Instrumentation inst, TraceRequest param) {
@@ -21,6 +25,6 @@ public class TraceTaskFactory implements WithParameterTaskFactory<TraceRequest> 
 
     @Override
     public CommandEnum commandType() {
-        return CommandEnum.TUTELARY_TRACE_METHOD;
+        return CommandEnum.TRACE_METHOD;
     }
 }

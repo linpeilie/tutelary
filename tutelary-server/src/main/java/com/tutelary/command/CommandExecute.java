@@ -1,28 +1,21 @@
 package com.tutelary.command;
 
-import cn.hutool.core.util.TypeUtil;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.CommandResponse;
 import com.tutelary.common.extension.ExtensionPointI;
-
-import java.lang.reflect.Type;
+import com.tutelary.common.utils.ClassUtil;
+import com.tutelary.message.CommandExecuteResponse;
 
 public interface CommandExecute<PARAM extends CommandRequest, RESPONSE extends CommandResponse> extends ExtensionPointI {
 
     void createCommand(String instanceId, PARAM request);
 
-    void callResult(RESPONSE response);
+    void callResult(CommandExecuteResponse response);
 
     Integer commandCode();
 
     default Class<PARAM> getParamClass() {
-        Type[] typeArguments = TypeUtil.getTypeArguments(getClass());
-        for (Type typeArgument : typeArguments) {
-            if (CommandRequest.class.isAssignableFrom(TypeUtil.getClass(typeArgument))) {
-                return (Class<PARAM>) TypeUtil.getClass(typeArgument);
-            }
-        }
-        throw new RuntimeException("unknown param class");
+        return ClassUtil.getGenericsBySuperClass(getClass(), CommandRequest.class);
     }
 
 }

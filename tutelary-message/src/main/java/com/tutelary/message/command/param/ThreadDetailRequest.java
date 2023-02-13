@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_THREAD_DETAIL)
+@Command(CommandEnum.THREAD_DETAIL)
 public class ThreadDetailRequest extends CommandRequest {
 
     private long id;

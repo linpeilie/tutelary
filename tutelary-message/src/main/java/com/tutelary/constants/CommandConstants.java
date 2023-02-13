@@ -2,8 +2,14 @@ package com.tutelary.constants;
 
 public interface CommandConstants {
 
+    int overview = 20010;
+
     int threadList = 20011;
 
-    String DASHBOARD = "dashboard";
+    int threadDetail = 20012;
+
+    int traceMethod = 21011;
+
+    int stackMethod = 21012;
 
 }

@@ -1,7 +1,7 @@
 package com.tutelary.command.ext;
 
-import cn.hutool.core.util.StrUtil;
 import com.tutelary.command.AbstractCommandExecute;
+import com.tutelary.command.SimpleCommandAdapter;
 import com.tutelary.common.extension.Extension;
 import com.tutelary.constants.CommandConstants;
 import com.tutelary.constants.CommandEnum;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Extension(commandCode = CommandConstants.threadList)
-public class ThreadListCommandExecute extends AbstractCommandExecute<ThreadListRequest, ThreadList> {
+public class ThreadListCommandExecute extends SimpleCommandAdapter<ThreadListRequest, ThreadList> {
 
     @Override
     public Integer commandCode() {
-        return CommandEnum.TUTELARY_THREAD_LIST.getCommandCode();
+        return CommandEnum.THREAD_LIST.getCommandCode();
     }
 
 }

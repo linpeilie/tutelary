@@ -1,5 +1,8 @@
 package com.tutelary.server.processor;
 
+import com.tutelary.command.CommandExecute;
+import com.tutelary.common.extension.ExtensionExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tutelary.message.CommandExecuteResponse;
@@ -10,10 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class ClientCommandResponseProcessor extends AbstractMessageProcessor<CommandExecuteResponse>  {
+public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExecuteResponse> {
+
+    @Autowired
+    private ExtensionExecutor extensionExecutor;
 
     @Override
     protected void process(Channel channel, CommandExecuteResponse message) {
         log.info("command execute response : {}", message);
+        extensionExecutor.executeVoid(CommandExecute.class, message.getCode(), ext -> {
+
+        });
     }
+
 }

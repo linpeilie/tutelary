@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_THREAD_LIST)
+@Command(CommandEnum.THREAD_LIST)
 public class ThreadListRequest extends CommandRequest {
 
     /**

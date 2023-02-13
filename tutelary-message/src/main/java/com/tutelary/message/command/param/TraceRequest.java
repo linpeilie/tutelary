@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_TRACE_METHOD)
+@Command(CommandEnum.TRACE_METHOD)
 public class TraceRequest extends CommandRequest {
 
     /**

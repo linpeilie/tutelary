@@ -5,15 +5,18 @@ import java.lang.instrument.Instrumentation;
 import com.tutelary.client.command.thread.ThreadCommand;
 import com.tutelary.client.task.DefaultTask;
 import com.tutelary.client.task.Task;
-import com.tutelary.client.task.factory.WithParameterTaskFactory;
+import com.tutelary.client.task.factory.TaskFactory;
+import com.tutelary.common.extension.Extension;
+import com.tutelary.constants.CommandConstants;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.ThreadListRequest;
 
-public class ThreadTaskFactory implements WithParameterTaskFactory<ThreadListRequest> {
+@Extension(commandCode = CommandConstants.threadList)
+public class ThreadTaskFactory implements TaskFactory<ThreadListRequest> {
 
     @Override
     public CommandEnum commandType() {
-        return CommandEnum.TUTELARY_THREAD_LIST;
+        return CommandEnum.THREAD_LIST;
     }
 
     @Override

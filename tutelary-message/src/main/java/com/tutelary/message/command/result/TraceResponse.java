@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @ProtobufClass
-@Command(CommandEnum.TUTELARY_TRACE_METHOD)
+@Command(CommandEnum.TRACE_METHOD)
 public class TraceResponse extends CommandResponse {
 
     TraceNode node;
