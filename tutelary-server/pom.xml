@@ -28,20 +28,12 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.tutelary</groupId>
             <artifactId>tutelary-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tutelary</groupId>
             <artifactId>tutelary-message</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>tutelary-event</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tutelary</groupId>

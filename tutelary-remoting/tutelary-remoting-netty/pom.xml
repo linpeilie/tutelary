@@ -20,6 +20,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.tutelary</groupId>
             <artifactId>tutelary-remoting-api</artifactId>
         </dependency>

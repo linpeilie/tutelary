@@ -20,8 +20,8 @@ public class CommandController {
     @Autowired
     private CommandService commandService;
 
-    @PostMapping("/createTaskListCommand")
-    public R createThreadListCommand(@RequestBody CommandApiRequest<ThreadListRequest> request) {
+    @PostMapping("/createCommand")
+    public R createThreadListCommand(@RequestBody CommandApiRequest request) {
         log.info("param : {}", request);
         commandService.createCommand(request);
         return R.success();

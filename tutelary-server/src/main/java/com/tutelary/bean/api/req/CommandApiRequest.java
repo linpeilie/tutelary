@@ -6,12 +6,12 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CommandApiRequest<P> extends AbstractRequest {
+public class CommandApiRequest extends AbstractRequest {
 
     private String instanceId;
 
     private Integer commandCode;
 
-    private P param;
+    private String param;
 
 }

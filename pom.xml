@@ -124,11 +124,6 @@
             </dependency>
             <dependency>
                 <groupId>com.tutelary</groupId>
-                <artifactId>tutelary-event</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.tutelary</groupId>
                 <artifactId>tutelary-spy</artifactId>
                 <version>${project.version}</version>
             </dependency>
