@@ -14,6 +14,8 @@ import lombok.EqualsAndHashCode;
 @Message(cmd = MessageCmd.CLIENT_COMMAND_RESPONSE)
 public class CommandExecuteResponse extends ResponseMessage {
 
+    private String taskId;
+
     private Integer code;
 
     private long timestamp;

@@ -18,9 +18,10 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExec
 
     @Override
     protected void process(Channel channel, CommandExecuteResponse message) {
+
         log.info("command execute response : {}", message);
         extensionExecutor.executeVoid(CommandExecute.class, message.getCode(), ext -> {
-
+            ext.callResult(channel, message);
         });
     }
 

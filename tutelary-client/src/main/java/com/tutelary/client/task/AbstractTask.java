@@ -48,6 +48,7 @@ public abstract class AbstractTask implements Task {
             commandInfo.getCommandCode(), commandResult
         );
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();
+        responseMessage.setTaskId(getId());
         responseMessage.setCode(commandInfo.getCommandCode());
         responseMessage.setTimestamp(System.currentTimeMillis());
         try {
@@ -63,6 +64,7 @@ public abstract class AbstractTask implements Task {
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();
         responseMessage.setStatus(Boolean.FALSE);
         responseMessage.setMessage(message);
+        responseMessage.setTaskId(getId());
         responseMessage.setCode(commandInfo.getCommandCode());
         ClientBootstrap.sendData(responseMessage);
     }

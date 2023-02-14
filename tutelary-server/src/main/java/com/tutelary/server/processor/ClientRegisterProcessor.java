@@ -3,6 +3,7 @@ package com.tutelary.server.processor;
 import com.tutelary.InstanceManager;
 import com.tutelary.bean.converter.InstanceConverter;
 import com.tutelary.bean.domain.Instance;
+import com.tutelary.common.constants.Constants;
 import com.tutelary.common.enums.InstanceStateEnum;
 import com.tutelary.common.utils.NetUtils;
 import com.tutelary.message.ClientRegisterRequest;
@@ -29,6 +30,8 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
         log.info("client register info : {}", clientRegisterRequest);
 
         String instanceId = clientRegisterRequest.getInstanceId();
+
+        channel.setAttribute(Constants.ChannelAttributeConstants.INSTANCE_ID, instanceId);
 
         Instance instanceEntity = Instance.builder()
             .instanceId(instanceId)

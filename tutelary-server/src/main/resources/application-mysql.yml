@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://sh-cdb-5g99qww4.sql.tencentcdb.com:59277/tutelary
-    username: tutelary
-    password: Tutelary0
+    url: jdbc:mysql://127.0.0.1:3306/tutelary
+    username: root
+    password: 123456
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5

@@ -26,6 +26,7 @@ public class EnhanceTask extends AbstractTask {
             LOG.debug("command code : [ {} ], execute result : {}", commandInfo.getCommandCode(), o);
             CommandExecuteResponse responseMessage = new CommandExecuteResponse();
             responseMessage.setCode(commandInfo.getCommandCode());
+            responseMessage.setTaskId(getId());
             try {
                 responseMessage.setData(Any.pack(o));
             } catch (IOException e) {
@@ -40,6 +41,7 @@ public class EnhanceTask extends AbstractTask {
             enhanceCommandComplete.setCode(commandInfo.getCommandCode());
             CommandExecuteResponse responseMessage = new CommandExecuteResponse();
             responseMessage.setCode(commandInfo.getCommandCode());
+            responseMessage.setTaskId(getId());
             try {
                 responseMessage.setData(Any.pack(enhanceCommandComplete));
             } catch (IOException e) {

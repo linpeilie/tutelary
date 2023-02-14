@@ -10,6 +10,7 @@ import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.AbstractChannel;
 import io.netty.channel.Channel;
 import java.net.InetSocketAddress;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -23,6 +24,8 @@ final class NettyChannel extends AbstractChannel {
     private final Channel channel;
 
     private final AtomicBoolean active = new AtomicBoolean(false);
+
+    private final Map<String, Object> attributes = new ConcurrentHashMap<>();
 
     private NettyChannel(EndpointContext endpointContext, Channel channel, ChannelHandler channelHandler) {
         super(endpointContext, channelHandler);
@@ -108,5 +111,29 @@ final class NettyChannel extends AbstractChannel {
     @Override
     public String toString() {
         return "NettyChannel [channel=" + channel + "]";
+    }
+
+    @Override
+    public boolean hasAttribute(final String key) {
+        return attributes.containsKey(key);
+    }
+
+    @Override
+    public Object getAttribute(final String key) {
+        return attributes.get(key);
+    }
+
+    @Override
+    public void setAttribute(final String key, final Object value) {
+        if (value == null) {
+            removeAttribute(key);
+        } else {
+            attributes.put(key, value);
+        }
+    }
+
+    @Override
+    public void removeAttribute(final String key) {
+        attributes.remove(key);
     }
 }

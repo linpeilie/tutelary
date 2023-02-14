@@ -171,6 +171,39 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
         return getClass().getName() + " [" + getLocalAddress() + " -> " + getRemoteAddress() + "]";
     }
 
+    @Override
+    public boolean hasAttribute(final String key) {
+        Channel channel = getChannel();
+        return channel != null && channel.hasAttribute(key);
+    }
+
+    @Override
+    public Object getAttribute(final String key) {
+        Channel channel = getChannel();
+        if (channel == null) {
+            return null;
+        }
+        return channel.getAttribute(key);
+    }
+
+    @Override
+    public void setAttribute(final String key, final Object value) {
+        Channel channel = getChannel();
+        if (channel == null) {
+            return;
+        }
+        channel.setAttribute(key, value);
+    }
+
+    @Override
+    public void removeAttribute(final String key) {
+        Channel channel = getChannel();
+        if (channel == null) {
+            return;
+        }
+        channel.removeAttribute(key);
+    }
+
     protected abstract void doOpen() throws Throwable;
 
     protected abstract void doConnect() throws Throwable;
