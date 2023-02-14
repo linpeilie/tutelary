@@ -3,8 +3,6 @@ package com.tutelary.common.log;
 import cn.hutool.core.lang.caller.CallerUtil;
 import cn.hutool.core.util.ServiceLoaderUtil;
 import com.tutelary.common.log.dialect.console.ConsoleLogFactory;
-
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,13 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class LogFactory {
 
     /**
-     * 日志框架名，用于打印当前所用日志框架
-     */
-    protected String name;
-    /**
      * 日志对象缓存
      */
     private final Map<Object, Log> logCache;
+    /**
+     * 日志框架名，用于打印当前所用日志框架
+     */
+    protected String name;
 
     /**
      * 构造
@@ -33,65 +31,6 @@ public abstract class LogFactory {
         this.name = name;
         logCache = new ConcurrentHashMap<>();
     }
-
-    /**
-     * 获取日志框架名，用于打印当前所用日志框架
-     *
-     * @return 日志框架名
-     * @since 4.1.21
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * 获得日志对象
-     *
-     * @param name 日志对象名
-     * @return 日志对象
-     */
-    public Log getLog(String name) {
-        return logCache.computeIfAbsent(name, o -> createLog((String) o));
-    }
-
-    /**
-     * 获得日志对象
-     *
-     * @param clazz 日志对应类
-     * @return 日志对象
-     */
-    public Log getLog(Class<?> clazz) {
-        return logCache.computeIfAbsent(clazz, o -> createLog((Class<?>) o));
-    }
-
-    /**
-     * 创建日志对象
-     *
-     * @param name 日志对象名
-     * @return 日志对象
-     */
-    public abstract Log createLog(String name);
-
-    /**
-     * 创建日志对象
-     *
-     * @param clazz 日志对应类
-     * @return 日志对象
-     */
-    public abstract Log createLog(Class<?> clazz);
-
-    /**
-     * 检查日志实现是否存在<br>
-     * 此方法仅用于检查所提供的日志相关类是否存在，当传入的日志类类不存在时抛出ClassNotFoundException<br>
-     * 此方法的作用是在detectLogFactory方法自动检测所用日志时，如果实现类不存在，调用此方法会自动抛出异常，从而切换到下一种日志的检测。
-     *
-     * @param logClassName 日志实现相关类
-     */
-    protected void checkLogExist(Class<?> logClassName) {
-        // 不做任何操作
-    }
-
-    // ------------------------------------------------------------------------- Static start
 
     /**
      * @return 当前使用的日志工厂
@@ -147,6 +86,8 @@ public abstract class LogFactory {
         return get(CallerUtil.getCallerCaller());
     }
 
+    // ------------------------------------------------------------------------- Static start
+
     /**
      * 决定日志实现
      * <p>
@@ -173,6 +114,62 @@ public abstract class LogFactory {
             return factory;
         }
         return new ConsoleLogFactory();
+    }
+
+    /**
+     * 获取日志框架名，用于打印当前所用日志框架
+     *
+     * @return 日志框架名
+     * @since 4.1.21
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * 获得日志对象
+     *
+     * @param name 日志对象名
+     * @return 日志对象
+     */
+    public Log getLog(String name) {
+        return logCache.computeIfAbsent(name, o -> createLog((String) o));
+    }
+
+    /**
+     * 获得日志对象
+     *
+     * @param clazz 日志对应类
+     * @return 日志对象
+     */
+    public Log getLog(Class<?> clazz) {
+        return logCache.computeIfAbsent(clazz, o -> createLog((Class<?>) o));
+    }
+
+    /**
+     * 创建日志对象
+     *
+     * @param name 日志对象名
+     * @return 日志对象
+     */
+    public abstract Log createLog(String name);
+
+    /**
+     * 创建日志对象
+     *
+     * @param clazz 日志对应类
+     * @return 日志对象
+     */
+    public abstract Log createLog(Class<?> clazz);
+
+    /**
+     * 检查日志实现是否存在<br> 此方法仅用于检查所提供的日志相关类是否存在，当传入的日志类类不存在时抛出ClassNotFoundException<br>
+     * 此方法的作用是在detectLogFactory方法自动检测所用日志时，如果实现类不存在，调用此方法会自动抛出异常，从而切换到下一种日志的检测。
+     *
+     * @param logClassName 日志实现相关类
+     */
+    protected void checkLogExist(Class<?> logClassName) {
+        // 不做任何操作
     }
     // ------------------------------------------------------------------------- Static end
 }

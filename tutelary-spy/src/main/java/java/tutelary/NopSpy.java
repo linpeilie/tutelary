@@ -4,7 +4,8 @@ public class NopSpy implements Spy {
 
     private static final NopSpy NOP_SPY = new NopSpy();
 
-    private NopSpy() {}
+    private NopSpy() {
+    }
 
     public static NopSpy getInstance() {
         return NOP_SPY;

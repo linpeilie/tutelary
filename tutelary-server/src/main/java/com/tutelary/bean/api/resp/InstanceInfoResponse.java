@@ -2,10 +2,9 @@ package com.tutelary.bean.api.resp;
 
 import com.tutelary.common.bean.api.resp.AbstractResponse;
 import com.tutelary.common.enums.InstanceStateEnum;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

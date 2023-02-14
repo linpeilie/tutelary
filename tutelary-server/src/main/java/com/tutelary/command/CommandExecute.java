@@ -6,7 +6,8 @@ import com.tutelary.common.extension.ExtensionPointI;
 import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.message.CommandExecuteResponse;
 
-public interface CommandExecute<PARAM extends CommandRequest, RESPONSE extends CommandResponse> extends ExtensionPointI {
+public interface CommandExecute<PARAM extends CommandRequest, RESPONSE extends CommandResponse>
+    extends ExtensionPointI {
 
     void createCommand(String instanceId, PARAM request);
 

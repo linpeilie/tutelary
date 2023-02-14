@@ -2,9 +2,8 @@ package com.tutelary.common;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import com.tutelary.enums.StateEnum;
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 @ProtobufClass

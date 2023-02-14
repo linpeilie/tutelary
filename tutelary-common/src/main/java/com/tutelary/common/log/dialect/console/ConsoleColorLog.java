@@ -6,7 +6,6 @@ import cn.hutool.core.lang.ansi.AnsiEncoder;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tutelary.common.log.level.Level;
-
 import java.util.function.Function;
 
 /**
@@ -49,15 +48,6 @@ public class ConsoleColorLog extends ConsoleLog {
     });
 
     /**
-     * 设置颜色工厂，根据日志级别，定义不同的颜色
-     *
-     * @param colorFactory 颜色工厂函数
-     */
-    public static void setColorFactory(Function<Level, AnsiColor> colorFactory) {
-        ConsoleColorLog.colorFactory = colorFactory;
-    }
-
-    /**
      * 构造
      *
      * @param name 类名
@@ -75,13 +65,26 @@ public class ConsoleColorLog extends ConsoleLog {
         super(clazz);
     }
 
+    /**
+     * 设置颜色工厂，根据日志级别，定义不同的颜色
+     *
+     * @param colorFactory 颜色工厂函数
+     */
+    public static void setColorFactory(Function<Level, AnsiColor> colorFactory) {
+        ConsoleColorLog.colorFactory = colorFactory;
+    }
+
     @Override
     public synchronized void log(String fqcn, Level level, Throwable t, String format, Object... arguments) {
         if (false == isEnabled(level)) {
             return;
         }
 
-        final String template = AnsiEncoder.encode(COLOR_TIME, "[%s]", colorFactory.apply(level), "[%-5s]%s", COLOR_CLASSNAME, "%-30s: ", COLOR_NONE, "%s%n");
-        System.out.format(template, DateUtil.now(), level.name(), " - ", ClassUtil.getShortClassName(getName()), StrUtil.format(format, arguments));
+        final String template = AnsiEncoder.encode(
+            COLOR_TIME, "[%s]", colorFactory.apply(level), "[%-5s]%s", COLOR_CLASSNAME, "%-30s: ", COLOR_NONE, "%s%n");
+        System.out.format(
+            template, DateUtil.now(), level.name(), " - ", ClassUtil.getShortClassName(getName()),
+            StrUtil.format(format, arguments)
+        );
     }
 }

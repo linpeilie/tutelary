@@ -11,17 +11,31 @@ public abstract class AdviceListenerAdapter implements AdviceListener {
     }
 
     @Override
-    public void before(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args) throws Throwable {
+    public void before(Class<?> clazz,
+        String methodName,
+        String methodDesc,
+        Object target,
+        Object[] args) throws Throwable {
 
     }
 
     @Override
-    public void afterReturning(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args, Object returnObject) throws Throwable {
+    public void afterReturning(Class<?> clazz,
+        String methodName,
+        String methodDesc,
+        Object target,
+        Object[] args,
+        Object returnObject) throws Throwable {
 
     }
 
     @Override
-    public void afterThrowing(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args, Throwable throwable) throws Throwable {
+    public void afterThrowing(Class<?> clazz,
+        String methodName,
+        String methodDesc,
+        Object target,
+        Object[] args,
+        Throwable throwable) throws Throwable {
 
     }
 }

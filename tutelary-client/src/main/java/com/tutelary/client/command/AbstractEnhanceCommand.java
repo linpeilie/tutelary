@@ -21,12 +21,11 @@ import com.tutelary.client.enhance.listener.AdviceListenerManager;
 import com.tutelary.client.enhance.listener.InvokeTraceListener;
 import com.tutelary.client.exception.EnhanceNotAllowedException;
 import com.tutelary.client.loader.ClassLoaderWrapper;
-import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.common.exception.BaseException;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
+import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.message.command.result.EnhanceAffect;
-
 import java.io.File;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -40,20 +39,13 @@ import java.util.concurrent.CompletableFuture;
 public abstract class AbstractEnhanceCommand<Param, Result> implements Command<EnhanceAffect>, ClassFileTransformer {
 
     private static final Log LOGGER = LogFactory.get(AbstractEnhanceCommand.class);
-
-    private final Instrumentation inst;
-
-    private boolean isTrace;
-
     protected final CompletableFuture<EnhanceAffect> future;
-
-    protected RCallback<Result> rCallback;
-
-    protected CompletionHandler completionHandler;
-
     protected final AdviceListener listener;
-
     protected final EnhanceAffect enhanceAffect;
+    private final Instrumentation inst;
+    protected RCallback<Result> rCallback;
+    protected CompletionHandler completionHandler;
+    private boolean isTrace;
 
     protected AbstractEnhanceCommand(Instrumentation inst) {
         this.inst = inst;
@@ -63,8 +55,28 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
         enhanceAffect = new EnhanceAffect();
     }
 
+    private static void dumpClassIfNecessary(String className, byte[] data) {
+        final File dumpClassFile = new File("./tutelary-class-dump/" + className + ".class");
+        final File classPath = new File(dumpClassFile.getParent());
+
+        // 创建类所在的包路径
+        if (!classPath.mkdirs() && !classPath.exists()) {
+            LOGGER.warn("create dump classpath:{} failed.", classPath);
+            return;
+        }
+
+        // 将类字节码写入文件
+        FileUtil.writeBytes(data, dumpClassFile);
+        LOGGER.info("dump enhanced class: {}, path: {}", className, dumpClassFile);
+
+    }
+
     @Override
-    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+    public byte[] transform(ClassLoader loader,
+        String className,
+        Class<?> classBeingRedefined,
+        ProtectionDomain protectionDomain,
+        byte[] classfileBuffer) throws IllegalClassFormatException {
         try {
             ClassNode classNode = new ClassNode(Opcodes.ASM9);
             ClassReader classReader = AsmUtils.toClassNode(classfileBuffer, classNode);
@@ -79,7 +91,6 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
             if (isTrace) {
                 processors.addAll(interceptorClassParser.parse(SpyInvokeInterceptor.class));
             }
-
 
             List<String> targetMethods = targetMethods();
             List<MethodNode> methodNodes = new ArrayList<>();
@@ -100,17 +111,28 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
                                     MethodInsnNodeWare methodInsnNodeWare = (MethodInsnNodeWare) location;
                                     MethodInsnNode methodInsnNode = methodInsnNodeWare.methodInsnNode();
 
-                                    LOGGER.info("enhance success, owner : {}, methodName : {}, methodDesc : {}, listener : {}", methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc, processor.getClass().getName());
-                                    AdviceListenerManager.registerTraceAdviceListener(loader, className, methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc, listener);
+                                    LOGGER.info(
+                                        "enhance success, owner : {}, methodName : {}, methodDesc : {}, listener : {}",
+                                        methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc,
+                                        processor.getClass().getName()
+                                    );
+                                    AdviceListenerManager.registerTraceAdviceListener(
+                                        loader, className, methodInsnNode.owner, methodInsnNode.name,
+                                        methodInsnNode.desc, listener
+                                    );
                                 }
                             }
                         }
                     } catch (Exception e) {
-                        LOGGER.error("enhance error, class : {}, method : {}, interceptor : {}", classNode.name, methodNode.name, processor.getClass().getName(), e);
+                        LOGGER.error(
+                            "enhance error, class : {}, method : {}, interceptor : {}", classNode.name, methodNode.name,
+                            processor.getClass().getName(), e
+                        );
                     }
                 }
 
-                AdviceListenerManager.registerAdviceListener(loader, className, methodNode.name, methodNode.desc, listener);
+                AdviceListenerManager.registerAdviceListener(
+                    loader, className, methodNode.name, methodNode.desc, listener);
                 enhanceAffect.addMethodAndCount(loader, className, methodNode.name, methodNode.desc);
             }
 
@@ -188,8 +210,14 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
             throw new EnhanceNotAllowedException("class can not be null");
         }
         if (!Objects.equals(clazz.getClassLoader(), ClassLoaderWrapper.getApplicationClassLoader())) {
-            LOGGER.warn("class [ {} ] loaded by another ClassLoader [ {} ], cannot be enhanced", clazz.getName(), clazz.getClassLoader() == null ? "BootstrapClassLoader" : clazz.getClassLoader().getClass().getName());
-            throw new EnhanceNotAllowedException("Only classes loaded by the " + ClassLoaderWrapper.getApplicationClassLoader() + " can be enhanced");
+            LOGGER.warn(
+                "class [ {} ] loaded by another ClassLoader [ {} ], cannot be enhanced", clazz.getName(),
+                clazz.getClassLoader() == null ? "BootstrapClassLoader" : clazz.getClassLoader()
+                    .getClass()
+                    .getName()
+            );
+            throw new EnhanceNotAllowedException(
+                "Only classes loaded by the " + ClassLoaderWrapper.getApplicationClassLoader() + " can be enhanced");
         }
         if (ClassUtil.isLambdaClass(clazz)) {
             LOGGER.warn("class [ {} ] is lambda class");
@@ -199,22 +227,6 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
             LOGGER.warn("class [ {} ] is interface");
             throw new EnhanceNotAllowedException("interface cannot be enhanced");
         }
-    }
-
-    private static void dumpClassIfNecessary(String className, byte[] data) {
-        final File dumpClassFile = new File("./tutelary-class-dump/" + className + ".class");
-        final File classPath = new File(dumpClassFile.getParent());
-
-        // 创建类所在的包路径
-        if (!classPath.mkdirs() && !classPath.exists()) {
-            LOGGER.warn("create dump classpath:{} failed.", classPath);
-            return;
-        }
-
-        // 将类字节码写入文件
-        FileUtil.writeBytes(data, dumpClassFile);
-        LOGGER.info("dump enhanced class: {}, path: {}", className, dumpClassFile);
-
     }
 
     public void registerResultCallback(RCallback<Result> callback) {

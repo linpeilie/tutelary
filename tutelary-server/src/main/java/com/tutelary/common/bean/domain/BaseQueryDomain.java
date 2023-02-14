@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode (callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class BaseQueryDomain extends BaseDomain {
 
     private String keyword;

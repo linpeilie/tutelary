@@ -1,16 +1,15 @@
 package com.tutelary.client;
 
-import java.net.URI;
-import java.util.List;
-
 import cn.hutool.core.util.NumberUtil;
-import com.tutelary.common.exception.IllegalParameterException;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import com.tutelary.remoting.api.*;
+import com.tutelary.remoting.api.ChannelHandler;
+import com.tutelary.remoting.api.Client;
+import com.tutelary.remoting.api.EndpointContext;
+import com.tutelary.remoting.api.Transporter;
+import com.tutelary.remoting.api.Transporters;
 import com.tutelary.remoting.netty.NettyTransporter;
-
-import cn.hutool.core.util.URLUtil;
+import java.util.List;
 
 public class TutelaryClient {
 
@@ -33,9 +32,9 @@ public class TutelaryClient {
         }
 
         EndpointContext endpointContext = EndpointContext.builder()
-                .host(arr[0])
-                .port(NumberUtil.parseInt(arr[1]))
-                .build();
+            .host(arr[0])
+            .port(NumberUtil.parseInt(arr[1]))
+            .build();
 
         client = transporters.connect(endpointContext, channelHandlers.toArray(new ChannelHandler[0]));
     }

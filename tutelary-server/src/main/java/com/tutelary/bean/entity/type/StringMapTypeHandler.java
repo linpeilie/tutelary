@@ -3,10 +3,9 @@ package com.tutelary.bean.entity.type;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
+import java.util.Map;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
-
-import java.util.Map;
 
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class StringMapTypeHandler extends AbstractJsonTypeHandler<Map<String, String>> {

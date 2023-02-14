@@ -1,9 +1,8 @@
 package com.tutelary.remoting.api.exception;
 
-import java.net.InetSocketAddress;
-
 import com.tutelary.common.exception.BaseException;
 import com.tutelary.remoting.api.Channel;
+import java.net.InetSocketAddress;
 
 public class RemotingException extends BaseException {
 
@@ -13,7 +12,8 @@ public class RemotingException extends BaseException {
 
     public RemotingException(Channel channel, String msg) {
         this(channel == null ? null : channel.getLocalAddress(), channel == null ? null : channel.getRemoteAddress(),
-            msg);
+            msg
+        );
     }
 
     public RemotingException(InetSocketAddress localAddress, InetSocketAddress remoteAddress, String message) {
@@ -24,12 +24,14 @@ public class RemotingException extends BaseException {
 
     public RemotingException(Channel channel, Throwable throwable) {
         this(channel == null ? null : channel.getLocalAddress(), channel == null ? null : channel.getRemoteAddress(),
-            throwable);
+            throwable
+        );
     }
 
     public RemotingException(Channel channel, String errorMessage, Throwable throwable) {
         this(channel == null ? null : channel.getLocalAddress(), channel == null ? null : channel.getRemoteAddress(),
-            errorMessage, throwable);
+            errorMessage, throwable
+        );
     }
 
     public RemotingException(InetSocketAddress localAddress, InetSocketAddress remoteAddress, Throwable throwable) {

@@ -1,9 +1,7 @@
 package com.tutelary.common.bean.api.resp;
 
-import com.tutelary.common.bean.api.resp.AbstractResponse;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class PageResult<T> extends AbstractResponse {

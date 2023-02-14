@@ -1,9 +1,11 @@
 package com.tutelary.bean.domain;
 
 import com.tutelary.common.bean.domain.BaseDomain;
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder

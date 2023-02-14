@@ -1,6 +1,10 @@
 package com.tutelary.constants;
 
-import static com.tutelary.constants.CommandConstants.*;
+import static com.tutelary.constants.CommandConstants.overview;
+import static com.tutelary.constants.CommandConstants.stackMethod;
+import static com.tutelary.constants.CommandConstants.threadDetail;
+import static com.tutelary.constants.CommandConstants.threadList;
+import static com.tutelary.constants.CommandConstants.traceMethod;
 
 public enum CommandEnum {
 
@@ -30,14 +34,6 @@ public enum CommandEnum {
         this.command = command;
     }
 
-    public Integer getCommandCode() {
-        return commandCode;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
     public static CommandEnum getByTypeAndCode(Integer code) {
         for (CommandEnum commandEnum : CommandEnum.values()) {
             if (commandEnum.getCommandCode().equals(code)) {
@@ -45,6 +41,14 @@ public enum CommandEnum {
             }
         }
         return null;
+    }
+
+    public Integer getCommandCode() {
+        return commandCode;
+    }
+
+    public String getCommand() {
+        return command;
     }
 
 }

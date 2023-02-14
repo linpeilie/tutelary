@@ -10,11 +10,10 @@ import com.tutelary.common.exception.InstanceNotExistsException;
 import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.message.CommandExecuteRequest;
 import com.tutelary.message.CommandExecuteResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.IOException;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPONSE extends CommandResponse>
@@ -32,7 +31,10 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
         // 序列化参数
         try {
             CommandExecuteRequest commandExecuteRequest = CommandExecuteRequest.builder()
-                .taskId(UUID.fastUUID().toString(true)).code(commandCode()).param(Any.pack(request)).build();
+                .taskId(UUID.fastUUID().toString(true))
+                .code(commandCode())
+                .param(Any.pack(request))
+                .build();
             instanceOptional.get().sendData(commandExecuteRequest);
         } catch (IOException e) {
             throw new RuntimeException(e);

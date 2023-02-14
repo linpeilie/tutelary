@@ -5,9 +5,8 @@ import com.tutelary.annotation.Command;
 import com.tutelary.common.CommandResponse;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.domain.StackTraceNode;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 @ProtobufClass

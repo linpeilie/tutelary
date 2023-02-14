@@ -6,5 +6,4 @@ public class ProtobufDecodeException extends RuntimeException {
         super(cause);
     }
 
-
 }

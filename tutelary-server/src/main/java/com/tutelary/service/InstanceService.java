@@ -1,11 +1,15 @@
 package com.tutelary.service;
 
-import com.tutelary.bean.domain.*;
+import com.tutelary.bean.domain.Instance;
+import com.tutelary.bean.domain.InstanceGarbageCollectors;
+import com.tutelary.bean.domain.InstanceHost;
+import com.tutelary.bean.domain.InstanceJvmMemory;
+import com.tutelary.bean.domain.InstanceOverview;
+import com.tutelary.bean.domain.InstanceThreadStatistic;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
-
 import java.util.List;
 
 public interface InstanceService {

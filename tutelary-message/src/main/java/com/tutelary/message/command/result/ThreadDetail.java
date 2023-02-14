@@ -6,9 +6,8 @@ import com.tutelary.common.CommandResponse;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.domain.LockInfo;
 import com.tutelary.message.command.domain.StackTraceNode;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 @ProtobufClass
@@ -30,6 +29,5 @@ public class ThreadDetail extends CommandResponse {
     private String lockOwnerName;
 
     private List<StackTraceNode> stackTrace;
-
 
 }

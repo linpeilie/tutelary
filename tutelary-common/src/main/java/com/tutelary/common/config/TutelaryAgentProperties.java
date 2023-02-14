@@ -14,7 +14,6 @@ public class TutelaryAgentProperties {
 
     private String applicationBasePackage;
 
-
     public String getAppName() {
         return appName;
     }
@@ -82,14 +81,14 @@ public class TutelaryAgentProperties {
     @Override
     public String toString() {
         return "TutelaryAgentProperties{" +
-                "appName='" + appName + '\'' +
-                ", arthasVersion='" + arthasVersion + '\'' +
-                ", tutelaryVersion='" + tutelaryVersion + '\'' +
-                ", tutelaryServerUrl='" + tutelaryServerUrl + '\'' +
-                ", startup=" + startup +
-                ", connectTimeout=" + connectTimeout +
-                ", tutelaryWorkspace='" + tutelaryWorkspace + '\'' +
-                ", applicationBasePackage='" + applicationBasePackage + '\'' +
-                '}';
+               "appName='" + appName + '\'' +
+               ", arthasVersion='" + arthasVersion + '\'' +
+               ", tutelaryVersion='" + tutelaryVersion + '\'' +
+               ", tutelaryServerUrl='" + tutelaryServerUrl + '\'' +
+               ", startup=" + startup +
+               ", connectTimeout=" + connectTimeout +
+               ", tutelaryWorkspace='" + tutelaryWorkspace + '\'' +
+               ", applicationBasePackage='" + applicationBasePackage + '\'' +
+               '}';
     }
 }

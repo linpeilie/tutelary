@@ -6,7 +6,7 @@ import java.net.URLClassLoader;
 
 public class AgentClassLoader extends URLClassLoader {
     public AgentClassLoader(String jar, ClassLoader parent) throws MalformedURLException {
-        super(new URL[]{new URL("file:" + jar)}, parent);
+        super(new URL[] {new URL("file:" + jar)}, parent);
     }
 
     @Override

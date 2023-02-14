@@ -1,10 +1,5 @@
 package com.tutelary.remoting.netty;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.common.utils.Asserts;
@@ -13,8 +8,11 @@ import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.AbstractChannel;
-
 import io.netty.channel.Channel;
+import java.net.InetSocketAddress;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 final class NettyChannel extends AbstractChannel {
 
@@ -72,12 +70,12 @@ final class NettyChannel extends AbstractChannel {
 
     @Override
     public InetSocketAddress getRemoteAddress() {
-        return (InetSocketAddress)channel.remoteAddress();
+        return (InetSocketAddress) channel.remoteAddress();
     }
 
     @Override
     public InetSocketAddress getLocalAddress() {
-        return (InetSocketAddress)channel.localAddress();
+        return (InetSocketAddress) channel.localAddress();
     }
 
     @Override
@@ -88,8 +86,10 @@ final class NettyChannel extends AbstractChannel {
             channel.writeAndFlush(message);
         } catch (Throwable e) {
             removeChannelIfDisconected(channel);
-            throw new RemotingException(this,
-                "Failed to send message to " + getRemoteAddress() + ", cause: " + e.getMessage());
+            throw new RemotingException(
+                this,
+                "Failed to send message to " + getRemoteAddress() + ", cause: " + e.getMessage()
+            );
         }
     }
 

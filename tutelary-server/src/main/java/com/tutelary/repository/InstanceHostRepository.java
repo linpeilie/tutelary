@@ -6,7 +6,7 @@ import com.tutelary.bean.entity.InstanceHostEntity;
 import com.tutelary.common.repository.BaseRepository;
 
 public interface InstanceHostRepository
-        extends BaseRepository<StatisticQuery, InstanceHost, InstanceHostEntity> {
+    extends BaseRepository<StatisticQuery, InstanceHost, InstanceHostEntity> {
 
     InstanceHost getByInstanceId(String instanceId);
 

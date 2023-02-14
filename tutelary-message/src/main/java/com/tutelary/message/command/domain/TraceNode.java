@@ -1,15 +1,12 @@
 package com.tutelary.message.command.domain;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode

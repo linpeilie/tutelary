@@ -6,8 +6,11 @@ import com.sun.management.ThreadMXBean;
 import com.tutelary.client.command.ManagementFactory;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import com.tutelary.message.command.domain.*;
-
+import com.tutelary.message.command.domain.GarbageCollector;
+import com.tutelary.message.command.domain.HostInfo;
+import com.tutelary.message.command.domain.JvmInfo;
+import com.tutelary.message.command.domain.JvmMemory;
+import com.tutelary.message.command.domain.ThreadStatistic;
 import java.io.File;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryType;
@@ -95,15 +98,18 @@ public class MXBeanUtil {
     }
 
     public List<JvmMemory> getJvmMemoryInfo(MemoryType memoryType) {
-        return memoryPoolMXBeans.stream().filter(memoryPoolMXBean -> memoryType.equals(memoryPoolMXBean.getType())).map(memoryPoolMXBean -> {
-            JvmMemory jvmMemory = new JvmMemory();
-            jvmMemory.setName(memoryPoolMXBean.getName());
-            MemoryUsage memoryUsage = memoryPoolMXBean.getUsage();
-            jvmMemory.setUsed(memoryUsage.getUsed() / KB);
-            jvmMemory.setCommitted(memoryUsage.getCommitted() / KB);
-            jvmMemory.setMax(memoryUsage.getMax() / KB);
-            return jvmMemory;
-        }).collect(Collectors.toList());
+        return memoryPoolMXBeans.stream()
+            .filter(memoryPoolMXBean -> memoryType.equals(memoryPoolMXBean.getType()))
+            .map(memoryPoolMXBean -> {
+                JvmMemory jvmMemory = new JvmMemory();
+                jvmMemory.setName(memoryPoolMXBean.getName());
+                MemoryUsage memoryUsage = memoryPoolMXBean.getUsage();
+                jvmMemory.setUsed(memoryUsage.getUsed() / KB);
+                jvmMemory.setCommitted(memoryUsage.getCommitted() / KB);
+                jvmMemory.setMax(memoryUsage.getMax() / KB);
+                return jvmMemory;
+            })
+            .collect(Collectors.toList());
     }
 
     public List<GarbageCollector> getGarbageCollectors() {

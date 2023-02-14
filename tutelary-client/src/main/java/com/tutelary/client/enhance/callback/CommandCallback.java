@@ -1,7 +1,6 @@
 package com.tutelary.client.enhance.callback;
 
 import com.tutelary.common.CommandResponse;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandCallback {

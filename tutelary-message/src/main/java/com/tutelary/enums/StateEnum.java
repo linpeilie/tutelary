@@ -1,8 +1,8 @@
 package com.tutelary.enums;
 
 public enum StateEnum {
-    SUCCESS(1), FAILURE(0);
-
+    SUCCESS(1),
+    FAILURE(0);
 
     private final int value;
 

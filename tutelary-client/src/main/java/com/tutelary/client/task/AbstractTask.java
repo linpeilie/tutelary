@@ -1,9 +1,5 @@
 package com.tutelary.client.task;
 
-import java.io.IOException;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.NamedThreadFactory;
@@ -13,21 +9,24 @@ import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.CommandExecuteResponse;
+import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AbstractTask implements Task {
 
-    private static final Log LOG = LogFactory.get(AbstractTask.class);
-
     protected static final ExecutorService EXECUTOR =
         new ThreadPoolExecutor(1, Runtime.getRuntime().availableProcessors(), 1, TimeUnit.HOURS,
-            new LinkedBlockingQueue<>(), new NamedThreadFactory("task-executor"));
-
-    private final String id;
-
+            new LinkedBlockingQueue<>(), new NamedThreadFactory("task-executor")
+        );
+    private static final Log LOG = LogFactory.get(AbstractTask.class);
     protected final CommandEnum commandInfo;
-
     protected final Command command;
-
+    private final String id;
     private final AtomicReference<TaskState> state = new AtomicReference<>(TaskState.NEW);
 
     public AbstractTask(String taskId, CommandEnum commandInfo, Command command) {
@@ -41,11 +40,13 @@ public abstract class AbstractTask implements Task {
         return id;
     }
 
-    protected void executeBefore() {}
+    protected void executeBefore() {
+    }
 
     protected void complete(Object commandResult) {
         LOG.debug("session : [ {} ], command code : [ {} ], execute completed, result : [ {} ]",
-            commandInfo.getCommandCode(), commandResult);
+            commandInfo.getCommandCode(), commandResult
+        );
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();
         responseMessage.setCode(commandInfo.getCommandCode());
         responseMessage.setTimestamp(System.currentTimeMillis());
@@ -66,7 +67,8 @@ public abstract class AbstractTask implements Task {
         ClientBootstrap.sendData(responseMessage);
     }
 
-    protected void executeAfter(Object result) {}
+    protected void executeAfter(Object result) {
+    }
 
     @Override
     public TaskState getState() {

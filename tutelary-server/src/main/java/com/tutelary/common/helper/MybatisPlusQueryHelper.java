@@ -11,12 +11,10 @@ import com.tutelary.common.annotation.Query;
 import com.tutelary.common.annotation.Sort;
 import com.tutelary.common.enums.QueryType;
 import com.tutelary.common.enums.SortDirection;
-import lombok.extern.slf4j.Slf4j;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MybatisPlusQueryHelper {
@@ -58,7 +56,7 @@ public class MybatisPlusQueryHelper {
                 if (StrUtil.isBlankIfStr(fieldValue)) {
                     continue;
                 }
-                if (fieldValue instanceof Collection<?> && CollectionUtil.isEmpty((Collection<?>)fieldValue)) {
+                if (fieldValue instanceof Collection<?> && CollectionUtil.isEmpty((Collection<?>) fieldValue)) {
                     continue;
                 }
 

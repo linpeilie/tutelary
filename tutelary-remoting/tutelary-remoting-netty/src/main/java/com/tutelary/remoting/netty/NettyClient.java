@@ -1,37 +1,40 @@
 package com.tutelary.remoting.netty;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
-
-import cn.hutool.core.util.URLUtil;
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.thread.NamedThreadFactory;
 import com.tutelary.common.constants.TutelaryConstants;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
+import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.AbstractClient;
-
-import cn.hutool.core.net.NetUtil;
-import cn.hutool.core.thread.NamedThreadFactory;
 import com.tutelary.remoting.netty.codec.ProtobufCodec;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
-import com.tutelary.remoting.api.ChannelHandler;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.DefaultHttpHeaders;
+import io.netty.handler.codec.http.HttpClientCodec;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.QueryStringEncoder;
 import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolConfig;
 import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolHandler;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class NettyClient extends AbstractClient {
 
@@ -68,8 +71,8 @@ public class NettyClient extends AbstractClient {
         LOG.info("websocket uri : {}", uri);
 
         WebSocketClientProtocolConfig webSocketClientProtocolConfig =
-                WebSocketClientProtocolConfig.newBuilder().webSocketUri(uri).subprotocol(null).allowExtensions(true)
-                        .version(WebSocketVersion.V13).customHeaders(new DefaultHttpHeaders()).build();
+            WebSocketClientProtocolConfig.newBuilder().webSocketUri(uri).subprotocol(null).allowExtensions(true)
+                .version(WebSocketVersion.V13).customHeaders(new DefaultHttpHeaders()).build();
 
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
@@ -126,16 +129,20 @@ public class NettyClient extends AbstractClient {
                 }
             }
         } else if (future.cause() != null) {
-            throw new RemotingException(this,
+            throw new RemotingException(
+                this,
                 "client(address: " + getEndpointContext().getAddress() + ") failed to connect to server "
-                    + getRemoteAddress() + ", error message is:" + future.cause().getMessage(),
-                future.cause());
+                + getRemoteAddress() + ", error message is:" + future.cause().getMessage(),
+                future.cause()
+            );
         } else {
-            throw new RemotingException(this,
+            throw new RemotingException(
+                this,
                 "client(address: " + getEndpointContext().getAddress() + ") failed to connect to server "
-                    + getRemoteAddress() + " client-side timeout " + getEndpointContext().getConnectionTimeout()
-                    + "ms (elapsed: " + (System.currentTimeMillis() - start) + "ms) from netty client "
-                    + NetUtil.getLocalhostStr());
+                + getRemoteAddress() + " client-side timeout " + getEndpointContext().getConnectionTimeout()
+                + "ms (elapsed: " + (System.currentTimeMillis() - start) + "ms) from netty client "
+                + NetUtil.getLocalhostStr()
+            );
         }
     }
 
@@ -149,7 +156,8 @@ public class NettyClient extends AbstractClient {
     }
 
     @Override
-    protected void doClose() throws Throwable {}
+    protected void doClose() throws Throwable {
+    }
 
     @Override
     protected com.tutelary.remoting.api.Channel getChannel() {

@@ -2,10 +2,9 @@ package com.tutelary.bean.api.req;
 
 import com.tutelary.common.bean.api.req.QueryRequest;
 import com.tutelary.common.utils.ParameterUtils;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

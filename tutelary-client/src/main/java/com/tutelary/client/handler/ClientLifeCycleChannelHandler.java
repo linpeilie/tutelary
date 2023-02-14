@@ -1,9 +1,5 @@
 package com.tutelary.client.handler;
 
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.NamedThreadFactory;
 import com.tutelary.client.util.MXBeanUtil;
@@ -13,6 +9,9 @@ import com.tutelary.message.ClientRegisterRequest;
 import com.tutelary.remoting.api.Channel;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.ChannelHandlerAdapter;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ClientLifeCycleChannelHandler extends ChannelHandlerAdapter {
 

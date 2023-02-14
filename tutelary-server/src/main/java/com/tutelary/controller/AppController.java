@@ -9,6 +9,7 @@ import com.tutelary.bean.domain.query.AppQuery;
 import com.tutelary.common.bean.api.R;
 import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.service.AppService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @Slf4j
 @RestController
-@RequestMapping (value = "/api/app")
+@RequestMapping(value = "/api/app")
 public class AppController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class AppController {
     @Autowired
     private AppConverter appConverter;
 
-    @PostMapping (value = "pageQuery")
+    @PostMapping(value = "pageQuery")
     public R<PageResult<AppInfoResponse>> pageQuery(@RequestBody AppPageQueryRequest appPageQueryParam) {
         AppQuery queryParam = appConverter.pageQueryReqToDomain(appPageQueryParam);
         PageResult<App> pageResult = appService.pageListApp(queryParam, appPageQueryParam);

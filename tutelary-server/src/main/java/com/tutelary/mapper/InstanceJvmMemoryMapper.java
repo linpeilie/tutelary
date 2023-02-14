@@ -1,11 +1,11 @@
 package com.tutelary.mapper;
 
-import com.tutelary.bean.entity.InstanceJvmMemoryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tutelary.bean.entity.InstanceJvmMemoryEntity;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author linpeilie

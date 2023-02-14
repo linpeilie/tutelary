@@ -4,9 +4,8 @@ import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import com.tutelary.annotation.Command;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.constants.CommandEnum;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 @ProtobufClass

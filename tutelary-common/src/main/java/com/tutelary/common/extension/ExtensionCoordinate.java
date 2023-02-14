@@ -58,7 +58,8 @@ public class ExtensionCoordinate {
 
     @Override
     public String toString() {
-        return "ExtensionCoordinate [extensionPointName = " + extensionPointName + ", uniqueIdentity = " + uniqueIdentity;
+        return "ExtensionCoordinate [extensionPointName = " + extensionPointName + ", uniqueIdentity = " +
+               uniqueIdentity;
     }
 
     public Class getExtensionPointClass() {

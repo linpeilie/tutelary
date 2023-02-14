@@ -12,6 +12,7 @@ public abstract class RequestMessage extends BaseMessage {
         requestId = UUID.fastUUID().toString(true);
     }
 
-    public void checkInput() {}
+    public void checkInput() {
+    }
 
 }

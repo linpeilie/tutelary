@@ -1,12 +1,7 @@
 package com.tutelary.client;
 
-import java.io.File;
-import java.lang.instrument.Instrumentation;
-import java.security.CodeSource;
-import java.tutelary.WeaveSpy;
-import java.util.List;
-import java.util.jar.JarFile;
-
+import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.ServiceLoaderUtil;
 import com.alibaba.arthas.deps.ch.qos.logback.classic.LoggerContext;
 import com.tutelary.client.enhance.spy.EnhancedSpy;
 import com.tutelary.client.loader.ClassLoaderWrapper;
@@ -17,25 +12,22 @@ import com.tutelary.common.log.LogFactory;
 import com.tutelary.common.log.dialect.console.ConsoleLog;
 import com.tutelary.processor.MessageProcessor;
 import com.tutelary.processor.MessageProcessorManager;
-
-import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.ServiceLoaderUtil;
 import com.tutelary.remoting.api.ChannelHandler;
+import java.io.File;
+import java.lang.instrument.Instrumentation;
+import java.security.CodeSource;
+import java.tutelary.WeaveSpy;
+import java.util.List;
+import java.util.jar.JarFile;
 
 public class ClientBootstrap {
 
-    private static Log LOGGER = new ConsoleLog(ClientBootstrap.class);
-
     public static Instrumentation INSTRUMENTATION;
-
     public static TutelaryAgentProperties TUTELARY_AGENT_PROPERTIES;
-
     public static TutelaryClient client;
-
     public volatile static String instanceId;
-
     public static volatile boolean registered = false;
-
+    private static Log LOGGER = new ConsoleLog(ClientBootstrap.class);
     private static LoggerContext loggerContext;
 
     private static List<ChannelHandler> channelHandlers;

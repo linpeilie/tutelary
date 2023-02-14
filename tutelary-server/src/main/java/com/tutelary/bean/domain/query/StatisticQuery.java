@@ -5,9 +5,8 @@ import com.tutelary.common.annotation.Sort;
 import com.tutelary.common.bean.domain.BaseQueryDomain;
 import com.tutelary.common.enums.QueryType;
 import com.tutelary.common.enums.SortDirection;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 public class StatisticQuery extends BaseQueryDomain {

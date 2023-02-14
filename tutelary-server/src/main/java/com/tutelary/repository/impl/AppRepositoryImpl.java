@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AppRepositoryImpl extends AbstractRepository<AppQuery, App, AppEntity, AppMapper> implements AppRepository {
+public class AppRepositoryImpl extends AbstractRepository<AppQuery, App, AppEntity, AppMapper>
+    implements AppRepository {
 
     @Autowired
     public AppRepositoryImpl(AppConverter converter) {

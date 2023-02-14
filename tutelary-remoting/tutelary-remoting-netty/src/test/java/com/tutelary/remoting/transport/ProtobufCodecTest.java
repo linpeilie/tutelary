@@ -1,14 +1,11 @@
 package com.tutelary.remoting.transport;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.Test;
-
+import cn.hutool.core.lang.Assert;
 import com.tutelary.message.ErrorMessage;
 import com.tutelary.remoting.api.Codec;
 import com.tutelary.remoting.netty.codec.ProtobufCodec;
-
-import cn.hutool.core.lang.Assert;
+import java.io.IOException;
+import org.junit.jupiter.api.Test;
 
 public class ProtobufCodecTest {
 
@@ -17,7 +14,6 @@ public class ProtobufCodecTest {
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setMessage("error message");
         errorMessage.setLastCmd("1");
-
 
         Codec protobufCodec = new ProtobufCodec();
         byte[] bytes = protobufCodec.encode(errorMessage);

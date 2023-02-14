@@ -6,7 +6,7 @@ public class RuntimeUtil {
 
     public static int getPid() {
         return Integer.parseInt(
-                ManagementFactory.getRuntimeMXBean().getSystemProperties().get("PID")
+            ManagementFactory.getRuntimeMXBean().getSystemProperties().get("PID")
         );
     }
 

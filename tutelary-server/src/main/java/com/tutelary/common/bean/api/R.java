@@ -1,8 +1,7 @@
 package com.tutelary.common.bean.api;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 public class R<T> implements Serializable {
@@ -16,7 +15,7 @@ public class R<T> implements Serializable {
 
     private T data;
 
-    public static <T>  R<T> success(T data) {
+    public static <T> R<T> success(T data) {
         R<T> r = new R<>();
         r.setCode(SUCCESS);
         r.setData(data);

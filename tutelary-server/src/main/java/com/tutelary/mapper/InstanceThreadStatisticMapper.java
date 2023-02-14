@@ -1,7 +1,7 @@
 package com.tutelary.mapper;
 
-import com.tutelary.bean.entity.InstanceThreadStatisticEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tutelary.bean.entity.InstanceThreadStatisticEntity;
 
 /**
  * <p>

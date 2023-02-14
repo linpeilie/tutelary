@@ -1,7 +1,5 @@
 package com.tutelary.remoting.api;
 
-import java.net.URL;
-
 import com.tutelary.remoting.api.exception.RemotingException;
 
 public interface Transporter {

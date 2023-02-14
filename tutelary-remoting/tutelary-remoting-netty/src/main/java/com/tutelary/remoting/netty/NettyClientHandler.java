@@ -7,7 +7,6 @@ import com.tutelary.common.utils.Asserts;
 import com.tutelary.message.HeartbeatRequest;
 import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
-
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -89,7 +88,8 @@ public class NettyClientHandler extends ChannelDuplexHandler {
             NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
             handler.connected(channel);
             LOG.info("The connection of {} -> {} is established.", channel.getLocalAddress(),
-                channel.getRemoteAddress());
+                channel.getRemoteAddress()
+            );
         }
         super.userEventTriggered(ctx, evt);
     }

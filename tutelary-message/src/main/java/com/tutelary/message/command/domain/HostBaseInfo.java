@@ -1,10 +1,8 @@
 package com.tutelary.message.command.domain;
 
-
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 主机基本信息
@@ -27,7 +25,5 @@ public class HostBaseInfo implements Serializable {
      * CPU核心数
      */
     private int availableProcessors;
-
-
 
 }

@@ -7,7 +7,7 @@ public interface Spy {
     void atExit(Class<?> clazz, String methodInfo, Object target, Object[] args, Object returnObj);
 
     void atExceptionExit(Class<?> clazz, String methodInfo, Object target,
-                                       Object[] args, Throwable throwable);
+        Object[] args, Throwable throwable);
 
     void atBeforeInvoke(Class<?> clazz, String invokeInfo, Object target);
 

@@ -10,7 +10,6 @@ import com.taobao.middleware.cli.annotations.Name;
 import com.taobao.middleware.cli.annotations.Option;
 import com.tutelary.common.config.TutelaryAgentProperties;
 import com.tutelary.common.constants.ArgumentConstants;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;

@@ -1,10 +1,9 @@
 package com.tutelary.processor;
 
-import com.tutelary.common.log.Log;
-import com.tutelary.common.log.LogFactory;
 import com.tutelary.annotation.Message;
 import com.tutelary.common.BaseMessage;
-
+import com.tutelary.common.log.Log;
+import com.tutelary.common.log.LogFactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,11 +28,12 @@ public class MessageProcessorManager {
         MessageProcessor<? extends BaseMessage> oldMessageHandler = HANDLER_MAP.putIfAbsent(message.cmd(), handler);
         if (oldMessageHandler != null) {
             LOGGER.error("MessageHandler [ {} ] and [ {} ] repeated command", handler.getClass().getName(),
-                    oldMessageHandler.getClass().getName());
+                oldMessageHandler.getClass().getName()
+            );
             throw new RuntimeException("MessageHandler [ " + handler.getClass().getName() +
-                    " ] and [ " +
-                    oldMessageHandler.getClass().getName() +
-                    " ] repeated command");
+                                       " ] and [ " +
+                                       oldMessageHandler.getClass().getName() +
+                                       " ] repeated command");
         }
 
     }

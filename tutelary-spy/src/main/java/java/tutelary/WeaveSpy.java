@@ -8,8 +8,6 @@ public class WeaveSpy {
         SPY = spy;
     }
 
-
-
     public static void atEnter(Class<?> clazz, String methodInfo, Object target, Object[] args) {
         SPY.atEnter(clazz, methodInfo, target, args);
     }
@@ -19,7 +17,7 @@ public class WeaveSpy {
     }
 
     public static void atExceptionExit(Class<?> clazz, String methodInfo, Object target,
-                                       Object[] args, Throwable throwable) {
+        Object[] args, Throwable throwable) {
         SPY.atExceptionExit(clazz, methodInfo, target, args, throwable);
     }
 

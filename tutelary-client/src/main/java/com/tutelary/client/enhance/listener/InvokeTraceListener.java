@@ -12,11 +12,11 @@ public interface InvokeTraceListener extends AdviceListener {
      * @throws Throwable 通知过程出错
      */
     void invokeBeforeTracing(
-            ClassLoader classLoader,
-            String tracingClassName,
-            String tracingMethodName,
-            String tracingMethodDesc,
-            int tracingLineNumber) throws Throwable;
+        ClassLoader classLoader,
+        String tracingClassName,
+        String tracingMethodName,
+        String tracingMethodDesc,
+        int tracingLineNumber) throws Throwable;
 
     /**
      * 抛异常后跟踪
@@ -28,12 +28,11 @@ public interface InvokeTraceListener extends AdviceListener {
      * @throws Throwable 通知过程出错
      */
     void invokeThrowTracing(
-            ClassLoader classLoader,
-            String tracingClassName,
-            String tracingMethodName,
-            String tracingMethodDesc,
-            int tracingLineNumber) throws Throwable;
-
+        ClassLoader classLoader,
+        String tracingClassName,
+        String tracingMethodName,
+        String tracingMethodDesc,
+        int tracingLineNumber) throws Throwable;
 
     /**
      * 调用之后跟踪
@@ -45,10 +44,10 @@ public interface InvokeTraceListener extends AdviceListener {
      * @throws Throwable 通知过程出错
      */
     void invokeAfterTracing(
-            ClassLoader classLoader,
-            String tracingClassName,
-            String tracingMethodName,
-            String tracingMethodDesc,
-            int tracingLineNumber) throws Throwable;
+        ClassLoader classLoader,
+        String tracingClassName,
+        String tracingMethodName,
+        String tracingMethodDesc,
+        int tracingLineNumber) throws Throwable;
 
 }

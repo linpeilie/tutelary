@@ -2,23 +2,20 @@ package com.tutelary.utils;
 
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.core.util.StrUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProcessUtils {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessUtils.class);
-
-    private static String JAVA_HOME;
 
     public static final int STATUS_OK = 0;
     public static final int STATUS_ERROR = 1;
     public static final int STATUS_EXEC_TIMEOUT = 100;
     public static final int STATUS_EXEC_ERROR = 101;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessUtils.class);
+    private static String JAVA_HOME;
 
     public static void startTutelaryBoot(List<String> args) {
         String javaHome = findJavaHome();
@@ -79,7 +76,12 @@ public class ProcessUtils {
     }
 
     private static File findJava(String javaHome) {
-        String[] paths = {"bin/java", "bin/java.exe", "../bin/java", "../bin/java.exe"};
+        String[] paths = {
+            "bin/java",
+            "bin/java.exe",
+            "../bin/java",
+            "../bin/java.exe"
+        };
         for (String path : paths) {
             File javaFile = new File(javaHome, path);
             if (javaFile.exists()) {

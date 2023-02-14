@@ -1,8 +1,7 @@
 package com.tutelary.remoting.api;
 
-import java.net.InetSocketAddress;
-
 import com.tutelary.remoting.api.exception.RemotingException;
+import java.net.InetSocketAddress;
 
 public interface Endpoint {
 

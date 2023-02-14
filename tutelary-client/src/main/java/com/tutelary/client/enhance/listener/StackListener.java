@@ -5,7 +5,6 @@ import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.command.domain.StackTraceNode;
 import com.tutelary.message.command.result.StackResponse;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,11 @@ public class StackListener extends AdviceListenerAdapter {
     }
 
     @Override
-    public void before(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args) throws Throwable {
+    public void before(Class<?> clazz,
+        String methodName,
+        String methodDesc,
+        Object target,
+        Object[] args) throws Throwable {
         Queue<StackResponse> stackQueue = stackResultThreadLocal.get();
         if (stackQueue == null) {
             stackQueue = new ConcurrentLinkedQueue<>();
@@ -38,12 +41,22 @@ public class StackListener extends AdviceListenerAdapter {
     }
 
     @Override
-    public void afterReturning(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args, Object returnObject) throws Throwable {
+    public void afterReturning(Class<?> clazz,
+        String methodName,
+        String methodDesc,
+        Object target,
+        Object[] args,
+        Object returnObject) throws Throwable {
         finish();
     }
 
     @Override
-    public void afterThrowing(Class<?> clazz, String methodName, String methodDesc, Object target, Object[] args, Throwable throwable) throws Throwable {
+    public void afterThrowing(Class<?> clazz,
+        String methodName,
+        String methodDesc,
+        Object target,
+        Object[] args,
+        Throwable throwable) throws Throwable {
         finish();
     }
 
@@ -67,25 +80,25 @@ public class StackListener extends AdviceListenerAdapter {
         stackResult.setClassloader(thread.getContextClassLoader().getClass().getName());
         StackTraceElement[] stackTrace = thread.getStackTrace();
         List<StackTraceNode> stackTraceNodes = Arrays.stream(stackTrace)
-                .map(element -> {
-                    StackTraceNode stackTraceNode = new StackTraceNode();
-                    stackTraceNode.setDeclaringClass(element.getClassName());
-                    stackTraceNode.setMethodName(element.getMethodName());
-                    stackTraceNode.setLineNumber(element.getLineNumber());
-                    return stackTraceNode;
-                }).collect(Collectors.toList());
+            .map(element -> {
+                StackTraceNode stackTraceNode = new StackTraceNode();
+                stackTraceNode.setDeclaringClass(element.getClassName());
+                stackTraceNode.setMethodName(element.getMethodName());
+                stackTraceNode.setLineNumber(element.getLineNumber());
+                return stackTraceNode;
+            }).collect(Collectors.toList());
         stackResult.setStackTraceNodeList(stackTraceNodes);
         rCallback.callback(stackResult);
     }
 
     private List<StackTraceElement> filterStackTrace(String targetClassName,
-                                                     String targetMethodName,
-                                                     StackTraceElement[] stackTraceElements) {
+        String targetMethodName,
+        StackTraceElement[] stackTraceElements) {
         List<StackTraceElement> list = new ArrayList<>();
         int startIndex = 0;
         for (StackTraceElement stackTraceElement : stackTraceElements) {
             if (stackTraceElement.getClassName().equals(targetClassName)
-                    && stackTraceElement.getMethodName().equals(targetMethodName)) {
+                && stackTraceElement.getMethodName().equals(targetMethodName)) {
                 break;
             }
             startIndex++;

@@ -2,7 +2,6 @@ package com.tutelary.remoting.netty;
 
 import com.tutelary.common.BaseMessage;
 import com.tutelary.remoting.api.Codec;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -33,7 +32,7 @@ public class NettyCodecHandler extends ChannelDuplexHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof WebSocketFrame) {
-            WebSocketFrame frame = (WebSocketFrame)msg;
+            WebSocketFrame frame = (WebSocketFrame) msg;
             ByteBuf byteBuf = frame.content();
             int readableBytes = byteBuf.readableBytes();
             if (readableBytes == 0) {

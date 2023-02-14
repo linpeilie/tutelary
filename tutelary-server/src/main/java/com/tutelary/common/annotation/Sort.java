@@ -1,7 +1,6 @@
 package com.tutelary.common.annotation;
 
 import com.tutelary.common.enums.SortDirection;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

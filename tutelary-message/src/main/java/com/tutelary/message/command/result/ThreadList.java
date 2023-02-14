@@ -6,9 +6,8 @@ import com.tutelary.common.CommandResponse;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.domain.BaseThreadInfo;
 import com.tutelary.message.command.domain.ThreadStatistic;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 @ProtobufClass

@@ -11,8 +11,11 @@ import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.command.domain.BaseThreadInfo;
 import com.tutelary.message.command.param.ThreadListRequest;
 import com.tutelary.message.command.result.ThreadList;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ThreadCommand implements Command<ThreadList> {
 

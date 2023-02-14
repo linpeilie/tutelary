@@ -4,15 +4,13 @@ import com.alibaba.bytekit.utils.JavaVersionUtils;
 import com.google.common.collect.ImmutableMap;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-import sun.management.counter.Counter;
-import sun.management.counter.perf.PerfInstrumentation;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import sun.management.counter.Counter;
+import sun.management.counter.perf.PerfInstrumentation;
 
 public class PerfData {
 
@@ -46,6 +44,12 @@ public class PerfData {
 
     private final ImmutableMap<String, Counter> counters;
 
+    private PerfData(int pid) throws InvocationTargetException, IllegalAccessException {
+        ByteBuffer byteBuffer = (ByteBuffer) ATTACH_METHOD.invoke(PERF_INSTANCE, pid, "r");
+        instr = new PerfInstrumentation(byteBuffer);
+        counters = buildAllCounters();
+    }
+
     public static PerfData connect(int pid) {
         try {
             return new PerfData(pid);
@@ -56,16 +60,10 @@ public class PerfData {
         }
     }
 
-    private PerfData(int pid) throws InvocationTargetException, IllegalAccessException {
-        ByteBuffer byteBuffer = (ByteBuffer) ATTACH_METHOD.invoke(PERF_INSTANCE, pid, "r");
-        instr = new PerfInstrumentation(byteBuffer);
-        counters = buildAllCounters();
-    }
-
     private ImmutableMap<String, Counter> buildAllCounters() {
         Map<String, Counter> counterMap = instr.getAllCounters()
-                .stream()
-                .collect(Collectors.toMap(Counter::getName, counter -> counter));
+            .stream()
+            .collect(Collectors.toMap(Counter::getName, counter -> counter));
         return ImmutableMap.copyOf(counterMap);
     }
 

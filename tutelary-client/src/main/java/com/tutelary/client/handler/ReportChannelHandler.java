@@ -1,12 +1,5 @@
 package com.tutelary.client.handler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.NamedThreadFactory;
 import com.tutelary.client.command.overview.OverviewCommand;
@@ -18,21 +11,27 @@ import com.tutelary.message.command.result.Overview;
 import com.tutelary.remoting.api.Channel;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.ChannelHandlerAdapter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ReportChannelHandler extends ChannelHandlerAdapter {
 
     private static final Log LOG = LogFactory.get(ReportChannelHandler.class);
-
-    private ScheduledExecutorService scheduledExecutorService;
-
     private static final Map<String, Long> LAST_COLLECTION_COUNT_MAP = new HashMap<>();
     private static final Map<String, Long> LAST_COLLECTION_TIME_MAP = new HashMap<>();
+    private ScheduledExecutorService scheduledExecutorService;
 
     @Override
     public void connected(Channel channel) throws RemotingException {
         if (scheduledExecutorService == null) {
-            scheduledExecutorService = new ScheduledThreadPoolExecutor(1,
-                    new NamedThreadFactory("instance-report"));
+            scheduledExecutorService = new ScheduledThreadPoolExecutor(
+                1,
+                new NamedThreadFactory("instance-report")
+            );
             scheduledExecutorService.scheduleWithFixedDelay(() -> {
                 if (ClientBootstrap.registered) {
                     OverviewCommand overviewCommand = new OverviewCommand();

@@ -4,7 +4,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,12 +18,21 @@ public class AdviceListenerManager {
 
     private static final Map<ClassLoader, Multimap<String, AdviceListener>> MAP = new ConcurrentHashMap<>();
 
-    public static void registerAdviceListener(ClassLoader classLoader, String className, String methodName, String methodDesc, AdviceListener adviceListener) {
+    public static void registerAdviceListener(ClassLoader classLoader,
+        String className,
+        String methodName,
+        String methodDesc,
+        AdviceListener adviceListener) {
         String key = key(className, methodName, methodDesc);
         registerAdviceListener(classLoader, key, adviceListener);
     }
 
-    public static void registerTraceAdviceListener(ClassLoader classLoader, String className, String owner, String methodName, String methodDesc, AdviceListener adviceListener) {
+    public static void registerTraceAdviceListener(ClassLoader classLoader,
+        String className,
+        String owner,
+        String methodName,
+        String methodDesc,
+        AdviceListener adviceListener) {
         registerAdviceListener(classLoader, keyForTrace(className, owner, methodName, methodDesc), adviceListener);
     }
 
@@ -36,15 +44,25 @@ public class AdviceListenerManager {
             listenerMultimap = MAP.get(cl);
         }
         if (listenerMultimap.put(key, adviceListener)) {
-            LOGGER.debug("register advice listener, classLoader : {}, key : {}, adviceListener : {}", cl.getClass().getName(), key, adviceListener.getClass().getName());
+            LOGGER.debug(
+                "register advice listener, classLoader : {}, key : {}, adviceListener : {}", cl.getClass().getName(),
+                key, adviceListener.getClass().getName()
+            );
         }
     }
 
-    public static List<AdviceListener> queryAdviceListeners(ClassLoader classLoader, String className, String methodName, String methodDesc) {
+    public static List<AdviceListener> queryAdviceListeners(ClassLoader classLoader,
+        String className,
+        String methodName,
+        String methodDesc) {
         return queryAdviceListeners(classLoader, key(className, methodName, methodDesc));
     }
 
-    public static List<AdviceListener> queryTraceAdviceListeners(ClassLoader classLoader, String className, String owner, String methodName, String methodDesc) {
+    public static List<AdviceListener> queryTraceAdviceListeners(ClassLoader classLoader,
+        String className,
+        String owner,
+        String methodName,
+        String methodDesc) {
         return queryAdviceListeners(classLoader, keyForTrace(className, owner, methodName, methodDesc));
     }
 

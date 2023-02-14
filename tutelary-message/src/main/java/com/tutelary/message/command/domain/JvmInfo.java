@@ -1,11 +1,10 @@
 package com.tutelary.message.command.domain;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 @Data
 @ProtobufClass

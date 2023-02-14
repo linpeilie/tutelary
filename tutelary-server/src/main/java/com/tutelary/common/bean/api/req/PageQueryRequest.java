@@ -1,6 +1,5 @@
 package com.tutelary.common.bean.api.req;
 
-import com.tutelary.common.bean.api.req.AbstractRequest;
 import lombok.Data;
 
 @Data

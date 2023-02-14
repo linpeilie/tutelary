@@ -2,11 +2,10 @@ package com.tutelary.common.helper;
 
 import com.tutelary.common.annotation.Query;
 import com.tutelary.common.annotation.Sort;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import lombok.Data;
 
 @Data
 public class QueryMeta implements Serializable {

@@ -1,7 +1,6 @@
 package com.tutelary.client.loader;
 
 import com.tutelary.client.ClientBootstrap;
-
 import java.lang.instrument.Instrumentation;
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +19,10 @@ public class ClassLoaderWrapper {
     public static List<Class> getApplicationLoadedClasses(Instrumentation inst) {
         ClassLoader classLoader = getApplicationClassLoader();
         return Arrays.stream(inst.getAllLoadedClasses())
-                .filter(clazz -> clazz.getClassLoader() != null)
-                .filter(clazz -> classLoader.getClass().getName().equals(clazz.getClassLoader().getClass().getName()))
-                .collect(Collectors.toList());
+            .filter(clazz -> clazz.getClassLoader() != null)
+            .filter(
+                clazz -> classLoader.getClass().getName().equals(clazz.getClassLoader().getClass().getName()))
+            .collect(Collectors.toList());
     }
 
 }

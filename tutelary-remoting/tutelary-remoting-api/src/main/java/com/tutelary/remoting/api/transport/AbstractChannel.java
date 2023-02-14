@@ -12,10 +12,10 @@ public abstract class AbstractChannel extends AbstractPeer implements Channel {
     }
 
     @Override
-    public void send(Object message)  throws RemotingException {
+    public void send(Object message) throws RemotingException {
         if (isClosed()) {
             throw new RemotingException(this, "Failed to send Message, cause: Channel closed. channel: "
-                    + getLocalAddress() + " -> " + getRemoteAddress());
+                                              + getLocalAddress() + " -> " + getRemoteAddress());
         }
     }
 

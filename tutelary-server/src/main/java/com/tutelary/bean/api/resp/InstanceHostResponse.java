@@ -1,12 +1,7 @@
 package com.tutelary.bean.api.resp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tutelary.common.bean.api.resp.AbstractResponse;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class InstanceHostResponse extends AbstractResponse {

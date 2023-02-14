@@ -3,7 +3,6 @@ package com.tutelary.client.command.overview;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.util.MXBeanUtil;
 import com.tutelary.message.command.result.Overview;
-
 import java.lang.management.MemoryType;
 
 public class OverviewCommand implements Command<Overview> {

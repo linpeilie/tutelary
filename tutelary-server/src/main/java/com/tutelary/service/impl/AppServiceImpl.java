@@ -6,10 +6,9 @@ import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.repository.AppRepository;
 import com.tutelary.service.AppService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author linpl

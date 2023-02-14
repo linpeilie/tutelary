@@ -6,5 +6,5 @@ import com.tutelary.bean.entity.InstanceGarbageCollectorsEntity;
 import com.tutelary.common.repository.BaseRepository;
 
 public interface InstanceGarbageCollectorsRepository
-        extends BaseRepository<StatisticQuery, InstanceGarbageCollectors, InstanceGarbageCollectorsEntity> {
+    extends BaseRepository<StatisticQuery, InstanceGarbageCollectors, InstanceGarbageCollectorsEntity> {
 }

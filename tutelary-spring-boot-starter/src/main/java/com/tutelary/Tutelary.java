@@ -1,23 +1,19 @@
 package com.tutelary;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.tutelary.utils.ProcessUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
 public class Tutelary {
 
@@ -35,6 +31,20 @@ public class Tutelary {
         } catch (Exception e) {
             LOGGER.error("tutelary agent start occur error", e);
         }
+    }
+
+    public static File mkdir(String parentPath, String childPath, boolean clean) {
+        File tutelaryDir = new File(parentPath, childPath);
+        if (tutelaryDir.exists()) {
+            if (clean) {
+                FileUtil.clean(tutelaryDir);
+            }
+            return tutelaryDir;
+        }
+        if (tutelaryDir.mkdir()) {
+            return tutelaryDir;
+        }
+        return null;
     }
 
     private void attach() throws IOException {
@@ -74,20 +84,6 @@ public class Tutelary {
         args.add(tutelaryServerUrl);
 
         ProcessUtils.startTutelaryBoot(args);
-    }
-
-    public static File mkdir(String parentPath, String childPath, boolean clean) {
-        File tutelaryDir = new File(parentPath, childPath);
-        if (tutelaryDir.exists()) {
-            if (clean) {
-                FileUtil.clean(tutelaryDir);
-            }
-            return tutelaryDir;
-        }
-        if (tutelaryDir.mkdir()) {
-            return tutelaryDir;
-        }
-        return null;
     }
 
 }

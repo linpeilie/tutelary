@@ -1,11 +1,6 @@
 package com.tutelary.common.converter;
 
 import com.tutelary.common.bean.api.resp.PageResult;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.control.MappingControl;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

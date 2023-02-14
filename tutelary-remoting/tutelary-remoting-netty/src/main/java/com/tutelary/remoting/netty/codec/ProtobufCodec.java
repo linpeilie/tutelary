@@ -1,10 +1,8 @@
 package com.tutelary.remoting.netty.codec;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ByteUtil;
+import cn.hutool.core.util.ClassUtil;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.google.common.collect.ImmutableMap;
 import com.tutelary.annotation.Message;
@@ -12,10 +10,10 @@ import com.tutelary.common.BaseMessage;
 import com.tutelary.common.utils.Asserts;
 import com.tutelary.exception.UnknownCommandException;
 import com.tutelary.remoting.api.Codec;
-
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ByteUtil;
-import cn.hutool.core.util.ClassUtil;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class ProtobufCodec implements Codec {

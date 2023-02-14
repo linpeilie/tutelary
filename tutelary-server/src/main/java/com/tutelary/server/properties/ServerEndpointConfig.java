@@ -1,6 +1,5 @@
 package com.tutelary.server.properties;
 
-import com.tutelary.common.constants.PersistentMannerConstants;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

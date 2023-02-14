@@ -4,7 +4,6 @@ import com.alibaba.arthas.deps.org.slf4j.LoggerFactory;
 import com.alibaba.arthas.deps.org.slf4j.helpers.NOPLoggerFactory;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -23,7 +22,7 @@ public class RepackSlf4jLogFactory extends LogFactory {
     public RepackSlf4jLogFactory(boolean failIfNOP) {
         super("Repack-Slf4j");
         checkLogExist(LoggerFactory.class);
-        if(false == failIfNOP){
+        if (false == failIfNOP) {
             return;
         }
 
@@ -32,7 +31,7 @@ public class RepackSlf4jLogFactory extends LogFactory {
         final StringBuilder buf = new StringBuilder();
         final PrintStream err = System.err;
         try {
-            System.setErr(new PrintStream(new OutputStream(){
+            System.setErr(new PrintStream(new OutputStream() {
                 @Override
                 public void write(int b) {
                     buf.append((char) b);

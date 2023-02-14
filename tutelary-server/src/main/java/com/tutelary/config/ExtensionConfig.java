@@ -3,10 +3,9 @@ package com.tutelary.config;
 import com.tutelary.command.CommandExecute;
 import com.tutelary.common.extension.ExtensionExecutor;
 import com.tutelary.common.extension.ExtensionRegister;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class ExtensionConfig {

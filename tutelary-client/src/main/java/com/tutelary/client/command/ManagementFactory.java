@@ -5,9 +5,7 @@ import com.sun.management.OperatingSystemMXBean;
 import com.sun.management.ThreadMXBean;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-
 import java.lang.management.ClassLoadingMXBean;
-import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.RuntimeMXBean;
 import java.util.List;
@@ -39,9 +37,10 @@ public class ManagementFactory {
 
     public static List<GarbageCollectorMXBean> getGarbageCollectorMXBeans() {
         return java.lang.management.ManagementFactory.getGarbageCollectorMXBeans()
-                .stream()
-                .map(garbageCollectorMXBean -> (GarbageCollectorMXBean) garbageCollectorMXBean)
-                .collect(Collectors.toList());
+            .stream()
+            .map(
+                garbageCollectorMXBean -> (GarbageCollectorMXBean) garbageCollectorMXBean)
+            .collect(Collectors.toList());
     }
 
 }

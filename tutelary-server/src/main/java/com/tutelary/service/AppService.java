@@ -4,7 +4,6 @@ import com.tutelary.bean.domain.App;
 import com.tutelary.bean.domain.query.AppQuery;
 import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
-
 import java.util.List;
 
 public interface AppService {

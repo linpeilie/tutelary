@@ -1,12 +1,8 @@
 package com.tutelary.remoting.api;
 
-import java.net.URL;
-
 import com.tutelary.common.utils.Asserts;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.ChannelHandlerDispatcher;
-
-import cn.hutool.core.util.URLUtil;
 
 public class Transporters {
 

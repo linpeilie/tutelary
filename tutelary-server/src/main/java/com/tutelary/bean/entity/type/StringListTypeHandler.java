@@ -2,10 +2,9 @@ package com.tutelary.bean.entity.type;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
+import java.util.List;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
-
-import java.util.List;
 
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class StringListTypeHandler extends AbstractJsonTypeHandler<List<String>> {

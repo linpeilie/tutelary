@@ -1,19 +1,16 @@
 package com.tutelary.common.helper;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.tutelary.common.annotation.Query;
 import com.tutelary.common.annotation.Sort;
-import lombok.extern.slf4j.Slf4j;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class QueryMetaStore {

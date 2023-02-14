@@ -1,9 +1,7 @@
 package com.tutelary.utils;
 
 /**
- *
  * @author hengyunabc 2018-11-21
- *
  */
 public class JavaVersionUtils {
     private static final String VERSION_PROP_NAME = "java.specification.version";

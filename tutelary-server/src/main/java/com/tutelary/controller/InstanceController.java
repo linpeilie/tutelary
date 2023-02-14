@@ -4,24 +4,39 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.tutelary.bean.api.req.InstancePageQueryRequest;
 import com.tutelary.bean.api.req.InstanceQueryRequest;
 import com.tutelary.bean.api.req.StatisticQueryRequest;
-import com.tutelary.bean.api.resp.*;
+import com.tutelary.bean.api.resp.InstanceDetailInfoResponse;
+import com.tutelary.bean.api.resp.InstanceGarbageCollectorsResponse;
+import com.tutelary.bean.api.resp.InstanceHostResponse;
+import com.tutelary.bean.api.resp.InstanceInfoResponse;
+import com.tutelary.bean.api.resp.InstanceJvmMemoryResponse;
+import com.tutelary.bean.api.resp.InstanceThreadStatisticResponse;
+import com.tutelary.bean.api.resp.JvmStatisticResponse;
+import com.tutelary.bean.api.resp.OverviewResponse;
 import com.tutelary.bean.converter.InstanceConverter;
-import com.tutelary.bean.domain.*;
+import com.tutelary.bean.domain.Instance;
+import com.tutelary.bean.domain.InstanceGarbageCollectors;
+import com.tutelary.bean.domain.InstanceHost;
+import com.tutelary.bean.domain.InstanceJvmMemory;
+import com.tutelary.bean.domain.InstanceThreadStatistic;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.common.bean.api.R;
 import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.common.utils.DateUtils;
 import com.tutelary.service.InstanceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.lang.management.MemoryType;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping (value = "/api/instance")
+@RequestMapping(value = "/api/instance")
 public class InstanceController {
 
     private static final int KB = 1024;
@@ -29,7 +44,7 @@ public class InstanceController {
     private InstanceService instanceService;
     private InstanceConverter instanceConverter;
 
-    @PostMapping (value = "pageQuery")
+    @PostMapping(value = "pageQuery")
     public R<PageResult<InstanceInfoResponse>> pageQuery(@RequestBody InstancePageQueryRequest instancePageQueryParam) {
         InstanceQuery queryParam = instanceConverter.pageQueryReqToDomain(instancePageQueryParam);
         PageResult<Instance> pageResult = instanceService.pageList(queryParam, instancePageQueryParam);
@@ -85,50 +100,53 @@ public class InstanceController {
 
     private List<InstanceGarbageCollectorsResponse> transGarbageCollectors(List<InstanceGarbageCollectors> garbageCollectors) {
         return garbageCollectors.stream()
-                .collect(Collectors.groupingBy(InstanceGarbageCollectors::getName))
-                .values().stream()
-                .filter(CollectionUtil::isNotEmpty)
-                .map(list -> {
-                    InstanceGarbageCollectorsResponse response = new InstanceGarbageCollectorsResponse();
-                    response.setName(CollectionUtil.getFirst(list).getName());
-                    response.setMemoryPoolNames(CollectionUtil.getFirst(list).getMemoryPoolNames());
-                    response.setCollectionCounts(list.stream().map(InstanceGarbageCollectors::getCollectionCount)
-                            .collect(Collectors.toList()));
-                    response.setCollectionTimes(list.stream().map(InstanceGarbageCollectors::getCollectionTime)
-                            .collect(Collectors.toList()));
-                    response.setReportTimestamps(list.stream().map(item -> DateUtils.getTimestamp(item.getReportTime()))
-                            .collect(Collectors.toList()));
-                    return response;
-                }).collect(Collectors.toList());
+            .collect(Collectors.groupingBy(InstanceGarbageCollectors::getName))
+            .values().stream()
+            .filter(CollectionUtil::isNotEmpty)
+            .map(list -> {
+                InstanceGarbageCollectorsResponse response = new InstanceGarbageCollectorsResponse();
+                response.setName(CollectionUtil.getFirst(list).getName());
+                response.setMemoryPoolNames(CollectionUtil.getFirst(list).getMemoryPoolNames());
+                response.setCollectionCounts(
+                    list.stream().map(InstanceGarbageCollectors::getCollectionCount)
+                        .collect(Collectors.toList()));
+                response.setCollectionTimes(
+                    list.stream().map(InstanceGarbageCollectors::getCollectionTime)
+                        .collect(Collectors.toList()));
+                response.setReportTimestamps(
+                    list.stream().map(item -> DateUtils.getTimestamp(item.getReportTime()))
+                        .collect(Collectors.toList()));
+                return response;
+            }).collect(Collectors.toList());
     }
 
-
-    private List<InstanceJvmMemoryResponse> transJvmMemoryInfo(List<InstanceJvmMemory> jvmMemories, MemoryType memoryType) {
+    private List<InstanceJvmMemoryResponse> transJvmMemoryInfo(List<InstanceJvmMemory> jvmMemories,
+        MemoryType memoryType) {
         if (CollectionUtil.isEmpty(jvmMemories)) {
             return null;
         }
         return jvmMemories.stream().filter(memoryInfo -> memoryType.name().equals(memoryInfo.getType()))
-                .collect(Collectors.groupingBy(InstanceJvmMemory::getName))
-                .values().stream()
-                .filter(CollectionUtil::isNotEmpty)
-                .map(list -> {
-                    InstanceJvmMemoryResponse instanceJvmMemoryResponse = new InstanceJvmMemoryResponse();
-                    instanceJvmMemoryResponse.setType(CollectionUtil.getFirst(list).getType());
-                    instanceJvmMemoryResponse.setName(CollectionUtil.getFirst(list).getName());
-                    instanceJvmMemoryResponse.setUsed(list.stream().map(InstanceJvmMemory::getUsed)
-                                    .map(val -> val / KB)
-                            .collect(Collectors.toList()));
-                    instanceJvmMemoryResponse.setCommitted(list.stream().map(InstanceJvmMemory::getCommitted)
-                            .map(val -> val / KB)
-                            .collect(Collectors.toList()));
-                    instanceJvmMemoryResponse.setMax(list.stream().map(InstanceJvmMemory::getMax)
-                            .map(val -> val / KB)
-                            .collect(Collectors.toList()));
-                    instanceJvmMemoryResponse.setReportTimestamps(
-                            list.stream().map(item -> DateUtils.getTimestamp(item.getReportTime()))
-                            .collect(Collectors.toList()));
-                    return instanceJvmMemoryResponse;
-                }).collect(Collectors.toList());
+            .collect(Collectors.groupingBy(InstanceJvmMemory::getName))
+            .values().stream()
+            .filter(CollectionUtil::isNotEmpty)
+            .map(list -> {
+                InstanceJvmMemoryResponse instanceJvmMemoryResponse = new InstanceJvmMemoryResponse();
+                instanceJvmMemoryResponse.setType(CollectionUtil.getFirst(list).getType());
+                instanceJvmMemoryResponse.setName(CollectionUtil.getFirst(list).getName());
+                instanceJvmMemoryResponse.setUsed(list.stream().map(InstanceJvmMemory::getUsed)
+                    .map(val -> val / KB)
+                    .collect(Collectors.toList()));
+                instanceJvmMemoryResponse.setCommitted(list.stream().map(InstanceJvmMemory::getCommitted)
+                    .map(val -> val / KB)
+                    .collect(Collectors.toList()));
+                instanceJvmMemoryResponse.setMax(list.stream().map(InstanceJvmMemory::getMax)
+                    .map(val -> val / KB)
+                    .collect(Collectors.toList()));
+                instanceJvmMemoryResponse.setReportTimestamps(
+                    list.stream().map(item -> DateUtils.getTimestamp(item.getReportTime()))
+                        .collect(Collectors.toList()));
+                return instanceJvmMemoryResponse;
+            }).collect(Collectors.toList());
     }
 
     private InstanceThreadStatisticResponse transThreadStatistic(List<InstanceThreadStatistic> threadStatistics) {
@@ -137,16 +155,17 @@ public class InstanceController {
         }
         InstanceThreadStatisticResponse instanceThreadStatisticResponse = new InstanceThreadStatisticResponse();
         instanceThreadStatisticResponse.setThreadCount(
-                threadStatistics.stream().map(InstanceThreadStatistic::getThreadCount).collect(Collectors.toList()));
+            threadStatistics.stream().map(InstanceThreadStatistic::getThreadCount).collect(Collectors.toList()));
         instanceThreadStatisticResponse.setPeakThreadCount(
-                threadStatistics.stream().map(InstanceThreadStatistic::getThreadCount).collect(Collectors.toList()));
+            threadStatistics.stream().map(InstanceThreadStatistic::getThreadCount).collect(Collectors.toList()));
         instanceThreadStatisticResponse.setDaemonThreadCount(
-                threadStatistics.stream().map(InstanceThreadStatistic::getThreadCount).collect(Collectors.toList()));
+            threadStatistics.stream().map(InstanceThreadStatistic::getThreadCount).collect(Collectors.toList()));
         instanceThreadStatisticResponse.setTotalStartedThreadCount(
-                CollectionUtil.getLast(threadStatistics).getTotalStartedThreadCount());
+            CollectionUtil.getLast(threadStatistics).getTotalStartedThreadCount());
         instanceThreadStatisticResponse.setReportTimestamps(threadStatistics.stream()
-                .map(statistic -> DateUtils.getTimestamp(statistic.getReportTime()))
-                .collect(Collectors.toList()));
+            .map(statistic -> DateUtils.getTimestamp(
+                statistic.getReportTime()))
+            .collect(Collectors.toList()));
         return instanceThreadStatisticResponse;
     }
 
@@ -171,7 +190,6 @@ public class InstanceController {
         instanceHostResponse.setReportTimestamps(DateUtils.getTimestamp(host.getReportTime()));
         return instanceHostResponse;
     }
-
 
     /************************* setter *************************/
     @Autowired

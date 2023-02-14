@@ -1,17 +1,25 @@
 package com.tutelary.service.impl;
 
-import com.tutelary.bean.domain.*;
+import com.tutelary.bean.domain.Instance;
+import com.tutelary.bean.domain.InstanceGarbageCollectors;
+import com.tutelary.bean.domain.InstanceHost;
+import com.tutelary.bean.domain.InstanceJvmMemory;
+import com.tutelary.bean.domain.InstanceOverview;
+import com.tutelary.bean.domain.InstanceThreadStatistic;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.common.bean.api.req.PageQueryRequest;
 import com.tutelary.common.bean.api.resp.PageResult;
-import com.tutelary.repository.*;
+import com.tutelary.repository.InstanceGarbageCollectorsRepository;
+import com.tutelary.repository.InstanceHostRepository;
+import com.tutelary.repository.InstanceJvmMemoryRepository;
+import com.tutelary.repository.InstanceRepository;
+import com.tutelary.repository.InstanceThreadStatisticRepository;
 import com.tutelary.service.InstanceService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Component
 public class InstanceServiceImpl implements InstanceService {
@@ -30,7 +38,7 @@ public class InstanceServiceImpl implements InstanceService {
     @Transactional(rollbackFor = Exception.class)
     public boolean addInstance(Instance instance) {
         Instance oldInstance =
-                instanceRepository.getByInstanceId(instance.getInstanceId());
+            instanceRepository.getByInstanceId(instance.getInstanceId());
         if (oldInstance == null) {
             return instanceRepository.add(instance);
         } else {
@@ -71,7 +79,8 @@ public class InstanceServiceImpl implements InstanceService {
         if (instanceHost == null) {
             instanceHostRepository.add(host);
         } else {
-            instanceHostRepository.update(instanceHost);;
+            instanceHostRepository.update(instanceHost);
+            ;
         }
         instanceThreadStatisticRepository.add(overview.getThreadStatistic());
         instanceJvmMemoryRepository.addAll(overview.getJvmMemories());

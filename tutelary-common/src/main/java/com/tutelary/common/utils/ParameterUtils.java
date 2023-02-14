@@ -3,7 +3,6 @@ package com.tutelary.common.utils;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tutelary.common.exception.IllegalParameterException;
-
 import java.util.Collection;
 
 public class ParameterUtils {

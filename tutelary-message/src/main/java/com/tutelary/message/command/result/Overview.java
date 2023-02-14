@@ -4,10 +4,12 @@ import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import com.tutelary.annotation.Command;
 import com.tutelary.common.CommandResponse;
 import com.tutelary.constants.CommandEnum;
-import com.tutelary.message.command.domain.*;
-import lombok.Data;
-
+import com.tutelary.message.command.domain.GarbageCollector;
+import com.tutelary.message.command.domain.HostInfo;
+import com.tutelary.message.command.domain.JvmMemory;
+import com.tutelary.message.command.domain.ThreadStatistic;
 import java.util.List;
+import lombok.Data;
 
 @Data
 @ProtobufClass

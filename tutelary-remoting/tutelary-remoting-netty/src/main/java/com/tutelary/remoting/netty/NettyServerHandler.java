@@ -1,22 +1,19 @@
 package com.tutelary.remoting.netty;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.common.utils.Asserts;
 import com.tutelary.remoting.api.Channel;
 import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
-import com.tutelary.common.utils.NetUtils;
-
 import com.tutelary.remoting.netty.utils.ChannelUtils;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.timeout.IdleStateEvent;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @io.netty.channel.ChannelHandler.Sharable
 public class NettyServerHandler extends ChannelDuplexHandler {
@@ -54,7 +51,7 @@ public class NettyServerHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext,ctx.channel(), handler);
+        NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
         handler.received(channel, msg);
     }
 
@@ -91,7 +88,8 @@ public class NettyServerHandler extends ChannelDuplexHandler {
             NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
             channels.put(ChannelUtils.getChannelIP(ctx.channel()), channel);
             handler.connected(channel);
-            LOG.info("The connection of {} -> {} is established", channel.getRemoteAddress(), channel.getLocalAddress());
+            LOG.info(
+                "The connection of {} -> {} is established", channel.getRemoteAddress(), channel.getLocalAddress());
         }
         super.userEventTriggered(ctx, evt);
     }

@@ -1,39 +1,34 @@
 package com.tutelary.bean.converter;
 
-import com.tutelary.bean.api.req.AppPageQueryRequest;
-import com.tutelary.bean.api.resp.InstanceGarbageCollectorsResponse;
 import com.tutelary.bean.domain.InstanceGarbageCollectors;
 import com.tutelary.bean.entity.InstanceGarbageCollectorsEntity;
-import com.tutelary.common.converter.DomainResponseConverter;
 import com.tutelary.common.converter.EntityDomainConverter;
-import com.tutelary.common.converter.PageQueryConverter;
 import com.tutelary.message.command.domain.GarbageCollector;
+import java.time.LocalDateTime;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
 
-import java.time.LocalDateTime;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface InstanceGarbageCollectorConverter
-        extends EntityDomainConverter<InstanceGarbageCollectorsEntity, InstanceGarbageCollectors> {
+    extends EntityDomainConverter<InstanceGarbageCollectorsEntity, InstanceGarbageCollectors> {
 
     @Mappings({
-            @Mapping(target = "memoryPoolNames",
-                    expression = "java(cn.hutool.core.util.StrUtil.split(entity.getMemoryPoolNames(), \",\"))")
+        @Mapping(target = "memoryPoolNames",
+            expression = "java(cn.hutool.core.util.StrUtil.split(entity.getMemoryPoolNames(), \",\"))")
     })
     @Override
     InstanceGarbageCollectors entityToDomain(InstanceGarbageCollectorsEntity entity);
 
     @Mappings({
-            @Mapping(target = "memoryPoolNames",
-                    expression = "java(java.lang.String.join(\",\", dto.getMemoryPoolNames()))")
+        @Mapping(target = "memoryPoolNames",
+            expression = "java(java.lang.String.join(\",\", dto.getMemoryPoolNames()))")
     })
     @Override
     InstanceGarbageCollectorsEntity domainToEntity(InstanceGarbageCollectors dto);
 
     InstanceGarbageCollectors garbageCollectorToDomain(GarbageCollector garbageCollector,
-                                                       String instanceId, LocalDateTime reportTime);
+        String instanceId, LocalDateTime reportTime);
 
 }

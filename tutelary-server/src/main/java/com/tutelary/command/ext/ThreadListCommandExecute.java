@@ -1,6 +1,5 @@
 package com.tutelary.command.ext;
 
-import com.tutelary.command.AbstractCommandExecute;
 import com.tutelary.command.SimpleCommandAdapter;
 import com.tutelary.common.extension.Extension;
 import com.tutelary.constants.CommandConstants;

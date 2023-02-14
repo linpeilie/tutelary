@@ -1,8 +1,6 @@
 package com.tutelary.client.processor;
 
-import java.io.IOException;
-import java.util.List;
-
+import cn.hutool.core.util.ServiceLoaderUtil;
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.loader.ClassLoaderWrapper;
@@ -17,8 +15,8 @@ import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.CommandExecuteRequest;
 import com.tutelary.processor.AbstractMessageProcessor;
 import com.tutelary.remoting.api.Channel;
-
-import cn.hutool.core.util.ServiceLoaderUtil;
+import java.io.IOException;
+import java.util.List;
 
 public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExecuteRequest> {
 
@@ -52,9 +50,10 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExec
         LOGGER.debug("execute command : {}", message);
         Any param = message.getParam();
         try {
-            CommandRequest commandRequest = (CommandRequest)param.unpack(taskFactory.parameterClass());
+            CommandRequest commandRequest = (CommandRequest) param.unpack(taskFactory.parameterClass());
             LOGGER.debug("execute command : {}, task id : {}, param : {}", message.getCode(), message.getTaskId(),
-                commandRequest);
+                commandRequest
+            );
             Task task = taskFactory.create(message.getTaskId(), ClientBootstrap.INSTRUMENTATION, commandRequest);
             taskExecutor.executeTask(task);
         } catch (IOException e) {

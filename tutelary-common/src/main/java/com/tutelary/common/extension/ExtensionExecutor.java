@@ -2,7 +2,6 @@ package com.tutelary.common.extension;
 
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -33,12 +32,11 @@ public class ExtensionExecutor {
         }
 
         throw new RuntimeException("Can not find extension with ExtensionPoint : "
-                + targetClz + " commandCode : " + commandCode);
+                                   + targetClz + " commandCode : " + commandCode);
     }
 
     private <Ext> Ext locate(Class<Ext> targetClz, int commandCode) {
         return (Ext) ExtensionRepository.get(new ExtensionCoordinate(targetClz, commandCode));
     }
-
 
 }

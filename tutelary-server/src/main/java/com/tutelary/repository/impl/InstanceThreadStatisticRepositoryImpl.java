@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InstanceThreadStatisticRepositoryImpl
-        extends AbstractRepository<StatisticQuery, InstanceThreadStatistic, InstanceThreadStatisticEntity, InstanceThreadStatisticMapper>
-        implements InstanceThreadStatisticRepository {
+    extends AbstractRepository<StatisticQuery, InstanceThreadStatistic, InstanceThreadStatisticEntity, InstanceThreadStatisticMapper>
+    implements InstanceThreadStatisticRepository {
 
     @Autowired
     public InstanceThreadStatisticRepositoryImpl(InstanceThreadStatisticConverter converter) {

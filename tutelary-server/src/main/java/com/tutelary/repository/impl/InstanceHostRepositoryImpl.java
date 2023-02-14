@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.tutelary.bean.converter.InstanceHostConverter;
 import com.tutelary.bean.domain.InstanceHost;
 import com.tutelary.bean.domain.query.StatisticQuery;
-import com.tutelary.bean.entity.InstanceEntity;
 import com.tutelary.bean.entity.InstanceHostEntity;
 import com.tutelary.common.repository.AbstractRepository;
 import com.tutelary.mapper.InstanceHostMapper;
@@ -15,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class InstanceHostRepositoryImpl extends AbstractRepository<StatisticQuery, InstanceHost, InstanceHostEntity, InstanceHostMapper> implements InstanceHostRepository {
+public class InstanceHostRepositoryImpl
+    extends AbstractRepository<StatisticQuery, InstanceHost, InstanceHostEntity, InstanceHostMapper>
+    implements InstanceHostRepository {
 
     @Autowired
     public InstanceHostRepositoryImpl(InstanceHostConverter converter) {

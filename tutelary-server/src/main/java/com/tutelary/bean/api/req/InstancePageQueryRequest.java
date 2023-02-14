@@ -1,10 +1,9 @@
 package com.tutelary.bean.api.req;
 
 import com.tutelary.common.bean.api.req.PageQueryRequest;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

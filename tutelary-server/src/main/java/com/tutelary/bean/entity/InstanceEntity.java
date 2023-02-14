@@ -1,18 +1,15 @@
 package com.tutelary.bean.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.tutelary.bean.entity.type.StringListTypeHandler;
 import com.tutelary.bean.entity.type.StringMapTypeHandler;
 import com.tutelary.common.bean.entity.BaseEntity;
 import com.tutelary.common.enums.InstanceStateEnum;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 @Data
 @TableName(value = "t_instance", autoResultMap = true)

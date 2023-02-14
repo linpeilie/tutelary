@@ -11,15 +11,14 @@ import com.tutelary.common.enums.InstanceStateEnum;
 import com.tutelary.common.repository.AbstractRepository;
 import com.tutelary.mapper.InstanceMapper;
 import com.tutelary.repository.InstanceRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class InstanceRepositoryImpl
-        extends AbstractRepository<InstanceQuery, Instance, InstanceEntity, InstanceMapper>
-        implements InstanceRepository {
+    extends AbstractRepository<InstanceQuery, Instance, InstanceEntity, InstanceMapper>
+    implements InstanceRepository {
 
     @Autowired
     public InstanceRepositoryImpl(InstanceConverter converter) {

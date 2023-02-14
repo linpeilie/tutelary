@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InstanceGarbageCollectorsRepositoryImpl
-        extends AbstractRepository<StatisticQuery, InstanceGarbageCollectors, InstanceGarbageCollectorsEntity, InstanceGarbageCollectorsMapper>
-        implements InstanceGarbageCollectorsRepository {
+    extends AbstractRepository<StatisticQuery, InstanceGarbageCollectors, InstanceGarbageCollectorsEntity, InstanceGarbageCollectorsMapper>
+    implements InstanceGarbageCollectorsRepository {
 
     @Autowired
     public InstanceGarbageCollectorsRepositoryImpl(InstanceGarbageCollectorConverter converter) {

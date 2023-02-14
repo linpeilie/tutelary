@@ -1,6 +1,5 @@
 package com.tutelary.common.converter;
 
-import com.tutelary.common.bean.api.req.AbstractRequest;
 import com.tutelary.common.bean.api.req.QueryRequest;
 import com.tutelary.common.bean.domain.BaseQueryDomain;
 

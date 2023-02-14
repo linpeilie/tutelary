@@ -1,7 +1,5 @@
 package com.tutelary.client.task;
 
-import java.io.IOException;
-
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.command.AbstractEnhanceCommand;
@@ -11,6 +9,7 @@ import com.tutelary.common.log.LogFactory;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.CommandExecuteResponse;
 import com.tutelary.message.command.result.EnhanceCommandComplete;
+import java.io.IOException;
 
 public class EnhanceTask extends AbstractTask {
 
@@ -23,7 +22,7 @@ public class EnhanceTask extends AbstractTask {
     @Override
     protected void executeBefore() {
         // 结果回调
-        ((AbstractEnhanceCommand)command).registerResultCallback(new RCallback(o -> {
+        ((AbstractEnhanceCommand) command).registerResultCallback(new RCallback(o -> {
             LOG.debug("command code : [ {} ], execute result : {}", commandInfo.getCommandCode(), o);
             CommandExecuteResponse responseMessage = new CommandExecuteResponse();
             responseMessage.setCode(commandInfo.getCommandCode());
@@ -35,12 +34,12 @@ public class EnhanceTask extends AbstractTask {
             ClientBootstrap.sendData(responseMessage);
         }));
         // 命令执行完成回调
-        ((AbstractEnhanceCommand)command).completionHandler(() -> {
+        ((AbstractEnhanceCommand) command).completionHandler(() -> {
             LOG.debug("command code : [ {} ], execute complete", commandInfo.getCommandCode());
             EnhanceCommandComplete enhanceCommandComplete = new EnhanceCommandComplete();
             enhanceCommandComplete.setCode(commandInfo.getCommandCode());
             CommandExecuteResponse responseMessage = new CommandExecuteResponse();
-            responseMessage.setCode(CommandEnum.TUTELARY_ENHANCE_TASK_COMPLETE.getCommandCode());
+            responseMessage.setCode(commandInfo.getCommandCode());
             try {
                 responseMessage.setData(Any.pack(enhanceCommandComplete));
             } catch (IOException e) {
@@ -53,9 +52,10 @@ public class EnhanceTask extends AbstractTask {
     @Override
     protected void complete(Object commandResult) {
         LOG.debug("command code : [ {} ], enhance success, enhance affect : {}", commandInfo.getCommandCode(),
-            commandResult);
+            commandResult
+        );
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();
-        responseMessage.setCode(CommandEnum.TUTELARY_ENHANCE.getCommandCode());
+        responseMessage.setCode(commandInfo.getCommandCode());
         try {
             responseMessage.setData(Any.pack(commandResult));
         } catch (IOException e) {

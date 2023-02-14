@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InstanceJvmMemoryRepositoryImpl
-        extends AbstractRepository<StatisticQuery, InstanceJvmMemory, InstanceJvmMemoryEntity, InstanceJvmMemoryMapper>
-        implements InstanceJvmMemoryRepository {
+    extends AbstractRepository<StatisticQuery, InstanceJvmMemory, InstanceJvmMemoryEntity, InstanceJvmMemoryMapper>
+    implements InstanceJvmMemoryRepository {
 
     @Autowired
     public InstanceJvmMemoryRepositoryImpl(InstanceJvmMemoryConverter converter) {
