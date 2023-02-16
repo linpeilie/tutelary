@@ -11,6 +11,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tutelary-server</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>server-domain</module>
+        <module>server-core</module>
+        <module>server-starter</module>
+        <module>server-storage</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -19,79 +27,40 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>tutelary-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>tutelary-message</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>tutelary-remoting-netty</artifactId>
-        </dependency>
-        <!-- db -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
-        <!-- generator -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis-plus.version}</version>
-            <scope>test</scope>
+            <groupId>io.github.zhaord</groupId>
+            <artifactId>mapstruct-spring-plus-boot-starter</artifactId>
+            <version>1.0.1.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- generator -->
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>mem</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <spring.profiles.active>mem</spring.profiles.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>mysql</id>
-            <properties>
-                <spring.profiles.active>mysql</spring.profiles.active>
-            </properties>
-        </profile>
-    </profiles>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>server-domain</artifactId>
+                <version>${tutelary.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>server-core</artifactId>
+                <version>${tutelary.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>server-storage-api</artifactId>
+                <version>${tutelary.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>server-storage-dependencies</artifactId>
+                <version>${tutelary.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <resources>
@@ -118,6 +87,11 @@
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.github.zhaord</groupId>
+                            <artifactId>mapstruct-spring-plus-processor</artifactId>
+                            <version>1.0.1.RELEASE</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
