@@ -1,0 +1,9 @@
+## threadList command
+POST http://{{host}}/api/command/createCommand
+Content-Type: application/json
+
+{
+  "instanceId": "347849c942c44cd8b8927f9e1c9316c8",
+  "commandCode": 20011,
+  "param": "{}"
+}
