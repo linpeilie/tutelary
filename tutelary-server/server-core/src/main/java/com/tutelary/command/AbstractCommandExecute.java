@@ -27,11 +27,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPONSE extends CommandResponse>
     implements CommandExecute<PARAM, RESPONSE> {
 
-    @Autowired
     private InstanceManager instanceManager;
 
-    @Autowired
     private CommandTaskDAO commandTaskDAO;
+
+    @Autowired
+    public void setCommandTaskDAO(final CommandTaskDAO commandTaskDAO) {
+        this.commandTaskDAO = commandTaskDAO;
+    }
+
+    @Autowired
+    public void setInstanceManager(final InstanceManager instanceManager) {
+        this.instanceManager = instanceManager;
+    }
 
     @Override
     public void createCommand(String instanceId, PARAM request) {

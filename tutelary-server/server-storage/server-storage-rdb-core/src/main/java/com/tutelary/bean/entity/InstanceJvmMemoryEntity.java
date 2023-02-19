@@ -2,6 +2,8 @@ package com.tutelary.bean.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.tutelary.bean.domain.InstanceJvmMemory;
+import com.tutelary.bean.domain.query.StatisticQuery;
+import com.tutelary.common.annotation.AutoPersistence;
 import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
@@ -28,6 +30,7 @@ import lombok.experimental.Accessors;
 @Table(comment = "实例JVM内存信息", indexs = {
     @Index(columns = {"instance_id", "report_time"})
 })
+@AutoPersistence(queryDomain = StatisticQuery.class, domain = InstanceJvmMemory.class)
 public class InstanceJvmMemoryEntity extends BaseEntity {
 
     @Column(isNull = false, comment = "实例ID", length = 32, sequence = 2)

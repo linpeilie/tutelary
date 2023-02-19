@@ -2,6 +2,8 @@ package com.tutelary.bean.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.tutelary.bean.domain.InstanceGarbageCollectors;
+import com.tutelary.bean.domain.query.StatisticQuery;
+import com.tutelary.common.annotation.AutoPersistence;
 import com.tutelary.common.converter.CommonConverter;
 import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
@@ -29,6 +31,7 @@ import lombok.EqualsAndHashCode;
 @Table(comment = "应用实例垃圾收集信息", indexs = {
     @Index(columns = {"instance_id", "report_time"})
 })
+@AutoPersistence(queryDomain = StatisticQuery.class, domain = InstanceGarbageCollectors.class)
 public class InstanceGarbageCollectorsEntity extends BaseEntity {
 
     @Column(isNull = false, comment = "实例ID", sequence = 2, length = 32)
