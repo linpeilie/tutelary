@@ -71,6 +71,8 @@
                                      destfile="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                      basedir="${project.build.directory}"
                                      includes="tutelary-bin.zip"/>
+                                <copy overwrite="true" tofile="${project.build.directory}/classes/tutelary-bin.zip"
+                                      file="${project.build.directory}/tutelary-bin.zip"/>
                             </tasks>
                         </configuration>
                         <goals><goal>run</goal></goals>

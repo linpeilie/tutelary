@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: tutelary-example
+
+tutelary:
+  server-url: localhost:9897
+
+logging:
+  level:
+    com.tutelary: debug
+
+server:
+  port: 9098

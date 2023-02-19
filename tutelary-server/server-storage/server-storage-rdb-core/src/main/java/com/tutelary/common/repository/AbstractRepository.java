@@ -28,7 +28,7 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
     }
 
     protected D entityToDomain(E entity) {
-        return converter.map(entity, getDomainClass());
+        return entity == null ? null : converter.map(entity, getDomainClass());
     }
 
     protected List<D> entitiesToDomainList(List<E> entities) {
@@ -36,7 +36,7 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
     }
 
     protected E domainToEntity(D domain) {
-        return converter.map(domain, getEntityClass());
+        return domain == null ? null : converter.map(domain, getEntityClass());
     }
 
     protected List<E> domainListToEntities(List<D> domainList) {
