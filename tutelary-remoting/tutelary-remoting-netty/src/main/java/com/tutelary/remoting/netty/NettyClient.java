@@ -9,6 +9,7 @@ import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.AbstractClient;
+import com.tutelary.remoting.api.transport.ReconnectClient;
 import com.tutelary.remoting.netty.codec.ProtobufCodec;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class NettyClient extends AbstractClient {
+public class NettyClient extends ReconnectClient {
 
     private static final Log LOG = LogFactory.get(NettyClient.class);
 

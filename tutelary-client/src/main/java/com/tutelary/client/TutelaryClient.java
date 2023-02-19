@@ -45,12 +45,6 @@ public class TutelaryClient {
         }
     }
 
-    public void reconnect() {
-        if (client != null) {
-            client.reconnect();
-        }
-    }
-
     public void sendData(Object message) {
         if (client != null) {
             client.send(message);

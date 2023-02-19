@@ -1,7 +1,7 @@
 package com.tutelary.client.handler;
 
 import com.tutelary.client.ClientBootstrap;
-import com.tutelary.client.NamedThreadFactory;
+import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.command.overview.OverviewCommand;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;

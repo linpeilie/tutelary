@@ -1,7 +1,7 @@
 package com.tutelary.client.handler;
 
 import com.tutelary.client.ClientBootstrap;
-import com.tutelary.client.NamedThreadFactory;
+import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.util.MXBeanUtil;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
@@ -41,6 +41,5 @@ public class ClientLifeCycleChannelHandler extends ChannelHandlerAdapter {
     public void disconnected(Channel channel) throws RemotingException {
         LOG.error("服务端断开连接");
         ClientBootstrap.registered = false;
-        ClientBootstrap.reconnect();
     }
 }

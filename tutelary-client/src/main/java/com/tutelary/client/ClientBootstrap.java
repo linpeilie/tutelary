@@ -97,10 +97,6 @@ public class ClientBootstrap {
         client = new TutelaryClient(channelHandlers);
     }
 
-    public static void reconnect() {
-        client.reconnect();
-    }
-
     public static void destroy() {
         LOGGER.info("Tutelary Agent Start Destroy");
         client.destroy();

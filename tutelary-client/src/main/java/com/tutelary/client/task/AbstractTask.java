@@ -2,7 +2,7 @@ package com.tutelary.client.task;
 
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.tutelary.client.ClientBootstrap;
-import com.tutelary.client.NamedThreadFactory;
+import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.exception.TaskStateChangedException;
 import com.tutelary.common.log.Log;

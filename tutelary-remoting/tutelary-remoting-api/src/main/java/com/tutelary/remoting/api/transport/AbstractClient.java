@@ -25,6 +25,14 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
 
         try {
             doOpen();
+        } catch (Throwable t) {
+            close();
+            throw new RemotingException(this,
+                "Failed to start " + getClass().getSimpleName() + " " + NetUtil.getLocalhost() +
+                " connect to the server " + getRemoteAddress() + ", cause: " + t.getMessage());
+        }
+
+        try {
             connect();
             LOG.info(
                 "Start " + getClass().getSimpleName() + " " + NetUtil.getLocalhostStr() + " connect to the server " +
@@ -70,8 +78,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     public void send(Object message) {
         Channel channel = getChannel();
         if (channel == null || !channel.isConnected()) {
-            throw new RemotingException(this, "message can not send, because channel is closed. endpoint context : "
-                                              + getEndpointContext());
+            throw new RemotingException(this,
+                "message can not send, because channel is closed. endpoint context : " + getEndpointContext());
         }
         channel.send(message);
     }
@@ -83,33 +91,30 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
                 return;
             }
             if (isClosed()) {
-                LOG.warn("No need to connect to server " + getRemoteAddress()
-                         + " from " + getClass().getSimpleName() + " "
-                         + NetUtil.getLocalhostStr() + ", cause: client status is closed");
+                LOG.warn(
+                    "No need to connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
+                    NetUtil.getLocalhostStr() + ", cause: client status is closed");
                 return;
             }
 
             doConnect();
 
             if (!isConnected()) {
-                throw new RemotingException(
-                    this,
-                    "Failed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " "
-                    + NetUtil.getLocalhostStr() + ", cause: Connect wait timeout: "
-                    + getEndpointContext().getConnectionTimeout() + "ms."
-                );
+                throw new RemotingException(this,
+                    "Failed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
+                    NetUtil.getLocalhostStr() + ", cause: Connect wait timeout: " +
+                    getEndpointContext().getConnectionTimeout() + "ms.");
             } else {
                 LOG.info(
-                    "Successed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " "
-                    + NetUtil.getLocalhostStr() + ", channel is " + this.getChannel());
+                    "Successed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
+                    NetUtil.getLocalhostStr() + ", channel is " + this.getChannel());
             }
         } catch (RemotingException e) {
             throw e;
         } catch (Throwable e) {
             throw new RemotingException(this,
-                "Failed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " "
-                + ", cause: " + e.getMessage(), e
-            );
+                "Failed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
+                ", cause: " + e.getMessage(), e);
         } finally {
             connectLock.unlock();
         }
@@ -144,16 +149,16 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     @Override
     public void close() {
         if (isClosed()) {
-            LOG.warn("No need to close connection to server " + getRemoteAddress() + " from "
-                     + getClass().getSimpleName() + NetUtil.getLocalhostStr() +
-                     ", cause: the client status is closed.");
+            LOG.warn(
+                "No need to close connection to server " + getRemoteAddress() + " from " + getClass().getSimpleName() +
+                NetUtil.getLocalhostStr() + ", cause: the client status is closed.");
             return;
         }
         connectLock.lock();
         try {
             if (isClosed()) {
-                LOG.warn("No need to close connection to server " + getRemoteAddress() + " from "
-                         + getClass().getSimpleName() + NetUtil.getLocalhostStr() +
+                LOG.warn("No need to close connection to server " + getRemoteAddress() + " from " +
+                         getClass().getSimpleName() + NetUtil.getLocalhostStr() +
                          ", cause: the client status is closed.");
                 return;
             }

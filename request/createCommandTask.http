@@ -3,7 +3,7 @@ POST http://{{host}}/api/command/createCommand
 Content-Type: application/json
 
 {
-  "instanceId": "347849c942c44cd8b8927f9e1c9316c8",
+  "instanceId": "c7603dddda7b43b78772510e1f61b449",
   "commandCode": 20011,
   "param": "{}"
 }

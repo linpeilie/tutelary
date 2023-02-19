@@ -1,7 +1,5 @@
-package com.tutelary.client;
+package com.tutelary.common.thread;
 
-import com.tutelary.client.util.ThreadUtil;
-import com.tutelary.common.thread.LoggingUncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,7 +7,7 @@ public class NamedThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger THREAD_FACTORY_SEQ = new AtomicInteger(0);
 
-    private static final ThreadGroup THREAD_GROUP = new ThreadGroup(ThreadUtil.getRoot(), "tutelary");
+    private static final ThreadGroup THREAD_GROUP = new ThreadGroup( "tutelary");
 
     static {
         THREAD_GROUP.setDaemon(true);
