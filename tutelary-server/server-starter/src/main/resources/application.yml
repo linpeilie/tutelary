@@ -6,32 +6,23 @@ logging:
 
 server:
   port: 9988
+
+storage:
+  h2:
+    properties:
+      url: ${TUTELARY_STORAGE_H2_URL:jdbc:h2:mem:tutelary}
+      username: ${TUTELARY_STORAGE_H2_USERNAME:root}
+  mysql:
+    properties:
+      url: ${TUTELARY_STORAGE_MYSQL_URL:jdbc:mysql://127.0.0.1:3306/tutelary}
+      username: ${TUTELARY_STORAGE_MYSQL_USERNAME:root}
+      password: ${TUTELARY_STORAGE_MYSQL_PASSWORD:123456}
+
 spring:
   datasource:
-#    initialization-mode: always
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
       idle-timeout: 300000
       connection-timeout: 20000
       connection-test-query: select 1
-  ################# h2 ################
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/db/tutelary
-    username: root
-    password:
-    sql-script-encoding: UTF-8
-  h2:
-    console:
-      enabled: true
-  ################ mysql ###############
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/tutelary
-#    username: root
-#    password: 123456
-#    hikari:
-#      maximum-pool-size: 20
-#      minimum-idle: 5
-#      idle-timeout: 300000
-#      connection-timeout: 20000
-#      connection-test-query: select 1

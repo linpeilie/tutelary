@@ -9,11 +9,13 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 @Configuration
+@ConditionalOnProperty(prefix = "storage.initialize", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class TableInstallerConfiguration implements BeanPostProcessor, Ordered, BeanFactoryAware {
 
     private BeanFactory beanFactory;

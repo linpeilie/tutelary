@@ -1,5 +1,6 @@
 package com.tutelary.installer;
 
+import java.sql.Connection;
 import javax.sql.DataSource;
 
 public class DefaultTableInstallerInvoker implements TableInstallerInvoker {
@@ -15,7 +16,9 @@ public class DefaultTableInstallerInvoker implements TableInstallerInvoker {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        tableInstaller.initializeTable(dataSource.getConnection());
+        try (Connection connection = dataSource.getConnection()) {
+            tableInstaller.initializeTable(connection);
+        }
     }
 
 }

@@ -83,7 +83,7 @@ public abstract class AbstractTableInstaller implements TableInstaller {
     protected boolean tableExists(String tableName, Connection connection) {
         try {
             final ResultSet resultSet =
-                connection.getMetaData().getTables(connection.getCatalog(), null, tableName, null);
+                connection.getMetaData().getTables(null, null, tableName, new String[]{"TABLE"});
             if (resultSet.next()) {
                 return true;
             }
@@ -147,8 +147,8 @@ public abstract class AbstractTableInstaller implements TableInstaller {
     }
 
     private void createIndex(TableMetadata table, Connection connection) {
-        SQL sql = new SQL();
         for (TableIndex index : table.getIndexs()) {
+            SQL sql = new SQL();
             sql.append("create ")
                 .append(index.isUnique(), "unique ")
                 .append("index ")
@@ -158,8 +158,8 @@ public abstract class AbstractTableInstaller implements TableInstaller {
                 .append("`(")
                 .append(String.join(",", index.getColumnNames()))
                 .appendLine(");");
+            execute(connection, sql.toString());
         }
-        execute(connection, sql.toString());
     }
 
     protected String getTableName(Class<?> entityClass) {
