@@ -69,7 +69,7 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
 
     @Override
     public long count(final Q q) {
-        final LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildLambdaQueryWrapper(q);
+        final LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildLambdaQueryWrapper(q, true);
         return super.count(queryWrapper);
     }
 }

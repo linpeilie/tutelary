@@ -1,6 +1,5 @@
 package com.tutelary.installer;
 
-import com.tutelary.installer.AbstractTableInstaller;
 import com.tutelary.installer.constants.DataTypes;
 import java.lang.reflect.Field;
 import org.springframework.stereotype.Component;

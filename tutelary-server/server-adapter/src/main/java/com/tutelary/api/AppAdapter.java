@@ -28,15 +28,13 @@ public class AppAdapter {
     @PostMapping(value = "pageQuery")
     public R<PageResult<AppInfoResponse>> pageQuery(@RequestBody AppPageQueryRequest appPageQueryParam) {
         AppQuery queryParam = objectMapper.map(appPageQueryParam, AppQuery.class);
-        PageResult<AppInfoResponse> pageResult = new PageResult<>();
         final long count = appService.count(queryParam);
-        pageResult.setTotal(count);
         if (count > 0) {
             final List<App> list =
                 appService.list(queryParam, appPageQueryParam.getPageIndex(), appPageQueryParam.getPageSize());
-            pageResult.setRecords(objectMapper.mapList(list, AppInfoResponse.class));
+            return R.success(PageResult.of(count, objectMapper.mapList(list, AppInfoResponse.class)));
         }
-        return R.success(pageResult);
+        return R.success(PageResult.empty());
     }
 
     @PostMapping(value = "list")

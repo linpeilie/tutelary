@@ -47,16 +47,14 @@ public class InstanceAdapter {
     @PostMapping(value = "pageQuery")
     public R<PageResult<InstanceInfoResponse>> pageQuery(@RequestBody InstancePageQueryRequest instancePageQueryParam) {
         InstanceQuery queryParam = converter.map(instancePageQueryParam, InstanceQuery.class);
-        PageResult<InstanceInfoResponse> pageResult = new PageResult<>();
         final long count = instanceService.count(queryParam);
-        pageResult.setTotal(count);
         if (count > 0) {
             final List<Instance> list = instanceService.list(queryParam, instancePageQueryParam.getPageIndex(),
                 instancePageQueryParam.getPageSize());
-            pageResult.setRecords(converter.mapList(list, InstanceInfoResponse.class));
+            return R.success(PageResult.of(count, converter.mapList(list, InstanceInfoResponse.class)));
         }
 
-        return R.success(pageResult);
+        return R.success(PageResult.empty());
     }
 
     @PostMapping(value = "list")

@@ -20,11 +20,15 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisPlusQueryHelper {
 
     public static <T, V> LambdaQueryWrapper<T> buildLambdaQueryWrapper(V queryParam) {
-        QueryWrapper<T> queryWrapper = buildQueryWrapper(queryParam);
+        return buildLambdaQueryWrapper(queryParam, false);
+    }
+
+    public static <T, V> LambdaQueryWrapper<T> buildLambdaQueryWrapper(V queryParam, boolean skipSort) {
+        QueryWrapper<T> queryWrapper = buildQueryWrapper(queryParam, skipSort);
         return queryWrapper.lambda();
     }
 
-    public static <T, V> QueryWrapper<T> buildQueryWrapper(V queryParam) {
+    public static <T, V> QueryWrapper<T> buildQueryWrapper(V queryParam, final boolean skipSort) {
         QueryWrapper<T> queryWrapper = Wrappers.query();
         if (queryParam == null) {
             return queryWrapper;
@@ -34,7 +38,7 @@ public class MybatisPlusQueryHelper {
             for (QueryMeta queryMeta : queryMetas) {
                 // 排序条件
                 Sort sort = queryMeta.getSort();
-                if (sort != null) {
+                if (!skipSort && sort != null) {
                     SortDirection direction = sort.direction();
                     String fieldName = StringUtils.camelToUnderline(queryMeta.getField().getName());
                     if (SortDirection.ASC.equals(direction)) {
