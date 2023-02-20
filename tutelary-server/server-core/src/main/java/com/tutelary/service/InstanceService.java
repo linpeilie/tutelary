@@ -8,8 +8,6 @@ import com.tutelary.bean.domain.InstanceOverview;
 import com.tutelary.bean.domain.InstanceThreadStatistic;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
-import com.tutelary.common.bean.api.req.PageQueryRequest;
-import com.tutelary.common.bean.api.resp.PageResult;
 import java.util.List;
 
 public interface InstanceService {
@@ -20,9 +18,11 @@ public interface InstanceService {
 
     Instance getInstanceByInstanceId(String instanceId);
 
-    PageResult<Instance> pageList(InstanceQuery instanceQuery, PageQueryRequest pageRequest);
-
     List<Instance> list(InstanceQuery queryParam);
+
+    List<Instance> list(InstanceQuery queryParam, long pageIndex, long pageSize);
+
+    long count(InstanceQuery queryParam);
 
     List<Instance> listEnabled();
 

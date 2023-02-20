@@ -8,4 +8,8 @@ public interface QueryDAO<P extends BaseQueryDomain, D extends BaseDomain> exten
 
     List<D> list(P param);
 
+    List<D> list(P param, long pageIndex, long pageSize);
+
+    long count(P param);
+
 }

@@ -8,8 +8,6 @@ import com.tutelary.bean.domain.InstanceOverview;
 import com.tutelary.bean.domain.InstanceThreadStatistic;
 import com.tutelary.bean.domain.query.InstanceQuery;
 import com.tutelary.bean.domain.query.StatisticQuery;
-import com.tutelary.common.bean.api.req.PageQueryRequest;
-import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.dao.InstanceDAO;
 import com.tutelary.dao.InstanceGarbageCollectorsDAO;
 import com.tutelary.dao.InstanceHostDAO;
@@ -37,8 +35,7 @@ public class InstanceServiceImpl implements InstanceService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean addInstance(Instance instance) {
-        Instance oldInstance =
-            instanceDAO.getByInstanceId(instance.getInstanceId());
+        Instance oldInstance = instanceDAO.getByInstanceId(instance.getInstanceId());
         if (oldInstance == null) {
             return instanceDAO.add(instance);
         } else {
@@ -57,13 +54,18 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
-    public PageResult<Instance> pageList(InstanceQuery instanceQuery, PageQueryRequest pageRequest) {
-        return null;
+    public List<Instance> list(InstanceQuery queryParam) {
+        return instanceDAO.list(queryParam);
     }
 
     @Override
-    public List<Instance> list(InstanceQuery queryParam) {
-        return instanceDAO.list(queryParam);
+    public List<Instance> list(final InstanceQuery queryParam, final long pageIndex, final long pageSize) {
+        return instanceDAO.list(queryParam, pageIndex, pageSize);
+    }
+
+    @Override
+    public long count(final InstanceQuery queryParam) {
+        return instanceDAO.count(queryParam);
     }
 
     @Override

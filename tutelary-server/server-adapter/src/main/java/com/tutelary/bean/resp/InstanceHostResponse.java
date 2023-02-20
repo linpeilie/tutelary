@@ -1,13 +1,13 @@
-package com.tutelary.bean.domain;
+package com.tutelary.bean.resp;
 
-import com.tutelary.common.domain.BaseDomain;
+import com.tutelary.bean.domain.InstanceHost;
+import com.tutelary.common.bean.resp.AbstractResponse;
 import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
-import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class InstanceHost extends BaseDomain {
-    private String instanceId;
+@AutoMap(targetType = InstanceHost.class)
+public class InstanceHostResponse extends AbstractResponse {
 
     private String hostName;
 
@@ -35,5 +35,6 @@ public class InstanceHost extends BaseDomain {
 
     private Long diskTotalSpace;
 
-    private LocalDateTime reportTime;
+    private Long reportTimestamps;
+
 }

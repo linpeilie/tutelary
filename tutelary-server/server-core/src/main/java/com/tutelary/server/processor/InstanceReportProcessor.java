@@ -41,37 +41,33 @@ public class InstanceReportProcessor extends AbstractMessageProcessor<InstanceIn
 
     @Override
     protected void process(Channel channel, InstanceInfoReportRequest message) {
-        LocalDateTime reportTime = LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(message.getCurrentTime()), ZoneId.systemDefault());
+        LocalDateTime reportTime =
+            LocalDateTime.ofInstant(Instant.ofEpochMilli(message.getCurrentTime()), ZoneId.systemDefault());
         String instanceId = message.getInstanceId();
         Overview overview = message.getOverview();
 
         InstanceOverview instanceOverview = new InstanceOverview();
         instanceOverview.setHost(
             instanceHostConverter.hostToInstanceHost(overview.getHostInfo(), instanceId, reportTime));
-        instanceOverview.setThreadStatistic(instanceThreadStatisticConverter
-            .threadStatisticToDomain(
-                overview.getThreadStatistic(), instanceId, reportTime));
+        instanceOverview.setThreadStatistic(
+            instanceThreadStatisticConverter.threadStatisticToDomain(overview.getThreadStatistic(), instanceId,
+                reportTime));
         List<InstanceJvmMemory> instanceJvmMemories = new ArrayList<>();
-        instanceJvmMemories.addAll(overview.getHeapMemory().stream().map(memory ->
-                instanceJvmMemoryConverter.jvmMemoryToDomain(
-                    memory, instanceId, reportTime,
-                    MemoryType.HEAP.name()
-                ))
+        instanceJvmMemories.addAll(overview.getHeapMemory()
+            .stream()
+            .map(memory -> instanceJvmMemoryConverter.jvmMemoryToDomain(memory, instanceId, reportTime,
+                MemoryType.HEAP.name()))
             .collect(Collectors.toList()));
-        instanceJvmMemories.addAll(overview.getNonHeapMemory().stream().map(memory ->
-                instanceJvmMemoryConverter.jvmMemoryToDomain(
-                    memory, instanceId, reportTime,
-                    MemoryType.NON_HEAP.name()
-                ))
+        instanceJvmMemories.addAll(overview.getNonHeapMemory()
+            .stream()
+            .map(memory -> instanceJvmMemoryConverter.jvmMemoryToDomain(memory, instanceId, reportTime,
+                MemoryType.NON_HEAP.name()))
             .collect(Collectors.toList()));
         instanceOverview.setJvmMemories(instanceJvmMemories);
-        instanceOverview.setGarbageCollectors(overview.getGarbageCollectors().stream().map(garbageCollector ->
-                instanceGarbageCollectorConverter.garbageCollectorToDomain(
-                    garbageCollector,
-                    instanceId,
-                    reportTime
-                ))
+        instanceOverview.setGarbageCollectors(overview.getGarbageCollectors()
+            .stream()
+            .map(garbageCollector -> instanceGarbageCollectorConverter.garbageCollectorToDomain(garbageCollector,
+                instanceId, reportTime))
             .collect(Collectors.toList()));
         instanceService.saveReportData(instanceOverview);
     }

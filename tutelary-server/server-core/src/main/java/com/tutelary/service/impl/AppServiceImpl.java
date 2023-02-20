@@ -2,8 +2,6 @@ package com.tutelary.service.impl;
 
 import com.tutelary.bean.domain.App;
 import com.tutelary.bean.domain.query.AppQuery;
-import com.tutelary.common.bean.api.req.PageQueryRequest;
-import com.tutelary.common.bean.api.resp.PageResult;
 import com.tutelary.dao.AppDAO;
 import com.tutelary.service.AppService;
 import java.util.List;
@@ -24,14 +22,18 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public PageResult<App> pageListApp(AppQuery queryParam, PageQueryRequest pageRequest) {
-        // TODO
-        return null;
+    public List<App> list(AppQuery appQuery) {
+        return appDAO.list(appQuery);
     }
 
     @Override
-    public List<App> list(AppQuery appQuery) {
-        return appDAO.list(appQuery);
+    public List<App> list(final AppQuery appQuery, final long pageIndex, final long pageSize) {
+        return appDAO.list(appQuery, pageIndex, pageSize);
+    }
+
+    @Override
+    public long count(final AppQuery appQuery) {
+        return appDAO.count(appQuery);
     }
 
     @Override

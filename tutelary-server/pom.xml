@@ -18,6 +18,7 @@
         <module>server-core</module>
         <module>server-starter</module>
         <module>server-storage</module>
+        <module>server-adapter</module>
     </modules>
 
     <properties>
@@ -47,6 +48,11 @@
             <dependency>
                 <groupId>com.tutelary</groupId>
                 <artifactId>server-core</artifactId>
+                <version>${tutelary.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tutelary</groupId>
+                <artifactId>server-adapter</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>
             <dependency>

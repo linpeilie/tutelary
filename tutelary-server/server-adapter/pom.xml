@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>server-starter</artifactId>
+    <artifactId>server-adapter</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,18 +20,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.tutelary</groupId>
-            <artifactId>server-adapter</artifactId>
+            <artifactId>server-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>server-storage-dependencies</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

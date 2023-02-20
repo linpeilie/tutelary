@@ -1,9 +1,9 @@
 package com.tutelary.service;
 
-import com.tutelary.bean.api.req.CommandApiRequest;
+import com.tutelary.bean.domain.CommandTaskCreate;
 
 public interface CommandService {
 
-    void createCommand(CommandApiRequest commandApiRequest);
+    void createCommand(CommandTaskCreate commandTaskCreate);
 
 }

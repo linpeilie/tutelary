@@ -27,6 +27,16 @@ public class AbstractDAO<P extends BaseQueryDomain, D extends BaseDomain, E exte
 
     @Override
     public List<D> list(final P param) {
-        return null;
+        return repository.list(param);
+    }
+
+    @Override
+    public List<D> list(final P param, final long pageIndex, final long pageSize) {
+        return repository.list(param, pageIndex, pageSize);
+    }
+
+    @Override
+    public long count(final P param) {
+        return repository.count(param);
     }
 }
