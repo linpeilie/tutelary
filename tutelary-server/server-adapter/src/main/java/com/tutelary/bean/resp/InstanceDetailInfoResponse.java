@@ -1,7 +1,7 @@
 package com.tutelary.bean.resp;
 
 import com.tutelary.bean.domain.Instance;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AutoMap(targetType = Instance.class)
+@AutoMapper(target = Instance.class)
 public class InstanceDetailInfoResponse extends InstanceInfoResponse {
 
     private List<String> inputArguments;

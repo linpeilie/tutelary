@@ -37,7 +37,7 @@
         <jprotobuf.version>2.4.15</jprotobuf.version>
         <jprotobuf-precompile.version>2.2.7</jprotobuf-precompile.version>
         <guava.version>31.1-jre</guava.version>
-        <mapstruct.version>1.5.1.Final</mapstruct.version>
+        <mapstruct-plus.version>1.1.6</mapstruct-plus.version>
         <h2.version>2.1.214</h2.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <byte-buddy.version>1.12.18</byte-buddy.version>
@@ -179,11 +179,16 @@
                 <artifactId>jprotobuf-precompile-plugin</artifactId>
                 <version>${jprotobuf-precompile.version}</version>
             </dependency>
-            <!-- mapstruct -->
+            <!-- mapstruct-plus -->
             <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${mapstruct.version}</version>
+                <groupId>io.github.linpeilie</groupId>
+                <artifactId>mapstruct-plus</artifactId>
+                <version>${mapstruct-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.linpeilie</groupId>
+                <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
+                <version>${mapstruct-plus.version}</version>
             </dependency>
             <!-- h2 -->
             <dependency>

@@ -8,7 +8,7 @@ import com.tutelary.bean.resp.AppInfoResponse;
 import com.tutelary.common.bean.R;
 import com.tutelary.common.bean.resp.PageResult;
 import com.tutelary.service.AppService;
-import io.github.zhaord.mapstruct.plus.IObjectMapper;
+import io.github.linpeilie.Converter;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +23,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppAdapter {
 
     private AppService appService;
-    private IObjectMapper objectMapper;
+    private Converter converter;
 
     @PostMapping(value = "pageQuery")
     public R<PageResult<AppInfoResponse>> pageQuery(@RequestBody AppPageQueryRequest appPageQueryParam) {
-        AppQuery queryParam = objectMapper.map(appPageQueryParam, AppQuery.class);
+        AppQuery queryParam = converter.convert(appPageQueryParam, AppQuery.class);
         final long count = appService.count(queryParam);
         if (count > 0) {
             final List<App> list =
                 appService.list(queryParam, appPageQueryParam.getPageIndex(), appPageQueryParam.getPageSize());
-            return R.success(PageResult.of(count, objectMapper.mapList(list, AppInfoResponse.class)));
+            return R.success(PageResult.of(count, converter.convert(list, AppInfoResponse.class)));
         }
         return R.success(PageResult.empty());
     }
 
     @PostMapping(value = "list")
     public R<List<AppInfoResponse>> list(@RequestBody AppQueryRequest appQueryRequest) {
-        AppQuery appQuery = objectMapper.map(appQueryRequest, AppQuery.class);
+        AppQuery appQuery = converter.convert(appQueryRequest, AppQuery.class);
         List<App> list = appService.list(appQuery);
-        return R.success(objectMapper.mapList(list, AppInfoResponse.class));
+        return R.success(converter.convert(list, AppInfoResponse.class));
     }
 
     @Autowired
@@ -50,7 +50,7 @@ public class AppAdapter {
     }
 
     @Autowired
-    public void setObjectMapper(final IObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public void setObjectMapper(final Converter converter) {
+        this.converter = converter;
     }
 }

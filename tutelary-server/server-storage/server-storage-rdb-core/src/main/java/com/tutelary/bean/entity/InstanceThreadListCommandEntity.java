@@ -11,14 +11,14 @@ import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
 import com.tutelary.message.command.result.ThreadList;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("instance_thread_list")
-@AutoMap(targetType = InstanceThreadListCommand.class)
+@AutoMapper(target = InstanceThreadListCommand.class)
 @Table(comment = "实例线程列表信息", indexs = {@Index(columns = "task_id", unique = true),
                                                @Index(columns = {"instance_id", "create_time"})})
 @AutoPersistence(queryDomain = CommandTaskQuery.class, domain = InstanceThreadListCommand.class)

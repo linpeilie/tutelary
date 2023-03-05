@@ -2,11 +2,11 @@ package com.tutelary.bean.resp;
 
 import com.tutelary.bean.domain.InstanceHost;
 import com.tutelary.common.bean.resp.AbstractResponse;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
 @Data
-@AutoMap(targetType = InstanceHost.class)
+@AutoMapper(target = InstanceHost.class)
 public class InstanceHostResponse extends AbstractResponse {
 
     private String hostName;

@@ -7,20 +7,17 @@ import com.tutelary.bean.entity.type.StringListTypeHandler;
 import com.tutelary.bean.entity.type.StringMapTypeHandler;
 import com.tutelary.common.converter.CommonConverter;
 import com.tutelary.common.entity.BaseEntity;
-import com.tutelary.common.enums.InstanceStateEnum;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMapField;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
-import org.mapstruct.Mapping;
 
 @Data
-@AutoMap(targetType = Instance.class, uses = CommonConverter.class)
+@AutoMapper(target = Instance.class, uses = CommonConverter.class)
 @TableName(value = "instance", autoResultMap = true)
 @Table(comment = "实例", indexs = {
     @Index(unique = true, columns = "instance_id")

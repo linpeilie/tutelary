@@ -6,8 +6,7 @@ import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMapSpring;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import lombok.Data;
 
@@ -16,7 +15,7 @@ import lombok.Data;
 @Table(comment = "应用", indexs = {
     @Index(unique = true, columns = {"app_name"})
 })
-@AutoMap(targetType = App.class)
+@AutoMapper(target = App.class)
 public class AppEntity extends BaseEntity {
 
     @Column(comment = "应用名称", isNull = false, sequence = 2, length = 64)

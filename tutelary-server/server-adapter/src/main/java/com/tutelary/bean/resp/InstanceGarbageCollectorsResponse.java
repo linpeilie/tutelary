@@ -2,12 +2,12 @@ package com.tutelary.bean.resp;
 
 import com.tutelary.bean.domain.InstanceGarbageCollectors;
 import com.tutelary.common.bean.resp.AbstractResponse;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.util.List;
 import lombok.Data;
 
 @Data
-@AutoMap(targetType = InstanceGarbageCollectors.class)
+@AutoMapper(target = InstanceGarbageCollectors.class)
 public class InstanceGarbageCollectorsResponse extends AbstractResponse {
 
     private String name;

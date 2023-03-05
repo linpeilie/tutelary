@@ -3,14 +3,14 @@ package com.tutelary.bean.resp;
 import com.tutelary.bean.domain.Instance;
 import com.tutelary.common.bean.resp.AbstractResponse;
 import com.tutelary.common.enums.InstanceStateEnum;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AutoMap(targetType = Instance.class)
+@AutoMapper(target = Instance.class)
 public class InstanceInfoResponse extends AbstractResponse {
 
     private String instanceId;

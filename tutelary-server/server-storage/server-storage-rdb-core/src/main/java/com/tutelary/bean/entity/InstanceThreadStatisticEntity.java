@@ -8,7 +8,7 @@ import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("instance_thread_statistic")
-@AutoMap(targetType = InstanceThreadStatistic.class)
+@AutoMapper(target = InstanceThreadStatistic.class)
 @Table(comment = "应用实例线程统计", indexs = {
     @Index(columns = {"instance_id", "report_time"})
 })

@@ -23,7 +23,7 @@ import com.tutelary.common.bean.R;
 import com.tutelary.common.bean.resp.PageResult;
 import com.tutelary.common.utils.DateUtils;
 import com.tutelary.service.InstanceService;
-import io.github.zhaord.mapstruct.plus.IObjectMapper;
+import io.github.linpeilie.Converter;
 import java.lang.management.MemoryType;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,16 +42,16 @@ public class InstanceAdapter {
     private static final int KB = 1024;
 
     private InstanceService instanceService;
-    private IObjectMapper converter;
+    private Converter converter;
 
     @PostMapping(value = "pageQuery")
     public R<PageResult<InstanceInfoResponse>> pageQuery(@RequestBody InstancePageQueryRequest instancePageQueryParam) {
-        InstanceQuery queryParam = converter.map(instancePageQueryParam, InstanceQuery.class);
+        InstanceQuery queryParam = converter.convert(instancePageQueryParam, InstanceQuery.class);
         final long count = instanceService.count(queryParam);
         if (count > 0) {
             final List<Instance> list = instanceService.list(queryParam, instancePageQueryParam.getPageIndex(),
                 instancePageQueryParam.getPageSize());
-            return R.success(PageResult.of(count, converter.mapList(list, InstanceInfoResponse.class)));
+            return R.success(PageResult.of(count, converter.convert(list, InstanceInfoResponse.class)));
         }
 
         return R.success(PageResult.empty());
@@ -59,20 +59,20 @@ public class InstanceAdapter {
 
     @PostMapping(value = "list")
     public R<List<InstanceInfoResponse>> list(@RequestBody InstanceQueryRequest instanceQueryRequest) {
-        InstanceQuery queryParam = converter.map(instanceQueryRequest, InstanceQuery.class);
+        InstanceQuery queryParam = converter.convert(instanceQueryRequest, InstanceQuery.class);
         List<Instance> list = instanceService.list(queryParam);
-        return R.success(converter.mapList(list, InstanceInfoResponse.class));
+        return R.success(converter.convert(list, InstanceInfoResponse.class));
     }
 
     @GetMapping(value = "detail")
     public R<InstanceDetailInfoResponse> detail(@RequestParam("instanceId") String instanceId) {
         Instance instance = instanceService.getInstanceByInstanceId(instanceId);
-        return R.success(converter.map(instance, InstanceDetailInfoResponse.class));
+        return R.success(converter.convert(instance, InstanceDetailInfoResponse.class));
     }
 
     @PostMapping(value = "statistic/overview")
     public R<OverviewResponse> overview(@RequestBody StatisticQueryRequest statisticQueryRequest) {
-        StatisticQuery query = converter.map(statisticQueryRequest, StatisticQuery.class);
+        StatisticQuery query = converter.convert(statisticQueryRequest, StatisticQuery.class);
 
         InstanceHost instanceHost = instanceService.getHostInfo(query.getInstanceId());
         List<InstanceJvmMemory> instanceJvmMemories = instanceService.listJvmMemories(query);
@@ -91,7 +91,7 @@ public class InstanceAdapter {
 
     @PostMapping(value = "statistic/jvm")
     public R<JvmStatisticResponse> jvmStatistic(@RequestBody StatisticQueryRequest statisticQueryRequest) {
-        StatisticQuery query = converter.map(statisticQueryRequest, StatisticQuery.class);
+        StatisticQuery query = converter.convert(statisticQueryRequest, StatisticQuery.class);
 
         List<InstanceJvmMemory> instanceJvmMemories = instanceService.listJvmMemories(query);
         List<InstanceGarbageCollectors> instanceGarbageCollectors = instanceService.listGarbageCollectors(query);
@@ -205,7 +205,7 @@ public class InstanceAdapter {
     }
 
     @Autowired
-    public void setConverter(final IObjectMapper converter) {
+    public void setConverter(final Converter converter) {
         this.converter = converter;
     }
 }

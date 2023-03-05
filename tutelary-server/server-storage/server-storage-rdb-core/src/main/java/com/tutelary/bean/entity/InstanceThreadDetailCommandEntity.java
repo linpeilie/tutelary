@@ -11,14 +11,14 @@ import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
 import com.tutelary.message.command.result.ThreadDetail;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("instance_thread_detail")
-@AutoMap(targetType = InstanceThreadDetailCommand.class)
+@AutoMapper(target = InstanceThreadDetailCommand.class)
 @Table(comment = "实例线程详情信息", indexs = {
     @Index(columns = "task_id", unique = true),
     @Index(columns = {"instance_id", "create_time"})

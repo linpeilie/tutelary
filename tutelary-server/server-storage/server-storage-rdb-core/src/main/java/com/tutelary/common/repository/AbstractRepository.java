@@ -10,7 +10,7 @@ import com.tutelary.common.domain.BaseQueryDomain;
 import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.common.helper.MybatisPlusQueryHelper;
 import com.tutelary.common.utils.ClassUtil;
-import io.github.zhaord.mapstruct.plus.IObjectMapper;
+import io.github.linpeilie.Converter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends BaseDomain, E extends BaseEntity, M extends BaseMapper<E>>
     extends ServiceImpl<M, E> implements BaseRepository<Q, D, E> {
 
+    protected Converter converter;
+
     @Autowired
-    protected IObjectMapper converter;
+    public void setConverter(final Converter converter) {
+        this.converter = converter;
+    }
 
     public AbstractRepository() {
     }
 
-    private Class<?> getDomainClass() {
-        return TypeUtil.getClass(TypeUtil.getTypeArgument(getClass(), 1));
+    private Class<D> getDomainClass() {
+        return (Class<D>) TypeUtil.getClass(TypeUtil.getTypeArgument(getClass(), 1));
     }
 
     protected D entityToDomain(E entity) {
-        return entity == null ? null : converter.map(entity, getDomainClass());
+        return entity == null ? null : converter.convert(entity, getDomainClass());
     }
 
     protected List<D> entitiesToDomainList(List<E> entities) {
@@ -37,7 +41,7 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
     }
 
     protected E domainToEntity(D domain) {
-        return domain == null ? null : converter.map(domain, getEntityClass());
+        return domain == null ? null : converter.convert(domain, getEntityClass());
     }
 
     protected List<E> domainListToEntities(List<D> domainList) {

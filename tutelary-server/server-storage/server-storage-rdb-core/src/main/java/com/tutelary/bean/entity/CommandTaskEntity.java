@@ -7,7 +7,7 @@ import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
 import com.tutelary.installer.constants.DataTypes;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
     @Index(unique = true, columns = {"task_id"}),
     @Index(columns = {"instance_id", "create_time"})
 })
-@AutoMap(targetType = CommandTask.class)
+@AutoMapper(target = CommandTask.class)
 public class CommandTaskEntity extends BaseEntity {
 
     @Column(isNull = false, comment = "命令编码", sequence = 2)

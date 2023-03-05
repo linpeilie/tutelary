@@ -1,7 +1,6 @@
 package com.tutelary.bean.domain;
 
 import com.tutelary.common.domain.BaseDomain;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
 import java.time.LocalDateTime;
 import lombok.Data;
 

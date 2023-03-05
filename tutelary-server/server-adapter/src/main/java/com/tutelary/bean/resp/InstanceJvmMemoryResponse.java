@@ -1,8 +1,6 @@
 package com.tutelary.bean.resp;
 
-import com.tutelary.bean.domain.InstanceJvmMemory;
 import com.tutelary.common.bean.resp.AbstractResponse;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
 import java.util.List;
 import lombok.Data;
 

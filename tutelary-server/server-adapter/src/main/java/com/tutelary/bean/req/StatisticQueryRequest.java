@@ -3,14 +3,14 @@ package com.tutelary.bean.req;
 import com.tutelary.bean.domain.query.StatisticQuery;
 import com.tutelary.common.bean.req.QueryRequest;
 import com.tutelary.common.utils.ParameterUtils;
-import io.github.zhaord.mapstruct.plus.annotations.AutoMap;
+import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AutoMap(targetType = StatisticQuery.class)
+@AutoMapper(target = StatisticQuery.class)
 public class StatisticQueryRequest extends QueryRequest {
 
     private String instanceId;
