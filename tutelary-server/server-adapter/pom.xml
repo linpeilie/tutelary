@@ -23,6 +23,10 @@
             <groupId>com.tutelary</groupId>
             <artifactId>server-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
