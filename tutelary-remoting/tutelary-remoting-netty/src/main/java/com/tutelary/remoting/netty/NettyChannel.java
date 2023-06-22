@@ -6,6 +6,7 @@ import com.tutelary.common.utils.Asserts;
 import com.tutelary.common.utils.ThrowableUtil;
 import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
+import com.tutelary.remoting.api.constants.RemotingResponseCode;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.AbstractChannel;
 import io.netty.channel.Channel;
@@ -90,8 +91,7 @@ final class NettyChannel extends AbstractChannel {
         } catch (Throwable e) {
             removeChannelIfDisconected(channel);
             throw new RemotingException(
-                this,
-                "Failed to send message to " + getRemoteAddress() + ", cause: " + e.getMessage()
+                e, RemotingResponseCode.SEND_MESSAGE_UNCAUGHT_EXCEPTION, getRemoteAddress(), e.getMessage()
             );
         }
     }

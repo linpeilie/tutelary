@@ -7,6 +7,7 @@ import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.EndpointContext;
+import com.tutelary.remoting.api.constants.RemotingResponseCode;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.AbstractClient;
 import com.tutelary.remoting.api.transport.ReconnectClient;
@@ -131,18 +132,14 @@ public class NettyClient extends ReconnectClient {
             }
         } else if (future.cause() != null) {
             throw new RemotingException(
-                this,
-                "client(address: " + getEndpointContext().getAddress() + ") failed to connect to server "
-                + getRemoteAddress() + ", error message is:" + future.cause().getMessage(),
-                future.cause()
+                future.cause(), RemotingResponseCode.CONNECT_SERVER_UNCAUGHT_EXCEPTION,
+                getEndpointContext().getAddress(), getRemoteAddress(), future.cause().getMessage()
             );
         } else {
             throw new RemotingException(
-                this,
-                "client(address: " + getEndpointContext().getAddress() + ") failed to connect to server "
-                + getRemoteAddress() + " client-side timeout " + getEndpointContext().getConnectionTimeout()
-                + "ms (elapsed: " + (System.currentTimeMillis() - start) + "ms) from netty client "
-                + NetUtil.getLocalhostStr()
+                RemotingResponseCode.CONNECT_SERVER_TIMEOUT,
+                getEndpointContext().getAddress(), getRemoteAddress(), getEndpointContext().getConnectionTimeout(),
+                (System.currentTimeMillis() - start), NetUtil.getLocalhostStr()
             );
         }
     }

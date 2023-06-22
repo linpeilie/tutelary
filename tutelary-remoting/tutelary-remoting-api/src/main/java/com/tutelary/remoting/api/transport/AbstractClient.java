@@ -9,6 +9,7 @@ import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.Client;
 import com.tutelary.remoting.api.Codec;
 import com.tutelary.remoting.api.EndpointContext;
+import com.tutelary.remoting.api.constants.RemotingResponseCode;
 import com.tutelary.remoting.api.exception.RemotingException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.locks.Lock;
@@ -27,9 +28,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
             doOpen();
         } catch (Throwable t) {
             close();
-            throw new RemotingException(this,
-                "Failed to start " + getClass().getSimpleName() + " " + NetUtil.getLocalhost() +
-                " connect to the server " + getRemoteAddress() + ", cause: " + t.getMessage());
+            throw new RemotingException(t, RemotingResponseCode.OPEN_CLIENT_FAILURE,
+                getClass().getSimpleName(), NetUtil.getLocalhost(), getRemoteAddress(), t.getMessage());
         }
 
         try {
@@ -39,10 +39,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
                 getRemoteAddress());
         } catch (Throwable t) {
             close();
-            throw new RemotingException(
-                this,
-                "Failed to start " + getClass().getSimpleName() + " " + NetUtil.getLocalhost()
-                + " connect to the server " + getRemoteAddress() + ", cause: " + t.getMessage()
+            throw new RemotingException(t, RemotingResponseCode.CONNECT_SERVER_FAILURE,
+                getClass().getSimpleName(), NetUtil.getLocalhost(), getRemoteAddress(), t.getMessage()
             );
         }
     }
@@ -78,8 +76,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     public void send(Object message) {
         Channel channel = getChannel();
         if (channel == null || !channel.isConnected()) {
-            throw new RemotingException(this,
-                "message can not send, because channel is closed. endpoint context : " + getEndpointContext());
+            throw new RemotingException(RemotingResponseCode.CLIENT_SEND_MESSAGE_FAILURE_DUE_TO_CHANNEL_CLOSED,
+                getEndpointContext());
         }
         channel.send(message);
     }
@@ -100,10 +98,9 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
             doConnect();
 
             if (!isConnected()) {
-                throw new RemotingException(this,
-                    "Failed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
-                    NetUtil.getLocalhostStr() + ", cause: Connect wait timeout: " +
-                    getEndpointContext().getConnectionTimeout() + "ms.");
+                throw new RemotingException(RemotingResponseCode.RECONNECT_SERVER_FAILURE,
+                    getRemoteAddress(), getClass().getSimpleName(), NetUtil.getLocalhostStr(),
+                    getEndpointContext().getConnectionTimeout());
             } else {
                 LOG.info(
                     "Successed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
@@ -112,9 +109,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
         } catch (RemotingException e) {
             throw e;
         } catch (Throwable e) {
-            throw new RemotingException(this,
-                "Failed connect to server " + getRemoteAddress() + " from " + getClass().getSimpleName() + " " +
-                ", cause: " + e.getMessage(), e);
+            throw new RemotingException(e, RemotingResponseCode.CONNECT_SERVER_UNCAUGHT_EXCEPTION,
+                getRemoteAddress(), getClass().getSimpleName(), e.getMessage());
         } finally {
             connectLock.unlock();
         }

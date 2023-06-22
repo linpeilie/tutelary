@@ -12,6 +12,7 @@ import com.alibaba.deps.org.objectweb.asm.Opcodes;
 import com.alibaba.deps.org.objectweb.asm.tree.ClassNode;
 import com.alibaba.deps.org.objectweb.asm.tree.MethodInsnNode;
 import com.alibaba.deps.org.objectweb.asm.tree.MethodNode;
+import com.tutelary.client.constants.EnhanceResponseCode;
 import com.tutelary.client.enhance.callback.CompletionHandler;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.client.enhance.interceptor.SpyInterceptor;
@@ -207,7 +208,7 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
 
     private void targetClassCanEnhance(Class<?> clazz) {
         if (clazz == null) {
-            throw new EnhanceNotAllowedException("class can not be null");
+            throw new EnhanceNotAllowedException(EnhanceResponseCode.ENHANCE_CLASS_IS_NULL);
         }
         if (!Objects.equals(clazz.getClassLoader(), ClassLoaderWrapper.getApplicationClassLoader())) {
             LOGGER.warn(
@@ -216,16 +217,16 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
                     .getClass()
                     .getName()
             );
-            throw new EnhanceNotAllowedException(
-                "Only classes loaded by the " + ClassLoaderWrapper.getApplicationClassLoader() + " can be enhanced");
+            throw new EnhanceNotAllowedException(EnhanceResponseCode.ENHANCE_CLASS_NOT_FOUND_BY_CLASSLOADER,
+                ClassLoaderWrapper.getApplicationClassLoader());
         }
         if (ClassUtil.isLambdaClass(clazz)) {
             LOGGER.warn("class [ {} ] is lambda class");
-            throw new EnhanceNotAllowedException("lambda class cannot be enhanced");
+            throw new EnhanceNotAllowedException(EnhanceResponseCode.INTERFACE_CANNOT_BE_ENHANCED);
         }
         if (clazz.isInterface()) {
             LOGGER.warn("class [ {} ] is interface");
-            throw new EnhanceNotAllowedException("interface cannot be enhanced");
+            throw new EnhanceNotAllowedException(EnhanceResponseCode.INTERFACE_CANNOT_BE_ENHANCED);
         }
     }
 

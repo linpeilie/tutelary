@@ -7,6 +7,11 @@ public enum BusinessResponseCode {
     USER("10"),
     ORDER("20"),
     SETTLEMENT_ORDER("21"),
+    REMOTING("30"),
+    COMMAND("40"),
+    ENHANCE("41"),
+    CLIENT_TASK("42"),
+    SERVER_TASK("43"),
     SYSTEM("90");
 
 

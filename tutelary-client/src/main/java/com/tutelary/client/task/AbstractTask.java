@@ -86,7 +86,7 @@ public abstract class AbstractTask implements Task {
         boolean changeState = setState(updateState, expectState);
         if (!changeState) {
             LOG.warn("task id : [ {} ], change task state failure", getId());
-            throw new TaskStateChangedException("task current state : " + getState());
+            throw new TaskStateChangedException(getId(), getState());
         }
     }
 

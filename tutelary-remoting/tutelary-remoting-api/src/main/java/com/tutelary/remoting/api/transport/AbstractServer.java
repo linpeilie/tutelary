@@ -11,6 +11,7 @@ import com.tutelary.remoting.api.Codec;
 import com.tutelary.remoting.api.EndpointContext;
 import com.tutelary.remoting.api.RemotingServer;
 import com.tutelary.remoting.api.bean.SpecifiedClientMessage;
+import com.tutelary.remoting.api.constants.RemotingResponseCode;
 import com.tutelary.remoting.api.exception.RemotingException;
 import java.net.InetSocketAddress;
 
@@ -31,8 +32,8 @@ public abstract class AbstractServer extends AbstractEndpoint implements Remotin
             doOpen();
             LOG.info("Start " + getClass().getSimpleName() + " bind " + getBindAddress());
         } catch (Throwable t) {
-            throw new RemotingException(getBindAddress(), null, "Failed to bind " + getClass().getSimpleName() + " on "
-                                                                + getBindAddress() + ", cause: " + t.getMessage(), t);
+            throw new RemotingException(t, RemotingResponseCode.SERVER_OPEN_UNCAUGHT_EXCEPTION,
+                getClass().getSimpleName(), getBindAddress(), t.getMessage());
         }
     }
 
