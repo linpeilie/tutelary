@@ -68,8 +68,8 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
     @Override
     public List<D> list(final Q q, final long pageIndex, final long pageSize) {
         final LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildLambdaQueryWrapper(q);
-        final Page<E> page = Page.of(pageIndex, pageSize);
-        return entitiesToDomainList(super.page(page, queryWrapper).getRecords());
+        queryWrapper.last(" limit " + (pageIndex - 1) * pageSize + "," + pageSize);
+        return entitiesToDomainList(super.list(queryWrapper));
     }
 
     @Override
