@@ -10,18 +10,18 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class InstanceManager {
 
     private static final Map<String, Instance> INSTANCE_MAP = new ConcurrentHashMap<>();
 
-    @Autowired
-    private AppService appService;
-    @Autowired
-    private InstanceService instanceService;
+    private final AppService appService;
+    private final InstanceService instanceService;
 
     @PostConstruct
     private void reset() {

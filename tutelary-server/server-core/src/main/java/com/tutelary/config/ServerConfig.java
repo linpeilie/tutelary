@@ -20,7 +20,7 @@ public class ServerConfig {
         return new MessageAcceptor();
     }
 
-    @Bean(initMethod = "start", destroyMethod = "destroy")
+    @Bean(destroyMethod = "destroy")
     public TutelaryServer tutelaryServer(ServerEndpointConfig serverEndpointConfig,
         List<MessageProcessor> messageProcessors,
         List<ChannelHandler> channelHandlers) {

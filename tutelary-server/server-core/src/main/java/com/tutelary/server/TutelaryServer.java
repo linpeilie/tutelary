@@ -16,7 +16,7 @@ public class TutelaryServer {
     private final ServerEndpointConfig config;
     private final EndpointContext endpointContext;
     private final List<ChannelHandler> channelHandlers;
-    private RemotingServer remotingServer;
+    private final RemotingServer remotingServer;
 
     public TutelaryServer(ServerEndpointConfig config, List<ChannelHandler> channelHandlers) {
         this.config = config;
@@ -25,9 +25,6 @@ public class TutelaryServer {
             .host(config.getHost())
             .port(config.getPort())
             .build();
-    }
-
-    public void start() {
         log.debug("tutelary server endpoint config : {}", config);
         log.info("TutelaryServer [ {} ] start...", this.getClass().getSimpleName());
         Transporter transporter = new NettyTransporter();

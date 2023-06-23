@@ -18,6 +18,7 @@ import com.tutelary.dao.CommandTaskDAO;
 import com.tutelary.message.CommandExecuteRequest;
 import com.tutelary.message.CommandExecuteResponse;
 import com.tutelary.remoting.api.Channel;
+import com.tutelary.utils.IdGeneratorHelper;
 import java.io.IOException;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
     }
 
     @Override
-    public void createCommand(String instanceId, PARAM request) {
+    public CommandTask createCommand(String instanceId, PARAM request) {
         Optional<Instance> instanceOptional = instanceManager.getInstance(instanceId);
         if (!instanceOptional.isPresent()) {
             throw new InstanceNotExistsException(instanceId);
@@ -51,15 +52,20 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
             String taskId = generateTaskId();
 
             // 任务持久化
-            commandTaskPersistence(instanceId, taskId, request);
+            final CommandTask commandTask = commandTaskPersistence(instanceId, taskId, request);
 
             CommandExecuteRequest commandExecuteRequest = CommandExecuteRequest.builder()
                 .taskId(taskId)
                 .code(commandCode())
                 .param(Any.pack(request))
                 .build();
+
+            // send to client
             instanceOptional.get().sendData(commandExecuteRequest);
+
+            return commandTask;
         } catch (IOException e) {
+            // TODO:
             throw new RuntimeException(e);
         }
     }
@@ -91,16 +97,17 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
     protected abstract void callResult(String instanceId, String taskId, RESPONSE response);
 
     private String generateTaskId() {
-        return UUID.fastUUID().toString(true);
+        return IdGeneratorHelper.getId();
     }
 
-    private void commandTaskPersistence(String instanceId, String taskId, PARAM param) {
+    private CommandTask commandTaskPersistence(String instanceId, String taskId, PARAM param) {
         CommandTask commandTask = new CommandTask();
         commandTask.setInstanceId(instanceId);
         commandTask.setTaskId(taskId);
         commandTask.setParam(JSONUtil.toJsonStr(param));
         commandTask.setCommandCode(commandCode());
         commandTaskDAO.add(commandTask);
+        return commandTask;
     }
 
     protected Class<RESPONSE> getResponseClass() {

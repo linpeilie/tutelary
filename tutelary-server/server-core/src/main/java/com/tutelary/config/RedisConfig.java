@@ -30,10 +30,10 @@ public class RedisConfig {
 
     private RedisSerializer<Object> jsonSerializer() {
         Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
-        serializer.setObjectMapper(objectMapper);
+        ObjectMapper converter = new ObjectMapper();
+        converter.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        converter.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        serializer.setObjectMapper(converter);
         return serializer;
     }
 

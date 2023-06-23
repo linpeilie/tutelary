@@ -1,10 +1,13 @@
 package com.tutelary.api;
 
+import com.tutelary.bean.domain.CommandTask;
 import com.tutelary.bean.domain.CommandTaskCreate;
 import com.tutelary.bean.req.CommandCreateRequest;
+import com.tutelary.bean.resp.CommandTaskResponse;
 import com.tutelary.common.bean.R;
 import com.tutelary.service.CommandService;
 import io.github.linpeilie.Converter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,27 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/command")
 public class CommandAdapter {
 
-    private CommandService commandService;
+    private final CommandService commandService;
 
-    private Converter objectMapper;
+    private final Converter converter;
 
     @PostMapping("/createCommand")
-    public R createThreadListCommand(@RequestBody CommandCreateRequest request) {
-        final CommandTaskCreate commandTaskCreate = objectMapper.convert(request, CommandTaskCreate.class);
-        commandService.createCommand(commandTaskCreate);
-        return R.success();
+    public R<CommandTaskResponse> createThreadListCommand(@RequestBody CommandCreateRequest request) {
+        final CommandTaskCreate commandTaskCreate = converter.convert(request, CommandTaskCreate.class);
+        final CommandTask commandTask = commandService.createCommand(commandTaskCreate);
+        return R.success(converter.convert(commandTask, CommandTaskResponse.class));
     }
 
-    @Autowired
-    public void setCommandService(final CommandService commandService) {
-        this.commandService = commandService;
-    }
-
-    @Autowired
-    public void setObjectMapper(final Converter objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 }

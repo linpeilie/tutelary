@@ -14,9 +14,9 @@ storage:
       username: ${TUTELARY_STORAGE_H2_USERNAME:root}
   mysql:
     properties:
-      url: ${TUTELARY_STORAGE_MYSQL_URL:jdbc:mysql://127.0.0.1:3306/tutelary}
+      url: ${TUTELARY_STORAGE_MYSQL_URL:jdbc:mysql://192.168.6.166:10001/tutelary}
       username: ${TUTELARY_STORAGE_MYSQL_USERNAME:root}
-      password: ${TUTELARY_STORAGE_MYSQL_PASSWORD:123456}
+      password: ${TUTELARY_STORAGE_MYSQL_PASSWORD:bde80566}
 
 spring:
   datasource:
@@ -27,8 +27,8 @@ spring:
       connection-timeout: 20000
       connection-test-query: select 1
   redis:
-    host: 127.0.0.1
-    port: 6379
+    host: 192.168.6.166
+    port: 10000
     database: 0
     lettuce:
       pool:
