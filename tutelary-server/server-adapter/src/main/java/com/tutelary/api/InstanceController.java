@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/instance")
-public class InstanceAdapter {
+public class InstanceController {
 
     private static final int KB = 1024;
 
@@ -199,7 +199,7 @@ public class InstanceAdapter {
 
     /************************* setter *************************/
     @Autowired
-    public InstanceAdapter setInstanceService(InstanceService instanceService) {
+    public InstanceController setInstanceService(InstanceService instanceService) {
         this.instanceService = instanceService;
         return this;
     }

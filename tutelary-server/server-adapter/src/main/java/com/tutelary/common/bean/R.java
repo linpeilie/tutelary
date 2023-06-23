@@ -22,14 +22,14 @@ public class R<T> implements Serializable {
         return r;
     }
 
-    public static R<?> success() {
-        R<?> r = new R<>();
+    public static R<Void> success() {
+        R<Void> r = new R<>();
         r.setCode(SUCCESS);
         return r;
     }
 
-    public static R<?> failure(String message) {
-        R<?> r = new R<>();
+    public static R<Void> failure(String message) {
+        R<Void> r = new R<>();
         r.setCode(FAILED);
         r.setMessage(message);
         return r;

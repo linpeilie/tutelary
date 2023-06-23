@@ -1,6 +1,7 @@
 package com.tutelary.common.repository;
 
 import cn.hutool.core.util.TypeUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -75,5 +76,9 @@ public abstract class AbstractRepository<Q extends BaseQueryDomain, D extends Ba
     public long count(final Q q) {
         final LambdaQueryWrapper<E> queryWrapper = MybatisPlusQueryHelper.buildLambdaQueryWrapper(q, true);
         return super.count(queryWrapper);
+    }
+
+    public D getOneForDomain(final Wrapper<E> queryWrapper) {
+        return converter.convert(super.getOne(queryWrapper), getDomainClass());
     }
 }

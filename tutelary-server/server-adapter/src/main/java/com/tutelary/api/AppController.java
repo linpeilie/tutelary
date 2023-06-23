@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping(value = "/api/app")
-public class AppAdapter {
+public class AppController {
 
     private AppService appService;
     private Converter converter;

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/auth")
 @RestController
-public class AutoAdapter {
+public class AutoController {
 
     @PostMapping("/login")
-    public R login(@RequestBody AuthenticationRequest authenticationRequest) {
+    public R<Void> login(@RequestBody AuthenticationRequest authenticationRequest) {
         if ("admin".equals(authenticationRequest.getUsername()) && "123456".equals(authenticationRequest.getPassword())) {
             StpUtil.login(authenticationRequest.getUsername());
             return R.success();
