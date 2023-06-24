@@ -18,7 +18,7 @@
         <module>server-core</module>
         <module>server-starter</module>
         <module>server-storage</module>
-        <module>server-adapter</module>
+        <module>server-api</module>
     </modules>
 
     <properties>
@@ -47,7 +47,7 @@
             </dependency>
             <dependency>
                 <groupId>com.tutelary</groupId>
-                <artifactId>server-adapter</artifactId>
+                <artifactId>server-api</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>
             <dependency>

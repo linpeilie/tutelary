@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.tutelary</groupId>
-            <artifactId>server-adapter</artifactId>
+            <artifactId>server-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tutelary</groupId>
