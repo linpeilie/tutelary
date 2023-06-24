@@ -10,7 +10,8 @@ public enum CommonResponseCode implements ResponseCode {
     NO_PERMISSION("99990003", "无权限", 0),
     NO_LOGIN("99990004", "用户未登录", 0),
     AUTHENTICATION_FAILURE("99990005", "用户名或密码错误", 0),
-    USER_STATE_ERROR("99990006", "用户状态异常", 0),
+    USER_STATE_DISABLED("99990006", "账号已被停用", 0),
+    USER_LOGIN_FAULT_EXCEED_MAX("99990007", "密码输入错误%s次，账户锁定%s分钟", 2),
 
     NOT_FOUND("99990011", "数据不存在", 0),
     ALREADY_EXISTS("99990012", "数据已存在", 0),

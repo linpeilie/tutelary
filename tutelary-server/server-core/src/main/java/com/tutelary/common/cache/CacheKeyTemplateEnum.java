@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CacheKeyTemplateEnum {
 
-    WORKER("id:worker:%s");
+    WORKER("id:worker:%s"),
+    LOGIN_FAULT_CNT("auth:login_fault_cnt:%s");
 
     private String template;
 

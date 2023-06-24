@@ -6,7 +6,7 @@ import com.tutelary.dao.common.QueryDAO;
 
 public interface UserDAO extends QueryDAO<UserQuery, User> {
 
-    User getByUserName(String userName);
+    User getByUsername(String username);
 
     User getByPhoneNumber(String phoneNumber);
 

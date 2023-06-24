@@ -1,4 +1,4 @@
-package com.tutelary.server.processor;
+package com.tutelary.remoting.processor;
 
 import com.tutelary.command.CommandExecute;
 import com.tutelary.common.extension.ExtensionExecutor;

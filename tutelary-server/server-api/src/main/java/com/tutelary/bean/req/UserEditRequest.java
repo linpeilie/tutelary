@@ -15,8 +15,8 @@ public class UserEditRequest extends AbstractRequest {
     @Schema(name = "userId", description = "用户ID")
     private String userId;
 
-    @Schema(name = "userName", description = "用户账号")
-    private String userName;
+    @Schema(name = "username", description = "用户账号")
+    private String username;
 
     @Schema(name = "nickName", description = "用户昵称")
     private String nickName;

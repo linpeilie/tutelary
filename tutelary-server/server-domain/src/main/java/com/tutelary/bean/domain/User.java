@@ -9,7 +9,7 @@ public class User extends BaseDomain {
 
     private String userId;
 
-    private String userName;
+    private String username;
 
     private String nickName;
 

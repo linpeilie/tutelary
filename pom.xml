@@ -46,6 +46,7 @@
         <arthas-repackage-logger.version>0.0.12</arthas-repackage-logger.version>
         <sa-token.version>1.34.0</sa-token.version>
         <springdoc.version>1.7.0</springdoc.version>
+        <redisson.version>3.22.1</redisson.version>
     </properties>
 
     <dependencies>
@@ -226,6 +227,12 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc.version}</version>
+            </dependency>
+            <!-- redisson -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

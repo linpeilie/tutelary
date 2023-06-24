@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.tutelary.InstanceManager;
+import com.tutelary.SessionStore;
 import com.tutelary.bean.domain.CommandTask;
 import com.tutelary.bean.domain.Instance;
 import com.tutelary.common.CommandRequest;
@@ -32,6 +33,8 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
 
     private CommandTaskDAO commandTaskDAO;
 
+    private SessionStore sessionStore;
+
     @Autowired
     public void setCommandTaskDAO(final CommandTaskDAO commandTaskDAO) {
         this.commandTaskDAO = commandTaskDAO;
@@ -40,6 +43,11 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
     @Autowired
     public void setInstanceManager(final InstanceManager instanceManager) {
         this.instanceManager = instanceManager;
+    }
+
+    @Autowired
+    public void setSessionStore(final SessionStore sessionStore) {
+        this.sessionStore = sessionStore;
     }
 
     @Override
@@ -79,6 +87,10 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
             // TODO:
             return;
         }
+
+        // TODO:
+        sessionStore.sendAllMessage(response);
+
         CommandTask commandTask = commandTaskDAO.getByTaskId(taskId);
         if (commandTask == null) {
             log.warn("call result failed, command task not exists, taskId : {}", taskId);

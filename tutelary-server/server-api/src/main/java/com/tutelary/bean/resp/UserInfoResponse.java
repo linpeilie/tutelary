@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-@Schema(name = "UserOutput", description = "用户信息返回参数")
+@Schema(name = "UserInfoResponse", description = "用户信息返回参数")
 @AutoMapper(target = User.class, convertGenerate = false)
 public class UserInfoResponse extends AbstractResponse {
 
@@ -16,8 +16,8 @@ public class UserInfoResponse extends AbstractResponse {
     @Schema(name = "userId", description = "用户ID")
     private String userId;
 
-    @Schema(name = "userName", description = "用户账号")
-    private String userName;
+    @Schema(name = "username", description = "用户账号")
+    private String username;
 
     @Schema(name = "nickName", description = "用户昵称")
     private String nickName;

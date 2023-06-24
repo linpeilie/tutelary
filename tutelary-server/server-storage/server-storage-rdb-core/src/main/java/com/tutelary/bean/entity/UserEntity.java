@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @AutoMapper(target = User.class)
 @TableName(value = "user")
 @Table(comment = "用户信息", indexs = {
-    @Index(unique = true, columns = "user_name"),
+    @Index(unique = true, columns = "username"),
     @Index(unique = true, columns = "phone_number")
 })
 public class UserEntity extends BaseEntity {
@@ -27,7 +27,7 @@ public class UserEntity extends BaseEntity {
     private String userId;
 
     @Column(isNull = false, length = 32, comment = "用户账号", sequence = 3)
-    private String userName;
+    private String username;
 
     @Column(isNull = false, length = 32, comment = "用户昵称", sequence = 4)
     private String nickName;

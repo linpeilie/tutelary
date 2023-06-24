@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkUnique(User user) {
-        Asserts.isNull(userDAO.getByUserName(user.getUserName()), "用户账号已存在");
+        Asserts.isNull(userDAO.getByUsername(user.getUsername()), "用户账号已存在");
         Asserts.isNull(userDAO.getByPhoneNumber(user.getPhoneNumber()), "用户手机号已存在");
     }
 

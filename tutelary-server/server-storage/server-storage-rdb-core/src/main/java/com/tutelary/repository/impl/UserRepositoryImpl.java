@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 public class UserRepositoryImpl extends AbstractRepository<UserQuery, User, UserEntity, UserMapper>
     implements UserRepository {
     @Override
-    public User getByUserName(final String userName) {
+    public User getByUsername(final String username) {
         final LambdaQueryWrapper<UserEntity> queryWrapper = Wrappers.lambdaQuery();
-        return super.getOneForDomain(queryWrapper.eq(UserEntity::getUserName, userName));
+        return super.getOneForDomain(queryWrapper.eq(UserEntity::getUsername, username));
     }
 
     @Override

@@ -10,7 +10,9 @@ import com.tutelary.common.BaseMessage;
 import com.tutelary.common.utils.Asserts;
 import com.tutelary.exception.UnknownCommandException;
 import com.tutelary.remoting.api.Codec;
+import com.tutelary.remoting.netty.utils.ProtobufEncodeUtils;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -33,17 +35,7 @@ public class ProtobufCodec implements Codec {
 
     @Override
     public byte[] encode(Object message) throws IOException {
-        Class<BaseMessage> clazz = (Class<BaseMessage>) message.getClass();
-        com.baidu.bjf.remoting.protobuf.Codec<BaseMessage> codec = ProtobufProxy.create(clazz);
-        byte[] bytes = codec.encode((BaseMessage) message);
-        int length = bytes.length;
-        byte[] lengthBytes = ByteUtil.intToBytes(length);
-        Message messageAnnotation = clazz.getAnnotation(Message.class);
-        byte[] result = new byte[length + 5];
-        result[0] = messageAnnotation.cmd();
-        System.arraycopy(lengthBytes, 0, result, 2, lengthBytes.length);
-        System.arraycopy(bytes, 0, result, 5, length);
-        return result;
+        return ProtobufEncodeUtils.encode(message);
     }
 
     @Override

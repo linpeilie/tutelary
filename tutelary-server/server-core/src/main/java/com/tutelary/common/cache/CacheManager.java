@@ -1,181 +1,207 @@
 package com.tutelary.common.cache;
 
+import java.time.Duration;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public interface CacheManager {
 
-    /**
-     * 保存属性
-     */
-    void set(String key, Object value, long time);
 
     /**
-     * 保存属性
+     * 获取指定 key 的前缀，获取相应的 key 集合，每次请求 cache 时，都会尝试获取 count 数量的数据
+     *
+     * @param prefix cache key值前缀
+     * @return
      */
-    void set(String key, Object value);
+    Iterable<String> getKeys(String prefix);
 
     /**
-     * 获取属性
+     * 设置指定 key 的数据存活时长（时间单位：毫秒）
+     *
+     * @param key        redis key的值
+     * @param timeToLive 数据存活时间，时间单位：毫秒
+     * @return 当 key 值所对应的数据存在，且过期时间设置成功时，返回true
      */
-    Object get(String key);
+    boolean expire(String key, long timeToLive);
 
     /**
-     * 删除属性
+     * 设置指定key的数据存活时长
+     *
+     * @param key        redis key值
+     * @param timeToLive 数据存活时间
+     * @param timeUnit   数据存活时间timeToLive的时间单位
+     * @return 当key值所对应的数据存在，且过期时间设置成功时，返回true
      */
-    Boolean del(String key);
+    boolean expire(String key, long timeToLive, TimeUnit timeUnit);
 
     /**
-     * 批量删除属性
+     * 清除指定key的过期时间信息
+     *
+     * @param key cache key值
+     * @return 当key值所对应的数据存在，且过期时间清除成功时，返回true
      */
-    Long del(List<String> keys);
+    boolean clearExpire(String key);
 
     /**
-     * 设置过期时间
+     * 验证指定的key值是否存在
+     *
+     * @param key cache key值
+     * @return true: 存在, false: 不存在
      */
-    Boolean expire(String key, long time);
+    boolean hasKey(String key);
 
     /**
-     * 获取过期时间
+     * 查询指定key的数据
+     *
+     * @param key cache key值
+     * @param <T>
+     * @return key所对应的数据
      */
-    Long getExpire(String key);
+    <T> T get(String key);
 
     /**
-     * 判断是否有该属性
+     * 设置普通数据到cache中
+     * 在后续不设置过期时间的情况下，该数据将永不过期
+     *
+     * @param key   cache key值
+     * @param value 存储到cache中的数据
+     * @param <V>
      */
-    Boolean hasKey(String key);
-
-    Long incr(String key);
+    <V> void set(String key, V value);
 
     /**
-     * 按delta递增
+     * 设置普通数据到cache中
+     * 带有指定的存活时间（时间单位：毫秒）
+     *
+     * @param key        cache key值
+     * @param value      存储到cache中的数据
+     * @param timeToLive 数据存活时间，时间单位：毫秒
+     * @param <V>
      */
-    Long incr(String key, long delta);
+    <V> void set(String key, V value, long timeToLive);
 
     /**
-     * 按delta递减
+     * 设置普通数据到cache中
+     * 带有指定的存活时间
+     *
+     * @param key        cache key值
+     * @param value      存储到cache中的数据
+     * @param timeToLive 数据存活时间
+     * @param timeUnit   数据存活时间timeToLive的时间单位
+     * @param <V>
      */
-    Long decr(String key, long delta);
+    <V> void set(String key, V value, long timeToLive, TimeUnit timeUnit);
 
     /**
-     * 获取Hash结构中的属性
+     * 尝试设置普通数据到cache中，如果数据已存在，则返回false
+     * 在后续不设置过期时间的情况下，该数据将永不过期
+     *
+     * @param key   cache key值
+     * @param value 存储到cache中的数据
+     * @param <V>
+     * @return 当key值所对应的数据不存在，则设置成功时，返回true
      */
-    Object hGet(String key, String hashKey);
+    <V> boolean trySet(String key, V value);
 
     /**
-     * 向Hash结构中放入一个属性
+     * 尝试设置普通数据到cache中，如果数据已存在，则返回false
+     * 带有指定的存活时间（时间单位：毫秒）
+     *
+     * @param key        cache key值
+     * @param value      存储到cache中的数据
+     * @param timeToLive 数据存活时间，时间单位：毫秒
+     * @param <V>
+     * @return 当key值所对应的数据不存在，则设置成功时，返回true
      */
-    Boolean hSet(String key, String hashKey, Object value, long time);
+    <V> boolean trySet(String key, V value, long timeToLive);
 
     /**
-     * 向Hash结构中放入一个属性
+     * 尝试设置普通数据到cache中，如果数据已存在，则返回false
+     * 带有指定的存活时间
+     *
+     * @param key        cache key值
+     * @param value      存储到cache中的数据
+     * @param timeToLive 数据存活时间，时间单位：毫秒
+     * @param timeUnit   数据存活时间timeToLive的时间单位
+     * @param <V>
+     * @return 当key值所对应的数据不存在，则设置成功时，返回true
      */
-    void hSet(String key, String hashKey, Object value);
+    <V> boolean trySet(String key, V value, long timeToLive, TimeUnit timeUnit);
 
     /**
-     * 直接获取整个Hash结构
+     * 删除指定key的数据
+     *
+     * @param keys cache key值
+     * @return 返回成功删除的数量
      */
-    Map<Object, Object> hGetAll(String key);
+    long delete(String... keys);
 
     /**
-     * 直接设置整个Hash结构
+     * 删除指定key的数据
+     *
+     * @param keys cache key集合
+     * @return 返回成功删除的数量
      */
-    Boolean hSetAll(String key, Map<String, Object> map, long time);
+    long delete(Collection<String> keys);
 
     /**
-     * 直接设置整个Hash结构
+     * 删除指定前缀key的数据
+     *
+     * @param prefix cache key值前缀
+     * @return 实际删除的数量
      */
-    void hSetAll(String key, Map<String, ?> map);
+    long deleteByPrefix(String prefix);
 
     /**
-     * 删除Hash结构中的属性
+     * 先递增1，然后再返回递增后的新值
+     *
+     * @param key cache key值
+     * @return 变化之后的atomic值
      */
-    void hDel(String key, Object... hashKey);
+    long incrementAndGet(String key);
 
     /**
-     * 判断Hash结构中是否有该属性
+     * 先返回递增后的值，再递增1
+     *
+     * @param key
+     * @return
      */
-    Boolean hHasKey(String key, String hashKey);
+    long getAndIncrement(String key);
 
     /**
-     * Hash结构中属性递增
+     * 保存集合到缓存中
+     *
+     * @param key        cache key值
+     * @param collection 存储到cache中的集合数据
+     * @return
      */
-    Long hIncr(String key, String hashKey, Long delta);
+    boolean setList(String key, Collection<?> collection);
 
     /**
-     * Hash结构中属性递减
+     * 获取集合
+     *
+     * @param key cache key值
+     * @return
      */
-    Long hDecr(String key, String hashKey, Long delta);
+    List<Object> getList(String key);
 
     /**
-     * 获取Set结构
+     * 保存 map 到缓存中
+     *
+     * @param key cache key值
+     * @param map 存储到cache中的map数据
+     * @return
      */
-    Set<Object> sMembers(String key);
+    <V> void setMap(String key, Map<String,? extends V> map);
 
     /**
-     * 向Set结构中添加属性
+     * 获取 map
+     *
+     * @param key cache key值
+     * @return
      */
-    Long sAdd(String key, Object... values);
-
-    /**
-     * 向Set结构中添加属性
-     */
-    Long sAdd(String key, long time, Object... values);
-
-    /**
-     * 是否为Set中的属性
-     */
-    Boolean sIsMember(String key, Object value);
-
-    /**
-     * 获取Set结构的长度
-     */
-    Long sSize(String key);
-
-    /**
-     * 删除Set结构中的属性
-     */
-    Long sRemove(String key, Object... values);
-
-    /**
-     * 获取List结构中的属性
-     */
-    List<Object> lRange(String key, long start, long end);
-
-    /**
-     * 获取List结构的长度
-     */
-    Long lSize(String key);
-
-    /**
-     * 根据索引获取List中的属性
-     */
-    Object lIndex(String key, long index);
-
-    /**
-     * 向List结构中添加属性
-     */
-    Long lPush(String key, Object value);
-
-    /**
-     * 向List结构中添加属性
-     */
-    Long lPush(String key, Object value, long time);
-
-    /**
-     * 向List结构中批量添加属性
-     */
-    Long lPushAll(String key, Object... values);
-
-    /**
-     * 向List结构中批量添加属性
-     */
-    Long lPushAll(String key, Long time, Object... values);
-
-    /**
-     * 从List结构中移除属性
-     */
-    Long lRemove(String key, long count, Object value);
-
+    <V> Map<String, V> getMap(String key);
 }

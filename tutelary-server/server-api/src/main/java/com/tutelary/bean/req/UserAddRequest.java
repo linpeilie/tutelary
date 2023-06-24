@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @AutoMapper(target = User.class)
 public class UserAddRequest extends AbstractRequest {
 
-    private String userName;
+    private String username;
 
     private String nickName;
 
@@ -25,7 +25,7 @@ public class UserAddRequest extends AbstractRequest {
     @Override
     public void checkInput() {
         super.checkInput();
-        ParameterUtils.notBlank(userName, "用户账号不能为空");
+        ParameterUtils.notBlank(username, "用户账号不能为空");
         ParameterUtils.notBlank(nickName, "用户昵称不能为空");
         ParameterUtils.notBlank(phoneNumber, "手机号不能为空");
         ParameterUtils.notBlank(password, "密码不能为空");

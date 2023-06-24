@@ -17,6 +17,6 @@ public class DisposableWorkerIdAssigner implements WorkerIdAssigner{
 
     @Override
     public long assignWorkerId() {
-        return cacheManager.incr(CacheKeyTemplateEnum.WORKER.toCacheKey(workerAppName));
+        return cacheManager.incrementAndGet(CacheKeyTemplateEnum.WORKER.toCacheKey(workerAppName));
     }
 }
