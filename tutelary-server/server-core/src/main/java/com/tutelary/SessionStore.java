@@ -53,11 +53,13 @@ public class SessionStore {
         }
     }
 
+    private void sendMessage(Session session, Object message) {
+        ThrowableUtil.safeExec(() ->
+            session.getAsyncRemote().sendBinary(ByteBuffer.wrap(ProtobufEncodeUtils.encode(message))));
+    }
+
     public void sendAllMessage(Object message) {
-        SESSIONS.forEach(session -> {
-            ThrowableUtil.safeExec(() ->
-                session.getAsyncRemote().sendBinary(ByteBuffer.wrap(ProtobufEncodeUtils.encode(message))));
-        });
+        SESSIONS.forEach(session -> sendMessage(session, message));
     }
 
     public boolean hasSession(String token) {
@@ -66,9 +68,7 @@ public class SessionStore {
 
     public void sendMessage(Object message, String token) {
         if (SESSION_MAP.containsKey(token)) {
-            SESSION_MAP.get(token).forEach(session ->
-                ThrowableUtil.safeExec(() ->
-                    session.getAsyncRemote().sendBinary(ByteBuffer.wrap(ProtobufEncodeUtils.encode(message)))));
+            SESSION_MAP.get(token).forEach(session -> sendMessage(session, message));
         }
     }
 

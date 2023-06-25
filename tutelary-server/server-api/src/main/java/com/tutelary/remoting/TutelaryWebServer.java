@@ -1,18 +1,17 @@
 package com.tutelary.remoting;
 
 import com.tutelary.SessionStore;
-import java.util.concurrent.CopyOnWriteArraySet;
+import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@ServerEndpoint(value = "/ws", configurator = TutelaryWebServerConfig.class)
+@ServerEndpoint(value = "/ws")
 public class TutelaryWebServer {
 
     private static SessionStore sessionStore;
@@ -27,6 +26,7 @@ public class TutelaryWebServer {
         sessionStore.addSession(session);
     }
 
+    @OnClose
     public void onClose(Session session) {
         sessionStore.removeSession(session);
     }
