@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CommandTaskCreate extends BaseDomain {
 
+    private String token;
+
     private String instanceId;
 
     private Integer commandCode;

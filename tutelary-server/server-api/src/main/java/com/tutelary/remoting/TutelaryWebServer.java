@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@ServerEndpoint(value = "/ws")
+@ServerEndpoint(value = "/ws", encoders = ProtobufBinaryEncoder.class)
 public class TutelaryWebServer {
 
     private static SessionStore sessionStore;

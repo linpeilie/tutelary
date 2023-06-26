@@ -19,6 +19,7 @@ import com.tutelary.dao.CommandTaskDAO;
 import com.tutelary.message.CommandExecuteRequest;
 import com.tutelary.message.CommandExecuteResponse;
 import com.tutelary.remoting.api.Channel;
+import com.tutelary.utils.AuthHelper;
 import com.tutelary.utils.IdGeneratorHelper;
 import java.io.IOException;
 import java.util.Optional;
@@ -88,15 +89,18 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
             return;
         }
 
-        // TODO:
-        sessionStore.sendAllMessage(response);
-
         CommandTask commandTask = commandTaskDAO.getByTaskId(taskId);
         if (commandTask == null) {
             log.warn("call result failed, command task not exists, taskId : {}", taskId);
             // TODO:
             return;
         }
+
+        // send to user
+        if (StrUtil.isNotEmpty(commandTask.getCreateUserId())) {
+            sessionStore.sendMessage(commandTask.getCreateUserId(), response);
+        }
+
         Any data = response.getData();
         try {
             RESPONSE result = data.unpack(getResponseClass());
@@ -118,6 +122,8 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
         commandTask.setTaskId(taskId);
         commandTask.setParam(JSONUtil.toJsonStr(param));
         commandTask.setCommandCode(commandCode());
+        commandTask.setCreateUserId(AuthHelper.getUserId());
+        commandTask.setUpdateUserId(AuthHelper.getUserId());
         commandTaskDAO.add(commandTask);
         return commandTask;
     }

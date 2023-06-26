@@ -3,7 +3,7 @@ package com.tutelary.common.constants;
 public interface Constants {
 
     interface Authentication {
-        String TOKEN = "token";
+        String LOGIN_USER_KEY = "loginUser";
     }
 
     interface ChannelAttributeConstants {

@@ -1,7 +1,6 @@
 package com.tutelary.service.impl;
 
 import cn.dev33.satoken.secure.BCrypt;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.tutelary.bean.domain.LoginUser;
 import com.tutelary.bean.domain.User;
@@ -13,6 +12,7 @@ import com.tutelary.common.exception.BusinessException;
 import com.tutelary.common.utils.Asserts;
 import com.tutelary.dao.UserDAO;
 import com.tutelary.service.LoginService;
+import com.tutelary.utils.AuthHelper;
 import com.tutelary.utils.LoginHelper;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -72,6 +72,6 @@ public class LoginServiceImpl implements LoginService {
 
         LoginHelper.login(loginUser);
 
-        return StpUtil.getTokenValue();
+        return AuthHelper.getTokenValue();
     }
 }
