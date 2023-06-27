@@ -10,4 +10,8 @@ public interface Constants {
         String INSTANCE_ID = "channel.attribute.instance.id";
     }
 
+    interface Topic {
+        String TASK_CALLBACK_NOTIFY_USER = "task.callback.notify.user";
+    }
+
 }

@@ -33,6 +33,10 @@ public class AuthHelper {
         return StpUtil.getLoginIdByToken(token) != null;
     }
 
+    public static boolean isLoginByUserId(String userId) {
+        return StpUtil.isLogin(userId);
+    }
+
     /**
      * 获取当前登录用户的ID
      */
@@ -59,8 +63,8 @@ public class AuthHelper {
         return userId == null ? null : String.valueOf(userId);
     }
 
-    public static List<String> getTokensByUserId(String userId) {
-        return StpUtil.getTokenValueListByLoginId(userId);
+    public static String getTokenByUserId(String userId) {
+        return StpUtil.getTokenValueByLoginId(userId);
     }
 
 }

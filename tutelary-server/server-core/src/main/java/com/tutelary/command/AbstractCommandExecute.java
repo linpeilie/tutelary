@@ -1,7 +1,6 @@
 package com.tutelary.command;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baidu.bjf.remoting.protobuf.Any;
@@ -13,7 +12,7 @@ import com.tutelary.common.CommandRequest;
 import com.tutelary.common.CommandResponse;
 import com.tutelary.common.constants.Constants;
 import com.tutelary.common.exception.InstanceNotExistsException;
-import com.tutelary.common.utils.Asserts;
+import com.tutelary.common.message.MessageManager;
 import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.dao.CommandTaskDAO;
 import com.tutelary.message.CommandExecuteRequest;
@@ -34,6 +33,8 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
 
     private CommandTaskDAO commandTaskDAO;
 
+    private MessageManager messageManager;
+
     private SessionStore sessionStore;
 
     @Autowired
@@ -44,6 +45,11 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
     @Autowired
     public void setInstanceManager(final InstanceManager instanceManager) {
         this.instanceManager = instanceManager;
+    }
+
+    @Autowired
+    public void setMessageManager(final MessageManager messageManager) {
+        this.messageManager = messageManager;
     }
 
     @Autowired
@@ -96,17 +102,25 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
             return;
         }
 
-        // send to user
-        if (StrUtil.isNotEmpty(commandTask.getCreateUserId())) {
-            sessionStore.sendMessage(commandTask.getCreateUserId(), response);
-        }
-
         Any data = response.getData();
         try {
             RESPONSE result = data.unpack(getResponseClass());
             callResult(Convert.toStr(instanceId), taskId, result);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        // 通知用户
+        final String createUserId = commandTask.getCreateUserId();
+        if (StrUtil.isNotEmpty(createUserId)) {
+            final String token = AuthHelper.getTokenByUserId(createUserId);
+            if (StrUtil.isNotEmpty(token)) {
+                if (sessionStore.containsSessionByToken(token)) {
+                    sessionStore.sendMessage(token, response);
+                } else {
+                    messageManager.publish(Constants.Topic.TASK_CALLBACK_NOTIFY_USER, response);
+                }
+            }
         }
     }
 

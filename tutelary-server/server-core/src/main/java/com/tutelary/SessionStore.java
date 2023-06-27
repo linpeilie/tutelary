@@ -1,25 +1,19 @@
 package com.tutelary;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.tutelary.common.utils.ThrowableUtil;
 import com.tutelary.utils.AuthHelper;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.websocket.Session;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SessionStore {
 
-    private static final CopyOnWriteArraySet<Session> SESSIONS = new CopyOnWriteArraySet<>();
-
-    private static final Multimap<String, Session> SESSION_MAP = HashMultimap.create();
+    private static final Map<String, Session> SESSION_MAP = new ConcurrentHashMap<>();
 
     private String getTokenBySession(Session session) {
         final Map<String, List<String>> requestParameterMap = session.getRequestParameterMap();
@@ -35,6 +29,10 @@ public class SessionStore {
 
     private void closeWithUnauthorized(Session session) {
         session.getAsyncRemote().sendText("未登录");
+        closeSession(session);
+    }
+
+    private void closeSession(Session session) {
         ThrowableUtil.safeExec(session::close);
     }
 
@@ -44,34 +42,19 @@ public class SessionStore {
             closeWithUnauthorized(session);
             return;
         }
-        SESSIONS.add(session);
         // 添加用户对应的 session
-        synchronized (token.intern()) {
-            SESSION_MAP.put(token, session);
+        final Session oldSession = SESSION_MAP.put(token, session);
+        if (oldSession != null) {
+            oldSession.getAsyncRemote().sendText("已在其他地方登录或打开了多个窗口");
+            closeSession(oldSession);
         }
     }
 
     public void removeSession(Session session) {
-        SESSIONS.remove(session);
         final String token = getTokenBySession(session);
         if (StrUtil.isNotEmpty(token)) {
-            synchronized (token.intern()) {
-                SESSION_MAP.remove(token, session);
-            }
+            SESSION_MAP.remove(token, session);
         }
-    }
-
-    public void removeSession(String userId, String token) {
-        final Collection<Session> sessions = SESSION_MAP.get(userId);
-        if (CollectionUtil.isEmpty(sessions)) {
-            return;
-        }
-        sessions.forEach(session -> {
-            final String tokenValue = getTokenBySession(session);
-            if (ObjectUtil.equals(tokenValue, token)) {
-                removeSession(session);
-            }
-        });
     }
 
     private void sendMessage(Session session, Object message) {
@@ -79,22 +62,14 @@ public class SessionStore {
             session.getAsyncRemote().sendObject(message));
     }
 
-    public void sendAllMessage(Object message) {
-        SESSIONS.forEach(session -> sendMessage(session, message));
+    public boolean containsSessionByToken(String token) {
+        return SESSION_MAP.containsKey(token);
     }
 
-    public void sendMessage(String userId, Object message) {
-        final List<String> tokens = AuthHelper.getTokensByUserId(userId);
-        if (CollectionUtil.isEmpty(tokens)) {
-            return;
+    public void sendMessage(String token, Object message) {
+        if(SESSION_MAP.containsKey(token)) {
+            sendMessage(SESSION_MAP.get(token), message);
         }
-        tokens.forEach(token -> {
-            final Collection<Session> sessions = SESSION_MAP.get(token);
-            if (CollectionUtil.isEmpty(sessions)) {
-                return;
-            }
-            sessions.forEach(session -> sendMessage(session, message));
-        });
     }
 
 }
