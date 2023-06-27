@@ -1,16 +1,15 @@
-package com.tutelary.id.uid;
+package com.tutelary.common.id.uid;
 
-import com.tutelary.id.IdGenerator;
-import com.tutelary.id.uid.buffer.BufferPaddingExecutor;
-import com.tutelary.id.uid.buffer.RejectedPutBufferHandler;
-import com.tutelary.id.uid.buffer.RejectedTakeBufferHandler;
-import com.tutelary.id.uid.buffer.RingBuffer;
-import com.tutelary.id.uid.exception.UidGenerateException;
-import com.tutelary.id.worker.WorkerIdAssigner;
+import com.tutelary.common.id.uid.buffer.RejectedTakeBufferHandler;
+import com.tutelary.common.id.uid.buffer.RingBuffer;
+import com.tutelary.common.id.uid.exception.UidGenerateException;
+import com.tutelary.common.id.worker.WorkerIdAssigner;
+import com.tutelary.common.id.IdGenerator;
+import com.tutelary.common.id.uid.buffer.BufferPaddingExecutor;
+import com.tutelary.common.id.uid.buffer.RejectedPutBufferHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;

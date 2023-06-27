@@ -1,6 +1,6 @@
 package com.tutelary.utils;
 
-import com.tutelary.id.IdGenerator;
+import com.tutelary.common.id.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

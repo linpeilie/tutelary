@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.tutelary.id.uid.buffer;
+package com.tutelary.common.id.uid.buffer;
 
 /**
- * If tail catches the cursor it means that the ring buffer is full, any more buffer put request will be rejected.
+ * If cursor catches the tail it means that the ring buffer is empty, any more buffer take request will be rejected.
  * Specify the policy to handle the reject. This is a Lambda supported interface
  * 
  * @author yutianbao
  */
 @FunctionalInterface
-public interface RejectedPutBufferHandler {
+public interface RejectedTakeBufferHandler {
 
     /**
-     * Reject put buffer request
+     * Reject take buffer request
      * 
      * @param ringBuffer
-     * @param uid
      */
-    void rejectPutBuffer(RingBuffer ringBuffer, long uid);
+    void rejectTakeBuffer(RingBuffer ringBuffer);
 }

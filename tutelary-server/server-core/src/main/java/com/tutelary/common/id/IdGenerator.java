@@ -1,4 +1,4 @@
-package com.tutelary.id;
+package com.tutelary.common.id;
 
 public interface IdGenerator {
 

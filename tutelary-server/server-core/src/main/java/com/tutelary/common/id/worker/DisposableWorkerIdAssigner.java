@@ -1,4 +1,4 @@
-package com.tutelary.id.worker;
+package com.tutelary.common.id.worker;
 
 import com.tutelary.common.cache.CacheKeyTemplateEnum;
 import com.tutelary.common.cache.CacheManager;

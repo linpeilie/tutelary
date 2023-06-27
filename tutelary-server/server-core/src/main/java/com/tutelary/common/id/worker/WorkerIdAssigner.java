@@ -1,4 +1,4 @@
-package com.tutelary.id.worker;
+package com.tutelary.common.id.worker;
 
 public interface WorkerIdAssigner {
 

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.tutelary.id.uid.buffer;
+package com.tutelary.common.id.uid.buffer;
 
-import com.tutelary.id.uid.utils.PaddedAtomicLong;
+import com.tutelary.common.id.uid.utils.PaddedAtomicLong;
 import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
