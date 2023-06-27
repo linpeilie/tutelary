@@ -1,7 +1,7 @@
 package com.tutelary.command.ext;
 
 import com.tutelary.bean.domain.InstanceThreadDetailCommand;
-import com.tutelary.command.AbstractSimpleCommandExecuteAdapter;
+import com.tutelary.command.AbstractSingleCommandExecuteAdapter;
 import com.tutelary.common.extension.Extension;
 import com.tutelary.constants.CommandConstants;
 import com.tutelary.dao.InstanceThreadDetailCommandDAO;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Extension(commandCode = CommandConstants.threadDetail)
 public class ThreadDetailCommandExecute
-    extends AbstractSimpleCommandExecuteAdapter<ThreadDetailRequest, ThreadDetail, InstanceThreadDetailCommand> {
+    extends AbstractSingleCommandExecuteAdapter<ThreadDetailRequest, ThreadDetail, InstanceThreadDetailCommand> {
 
     public ThreadDetailCommandExecute(final InstanceThreadDetailCommandDAO dao) {
         super(dao);

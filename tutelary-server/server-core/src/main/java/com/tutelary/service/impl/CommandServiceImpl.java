@@ -1,8 +1,6 @@
 package com.tutelary.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.tutelary.bean.domain.CommandTask;
-import com.tutelary.bean.domain.CommandTaskCreate;
 import com.tutelary.command.CommandExecute;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.extension.ExtensionExecutor;
@@ -19,10 +17,8 @@ public class CommandServiceImpl implements CommandService {
     private ExtensionExecutor extensionExecutor;
 
     @Override
-    public CommandTask createCommand(CommandTaskCreate commandTaskCreate) {
-        return extensionExecutor.execute(CommandExecute.class, commandTaskCreate.getCommandCode(), ext -> {
-            CommandRequest param = (CommandRequest) JSONUtil.toBean(commandTaskCreate.getParam(), ext.getParamClass());
-            return ext.createCommand(commandTaskCreate.getInstanceId(), param);
-        });
+    public CommandTask createCommand(final Integer commandCode, final String instanceId, final CommandRequest param) {
+        return extensionExecutor.execute(CommandExecute.class, commandCode,
+            ext -> ext.createCommand(instanceId, param));
     }
 }

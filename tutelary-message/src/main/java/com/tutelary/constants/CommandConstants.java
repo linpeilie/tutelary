@@ -8,6 +8,10 @@ public interface CommandConstants {
 
     int threadDetail = 20012;
 
+    int enhanceAffect = 21001;
+
+    int enhanceComplete = 21002;
+
     int traceMethod = 21011;
 
     int stackMethod = 21012;

@@ -6,13 +6,14 @@ import com.tutelary.common.CommandResponse;
 import com.tutelary.common.domain.BaseCommandDomain;
 import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.dao.common.Dao;
+import java.time.LocalDateTime;
 
-public abstract class AbstractSimpleCommandExecuteAdapter<PARAM extends CommandRequest, RESPONSE extends CommandResponse, Domain extends BaseCommandDomain<RESPONSE>>
+public abstract class AbstractPersistenceCommandExecuteAdapter<PARAM extends CommandRequest, RESPONSE extends CommandResponse, Domain extends BaseCommandDomain<RESPONSE>>
     extends AbstractCommandExecute<PARAM, RESPONSE> {
 
     private final Dao<Domain> dao;
 
-    public AbstractSimpleCommandExecuteAdapter(final Dao<Domain> dao) {
+    public AbstractPersistenceCommandExecuteAdapter(final Dao<Domain> dao) {
         this.dao = dao;
     }
 
@@ -21,6 +22,8 @@ public abstract class AbstractSimpleCommandExecuteAdapter<PARAM extends CommandR
         Domain commandDomain = ReflectUtil.newInstance(getDomainClass());
         commandDomain.setTaskId(taskId);
         commandDomain.setInstanceId(instanceId);
+        // TODO:客户端上报时间
+        commandDomain.setReportTime(LocalDateTime.now());
         commandDomain.setResult(response);
 
         dao.add(commandDomain);

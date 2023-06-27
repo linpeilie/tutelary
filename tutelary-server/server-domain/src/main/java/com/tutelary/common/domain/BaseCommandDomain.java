@@ -1,6 +1,7 @@
 package com.tutelary.common.domain;
 
 import com.tutelary.common.CommandResponse;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +12,8 @@ public class BaseCommandDomain<R extends CommandResponse> extends BaseDomain {
     private String instanceId;
 
     private String taskId;
+
+    private LocalDateTime reportTime;
 
     private R result;
 

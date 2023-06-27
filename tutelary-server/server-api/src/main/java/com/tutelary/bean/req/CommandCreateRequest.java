@@ -1,18 +1,19 @@
 package com.tutelary.bean.req;
 
-import com.tutelary.bean.domain.CommandTaskCreate;
+import com.tutelary.common.CommandRequest;
 import com.tutelary.common.bean.req.AbstractRequest;
-import io.github.linpeilie.annotations.AutoMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AutoMapper(target = CommandTaskCreate.class)
-public class CommandCreateRequest extends AbstractRequest {
+@Schema(name = "CommandCreateRequest", description = "创建命令入参")
+public class CommandCreateRequest<P extends CommandRequest> extends AbstractRequest {
+
+    @Schema(name = "instanceId", description = "实例ID")
     private String instanceId;
 
-    private Integer commandCode;
-
-    private String param;
+    @Schema(name = "param", description = "命令参数")
+    private P param;
 }

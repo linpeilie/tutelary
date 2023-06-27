@@ -1,12 +1,15 @@
 package com.tutelary.bean.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.tutelary.bean.domain.CommandTask;
 import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
 import com.tutelary.installer.constants.DataTypes;
+import com.tutelary.message.command.result.EnhanceAffect;
 import io.github.linpeilie.annotations.AutoMapper;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -36,7 +39,11 @@ public class CommandTaskEntity extends BaseEntity {
     @Column(isNull = false, comment = "任务参数", dataType = DataTypes.TEXT, sequence = 5)
     private String param;
 
-    @Column(comment = "完成时间", sequence = 6)
+    @Column(comment = "增强结果", sequence = 6)
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private EnhanceAffect enhanceAffect;
+
+    @Column(comment = "完成时间", sequence = 7)
     private LocalDateTime completeTime;
 
 }

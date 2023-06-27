@@ -6,6 +6,7 @@ import com.tutelary.client.command.AbstractEnhanceCommand;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
+import com.tutelary.constants.CommandConstants;
 import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.CommandExecuteResponse;
 import com.tutelary.message.command.result.EnhanceCommandComplete;
@@ -40,7 +41,7 @@ public class EnhanceTask extends AbstractTask {
             EnhanceCommandComplete enhanceCommandComplete = new EnhanceCommandComplete();
             enhanceCommandComplete.setCode(commandInfo.getCommandCode());
             CommandExecuteResponse responseMessage = new CommandExecuteResponse();
-            responseMessage.setCode(commandInfo.getCommandCode());
+            responseMessage.setCode(CommandConstants.enhanceComplete);
             responseMessage.setTaskId(getId());
             try {
                 responseMessage.setData(Any.pack(enhanceCommandComplete));
@@ -52,12 +53,14 @@ public class EnhanceTask extends AbstractTask {
     }
 
     @Override
-    protected void complete(Object commandResult) {
-        LOG.debug("command code : [ {} ], enhance success, enhance affect : {}", commandInfo.getCommandCode(),
-            commandResult
+    protected void complete(final Object commandResult) {
+        LOG.debug("command code : [ {} ], execute completed, result : [ {} ]",
+            commandInfo.getCommandCode(), commandResult
         );
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();
-        responseMessage.setCode(commandInfo.getCommandCode());
+        responseMessage.setTaskId(getId());
+        responseMessage.setCode(CommandConstants.enhanceAffect);
+        responseMessage.setTimestamp(System.currentTimeMillis());
         try {
             responseMessage.setData(Any.pack(commandResult));
         } catch (IOException e) {

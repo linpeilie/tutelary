@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,7 @@ public class UserController {
 
     @PostMapping(value = "add")
     @Operation(summary = "新增", description = "新增用户信息")
-    @ApiResponse(description = "返回新增是否成功", content = @Content(mediaType = "application/json"))
+    @ApiResponse(description = "返回新增是否成功", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     public R<Void> add(@RequestBody @Validated UserAddRequest userAddRequest) {
         User user = converter.convert(userAddRequest, User.class);
         userService.add(user);
@@ -44,7 +45,7 @@ public class UserController {
 
     @PostMapping(value = "edit")
     @Operation(summary = "编辑", description = "编辑用户信息")
-    @ApiResponse(description = "返回编辑是否成功", content = @Content(mediaType = "application/json"))
+    @ApiResponse(description = "返回编辑是否成功", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     public R<Void> edit(@RequestBody @Validated UserEditRequest userEditRequest) {
         User user = converter.convert(userEditRequest, User.class);
         userService.edit(user);
@@ -54,7 +55,7 @@ public class UserController {
     @PostMapping(value = "pageQuery")
     @Operation(summary = "分页查询", description = "用户信息分页查询")
     @ApiResponse(description = "返回分页查询结果",
-        content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoResponse.class)))
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserInfoResponse.class)))
     public R<PageResult<UserInfoResponse>> pageQuery(@RequestBody @Validated UserPageQueryRequest userPageQueryRequest) {
         UserQuery userQuery = converter.convert(userPageQueryRequest, UserQuery.class);
         long count = userService.count(userQuery);

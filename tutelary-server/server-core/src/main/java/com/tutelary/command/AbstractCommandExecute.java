@@ -31,7 +31,7 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
 
     private InstanceManager instanceManager;
 
-    private CommandTaskDAO commandTaskDAO;
+    protected CommandTaskDAO commandTaskDAO;
 
     private MessageManager messageManager;
 

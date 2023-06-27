@@ -44,7 +44,7 @@ public abstract class AbstractTask implements Task {
     }
 
     protected void complete(Object commandResult) {
-        LOG.debug("session : [ {} ], command code : [ {} ], execute completed, result : [ {} ]",
+        LOG.debug("command code : [ {} ], execute completed, result : [ {} ]",
             commandInfo.getCommandCode(), commandResult
         );
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();

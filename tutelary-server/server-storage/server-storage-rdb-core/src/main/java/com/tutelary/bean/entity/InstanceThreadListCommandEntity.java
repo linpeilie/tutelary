@@ -12,6 +12,7 @@ import com.tutelary.installer.annotation.Index;
 import com.tutelary.installer.annotation.Table;
 import com.tutelary.message.command.result.ThreadList;
 import io.github.linpeilie.annotations.AutoMapper;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +31,10 @@ public class InstanceThreadListCommandEntity extends BaseEntity {
     @Column(isNull = false, comment = "实例ID", length = 32, sequence = 3)
     private String instanceId;
 
-    @Column(isNull = false, comment = "结果", sequence = 4)
+    @Column(isNull = false, comment = "上报时间", sequence = 4)
+    private LocalDateTime reportTime;
+
+    @Column(isNull = false, comment = "结果", sequence = 5)
     @TableField(typeHandler = JacksonTypeHandler.class)
     private ThreadList result;
 
