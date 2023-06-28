@@ -3,6 +3,7 @@ package com.tutelary;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tutelary.common.utils.ThrowableUtil;
+import com.tutelary.message.ErrorMessage;
 import com.tutelary.utils.AuthHelper;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class SessionStore {
     }
 
     private void closeWithUnauthorized(Session session) {
-        session.getAsyncRemote().sendText("未登录");
+        session.getAsyncRemote().sendObject(ErrorMessage.build("未登录"));
         closeSession(session);
     }
 
@@ -45,7 +46,7 @@ public class SessionStore {
         // 添加用户对应的 session
         final Session oldSession = SESSION_MAP.put(token, session);
         if (oldSession != null) {
-            oldSession.getAsyncRemote().sendText("已在其他地方登录或打开了多个窗口");
+            oldSession.getAsyncRemote().sendObject(ErrorMessage.build("已在其他地方登录或打开了多个窗口"));
             closeSession(oldSession);
         }
     }

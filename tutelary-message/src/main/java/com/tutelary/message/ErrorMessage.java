@@ -11,6 +11,11 @@ import lombok.ToString;
 @Message(cmd = MessageCmd.ERROR)
 public class ErrorMessage extends ResponseMessage {
 
-    private String lastCmd;
+    public static ErrorMessage build(String message) {
+        final ErrorMessage errorMessage = new ErrorMessage();
+        errorMessage.setStatus(Boolean.FALSE);
+        errorMessage.setMessage(message);
+        return errorMessage;
+    }
 
 }
