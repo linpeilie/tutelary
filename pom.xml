@@ -165,27 +165,6 @@
                 <artifactId>cli</artifactId>
                 <version>${cli.version}</version>
             </dependency>
-            <!-- protobuf -->
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-netty</artifactId>
-                <version>${grpc.protobuf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-protobuf</artifactId>
-                <version>${grpc.protobuf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-stub</artifactId>
-                <version>${grpc.protobuf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.protobuf-java-format</groupId>
-                <artifactId>protobuf-java-format</artifactId>
-                <version>${protobuf.java.format.version}</version>
-            </dependency>
             <!-- jprotobuf -->
             <dependency>
                 <groupId>com.baidu</groupId>
