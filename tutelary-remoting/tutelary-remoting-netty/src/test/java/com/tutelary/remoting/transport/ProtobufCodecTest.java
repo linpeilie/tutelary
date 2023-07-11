@@ -13,7 +13,6 @@ public class ProtobufCodecTest {
     public void testCodec() throws IOException {
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setMessage("error message");
-        errorMessage.setLastCmd("1");
 
         Codec protobufCodec = new ProtobufCodec();
         byte[] bytes = protobufCodec.encode(errorMessage);

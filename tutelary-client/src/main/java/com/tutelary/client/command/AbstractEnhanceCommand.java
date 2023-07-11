@@ -249,6 +249,7 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
             completionHandler.handle();
         }
         // TODO
+        AdviceListenerManager.removeListener(listener);
     }
 
 }

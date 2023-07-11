@@ -5,9 +5,12 @@ import com.google.common.collect.MultimapBuilder;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AdviceListenerManager {
@@ -73,6 +76,21 @@ public class AdviceListenerManager {
             return new ArrayList<>(listenerMultimap.get(key));
         }
         return Collections.emptyList();
+    }
+
+    public static void removeListener(AdviceListener adviceListener) {
+        for (Multimap<String, AdviceListener> adviceListenerMultimap : MAP.values()) {
+            Set<String> keys = new HashSet<>();
+            for (String key : adviceListenerMultimap.keys()) {
+                final Collection<AdviceListener> adviceListeners = adviceListenerMultimap.get(key);
+                if (adviceListeners.contains(adviceListener)) {
+                    keys.add(key);
+                }
+            }
+            for (String key : keys) {
+                adviceListenerMultimap.remove(key, adviceListener);
+            }
+        }
     }
 
     private static String key(String className, String methodName, String methodDesc) {

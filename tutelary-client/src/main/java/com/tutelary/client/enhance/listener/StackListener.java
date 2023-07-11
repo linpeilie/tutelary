@@ -1,10 +1,14 @@
 package com.tutelary.client.enhance.listener;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Matcher;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.command.domain.StackTraceNode;
 import com.tutelary.message.command.result.StackResponse;
+import java.tutelary.Spy;
+import java.tutelary.WeaveSpy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,6 +91,12 @@ public class StackListener extends AdviceListenerAdapter {
                 stackTraceNode.setLineNumber(element.getLineNumber());
                 return stackTraceNode;
             }).collect(Collectors.toList());
+        CollectionUtil.reverse(stackTraceNodes);
+        final int weaspyIndex = CollectionUtil.indexOf(stackTraceNodes,
+            node -> node.getDeclaringClass().contentEquals(WeaveSpy.class.getName()));
+        if (weaspyIndex > -1) {
+            stackTraceNodes = stackTraceNodes.subList(0, weaspyIndex);
+        }
         stackResult.setStackTraceNodeList(stackTraceNodes);
         rCallback.callback(stackResult);
     }

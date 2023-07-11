@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Extension(commandCode = CommandConstants.traceMethod)
-public class TraceMethodCommandExecuteAdapter
+public class TraceMethodCommandExecute
     extends AbstractEnhanceCommandExecuteAdapter<TraceRequest, TraceResponse, TraceMethodCommand> {
 
-    public TraceMethodCommandExecuteAdapter(final TraceMethodCommandDAO dao) {
+    public TraceMethodCommandExecute(final TraceMethodCommandDAO dao) {
         super(dao);
     }
 

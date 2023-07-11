@@ -6,6 +6,7 @@ import com.tutelary.bean.resp.CommandTaskResponse;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.bean.R;
 import com.tutelary.constants.CommandConstants;
+import com.tutelary.message.command.param.StackRequest;
 import com.tutelary.message.command.param.ThreadDetailRequest;
 import com.tutelary.message.command.param.ThreadListRequest;
 import com.tutelary.message.command.param.TraceRequest;
@@ -65,6 +66,15 @@ public class CommandCreationController {
             schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createTraceMethodCommand(@RequestBody CommandCreateRequest<TraceRequest> request) {
         return createCommand(CommandConstants.traceMethod, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("stackMethod")
+    @Operation(summary = "方法执行堆栈信息", description = "创建打印方法执行堆栈信息命令")
+    @ApiResponse(description = "创建命令任务结果",
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createStackMethodCommand(@RequestBody CommandCreateRequest<StackRequest> request) {
+        return createCommand(CommandConstants.stackMethod, request.getInstanceId(), request.getParam());
     }
 
 }
