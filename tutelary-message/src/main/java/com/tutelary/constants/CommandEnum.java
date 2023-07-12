@@ -1,5 +1,6 @@
 package com.tutelary.constants;
 
+import static com.tutelary.constants.CommandConstants.heapDump;
 import static com.tutelary.constants.CommandConstants.overview;
 import static com.tutelary.constants.CommandConstants.stackMethod;
 import static com.tutelary.constants.CommandConstants.threadDetail;
@@ -14,6 +15,8 @@ public enum CommandEnum {
     THREAD_LIST(threadList, "thread base info list"),
 
     THREAD_DETAIL(threadDetail, "thread detail"),
+
+    HEAP_DUMP(heapDump, "heap dump"),
 
     /****************************** 增强任务 ****************************/
     /**

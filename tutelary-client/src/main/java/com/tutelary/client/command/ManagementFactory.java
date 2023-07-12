@@ -1,6 +1,7 @@
 package com.tutelary.client.command;
 
 import com.sun.management.GarbageCollectorMXBean;
+import com.sun.management.HotSpotDiagnosticMXBean;
 import com.sun.management.OperatingSystemMXBean;
 import com.sun.management.ThreadMXBean;
 import com.tutelary.common.log.Log;
@@ -41,6 +42,10 @@ public class ManagementFactory {
             .map(
                 garbageCollectorMXBean -> (GarbageCollectorMXBean) garbageCollectorMXBean)
             .collect(Collectors.toList());
+    }
+
+    public static HotSpotDiagnosticMXBean getHotSpotDiagnosticMXBean() {
+        return java.lang.management.ManagementFactory.getPlatformMXBean(HotSpotDiagnosticMXBean.class);
     }
 
 }

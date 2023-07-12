@@ -8,6 +8,8 @@ public interface CommandConstants {
 
     int threadDetail = 20012;
 
+    int heapDump = 20013;
+
     int enhanceAffect = 21001;
 
     int enhanceComplete = 21002;

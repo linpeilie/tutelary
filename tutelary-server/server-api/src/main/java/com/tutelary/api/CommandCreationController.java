@@ -6,6 +6,7 @@ import com.tutelary.bean.resp.CommandTaskResponse;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.bean.R;
 import com.tutelary.constants.CommandConstants;
+import com.tutelary.message.command.param.HeapDumpRequest;
 import com.tutelary.message.command.param.StackRequest;
 import com.tutelary.message.command.param.ThreadDetailRequest;
 import com.tutelary.message.command.param.ThreadListRequest;
@@ -75,6 +76,15 @@ public class CommandCreationController {
             schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createStackMethodCommand(@RequestBody CommandCreateRequest<StackRequest> request) {
         return createCommand(CommandConstants.stackMethod, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("heapDump")
+    @Operation(summary = "实例HeapDump", description = "创建实例HeapDump命令")
+    @ApiResponse(description = "创建命令任务结果",
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createHeapDumpCommand(@RequestBody CommandCreateRequest<HeapDumpRequest> request) {
+        return createCommand(CommandConstants.heapDump, request.getInstanceId(), request.getParam());
     }
 
 }
