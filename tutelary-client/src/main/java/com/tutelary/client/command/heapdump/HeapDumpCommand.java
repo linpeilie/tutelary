@@ -6,6 +6,7 @@ import cn.hutool.core.lang.UUID;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.command.ManagementFactory;
+import com.tutelary.client.core.file.FileManager;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.command.param.HeapDumpRequest;
@@ -25,8 +26,7 @@ public class HeapDumpCommand implements Command<HeapDumpResponse> {
 
     @Override
     public HeapDumpResponse execute() {
-        final String userHomePath = FileUtil.getUserHomePath();
-        String dumpFolder = userHomePath + File.separator + "dump";
+        final String dumpFolder = FileManager.dumpFolder();
         final File dumpFolderFile = new File(dumpFolder);
         final HeapDumpResponse heapDumpResponse = new HeapDumpResponse();
         if (!dumpFolderFile.exists()) {
@@ -38,8 +38,9 @@ public class HeapDumpCommand implements Command<HeapDumpResponse> {
             }
         }
         String dumpFile = dumpFolder + File.separator + "heapdump-"
-                          + DateUtil.format(new Date(), "yyyy-MM-dd-HH-mm-ss") + "-"
+                          + DateUtil.format(new Date(), "yyyyMMddHHmmss") + "-"
                           + UUID.randomUUID().toString(true) + (request.isLive() ? "-live" : "") + ".hprof";
+        LOG.debug("heap heap dump file : {}", dumpFile);
         try {
             final HotSpotDiagnosticMXBean hotSpotDiagnosticMXBean = ManagementFactory.getHotSpotDiagnosticMXBean();
             hotSpotDiagnosticMXBean.dumpHeap(dumpFile, request.isLive());

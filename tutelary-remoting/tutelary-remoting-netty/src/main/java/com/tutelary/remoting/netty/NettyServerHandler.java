@@ -79,7 +79,7 @@ public class NettyServerHandler extends ChannelDuplexHandler {
         if (evt instanceof IdleStateEvent) {
             NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
             try {
-                LOG.info("IdleStateEvent triggered, close channel " + channel);
+                LOG.debug("IdleStateEvent triggered, close channel " + channel);
                 channel.close();
             } finally {
                 NettyChannel.removeChannelIfDisconected(ctx.channel());

@@ -3,9 +3,11 @@ package com.tutelary.api;
 import com.tutelary.bean.domain.CommandTask;
 import com.tutelary.bean.req.CommandCreateRequest;
 import com.tutelary.bean.resp.CommandTaskResponse;
+import com.tutelary.command.ext.FileListCommandExecute;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.bean.R;
 import com.tutelary.constants.CommandConstants;
+import com.tutelary.message.command.param.FileListRequest;
 import com.tutelary.message.command.param.HeapDumpRequest;
 import com.tutelary.message.command.param.StackRequest;
 import com.tutelary.message.command.param.ThreadDetailRequest;
@@ -85,6 +87,15 @@ public class CommandCreationController {
             schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createHeapDumpCommand(@RequestBody CommandCreateRequest<HeapDumpRequest> request) {
         return createCommand(CommandConstants.heapDump, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("fileList")
+    @Operation(summary = "文件列表", description = "创建查看文件列表的命令")
+    @ApiResponse(description = "创建命令任务结果",
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createFileListCommand(@RequestBody CommandCreateRequest<FileListRequest> request) {
+        return createCommand(CommandConstants.fileList, request.getInstanceId(), request.getParam());
     }
 
 }

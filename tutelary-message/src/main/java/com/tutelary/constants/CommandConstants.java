@@ -10,6 +10,8 @@ public interface CommandConstants {
 
     int heapDump = 20013;
 
+    int fileList = 20014;
+
     int enhanceAffect = 21001;
 
     int enhanceComplete = 21002;
