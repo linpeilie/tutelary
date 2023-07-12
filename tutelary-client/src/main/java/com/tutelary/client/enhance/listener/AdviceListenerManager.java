@@ -46,11 +46,14 @@ public class AdviceListenerManager {
             MAP.putIfAbsent(cl, MultimapBuilder.treeKeys().hashSetValues().build());
             listenerMultimap = MAP.get(cl);
         }
-        if (listenerMultimap.put(key, adviceListener)) {
-            LOGGER.debug(
-                "register advice listener, classLoader : {}, key : {}, adviceListener : {}", cl.getClass().getName(),
-                key, adviceListener.getClass().getName()
-            );
+        synchronized (key.intern()) {
+            if (listenerMultimap.put(key, adviceListener)) {
+                LOGGER.debug(
+                    "register advice listener, classLoader : {}, key : {}, adviceListener : {}",
+                    cl.getClass().getName(),
+                    key, adviceListener.getClass().getName()
+                );
+            }
         }
     }
 
@@ -88,7 +91,9 @@ public class AdviceListenerManager {
                 }
             }
             for (String key : keys) {
-                adviceListenerMultimap.remove(key, adviceListener);
+                synchronized (key.intern()) {
+                    adviceListenerMultimap.remove(key, adviceListener);
+                }
             }
         }
     }
