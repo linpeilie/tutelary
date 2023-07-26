@@ -16,4 +16,8 @@ public interface MessageCmd {
 
     byte HEARTBEAT = 6;
 
+    byte COMMAND_CANCEL_REQUEST = 7;
+
+    byte COMMAND_CANCEL_RESPONSE = 8;
+
 }

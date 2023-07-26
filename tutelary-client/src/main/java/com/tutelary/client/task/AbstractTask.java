@@ -43,10 +43,7 @@ public abstract class AbstractTask implements Task {
     protected void executeBefore() {
     }
 
-    protected void complete(Object commandResult) {
-        LOG.debug("command code : [ {} ], execute completed, result : [ {} ]",
-            commandInfo.getCommandCode(), commandResult
-        );
+    protected void sendCommandResult(Object commandResult) {
         CommandExecuteResponse responseMessage = new CommandExecuteResponse();
         responseMessage.setTaskId(getId());
         responseMessage.setCode(commandInfo.getCommandCode());
@@ -57,6 +54,13 @@ public abstract class AbstractTask implements Task {
             throw new RuntimeException(e);
         }
         ClientBootstrap.sendData(responseMessage);
+    }
+
+    protected void complete(Object commandResult) {
+        LOG.debug("command code : [ {} ], execute completed, result : [ {} ]",
+            commandInfo.getCommandCode(), commandResult
+        );
+        sendCommandResult(commandResult);
     }
 
     protected void failure(String message) {
@@ -93,6 +97,10 @@ public abstract class AbstractTask implements Task {
     private Object executeWrapper() {
         changeState(TaskState.RUNNING, TaskState.NEW);
         executeBefore();
+        return toExecute();
+    }
+
+    protected Object toExecute() {
         return command.execute();
     }
 

@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.core.file.FileManager;
+import com.tutelary.client.core.file.FileTypeEnum;
 import com.tutelary.message.command.domain.FileInfo;
 import com.tutelary.message.command.param.FileListRequest;
 import com.tutelary.message.command.result.FileListResponse;
@@ -27,13 +28,11 @@ public class FileListCommand implements Command<FileListResponse> {
     public FileListResponse execute() {
         final FileListResponse fileListResponse = new FileListResponse();
         String folder;
-        switch (request.getType()) {
-            case 1:
-                folder = FileManager.dumpFolder();
-                break;
-            default:
-                fileListResponse.failed("unknown type");
-                return fileListResponse;
+        if (request.getType() == FileTypeEnum.HEAP_DUMP.getType()) {
+            folder = FileManager.dumpFolder();
+        } else {
+            fileListResponse.failed("unknown type");
+            return fileListResponse;
         }
         File[] files = FileUtil.ls(folder);
         final int length = files.length;

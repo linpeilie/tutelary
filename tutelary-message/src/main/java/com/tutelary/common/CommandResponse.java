@@ -11,7 +11,7 @@ public class CommandResponse implements Serializable {
 
     private int jobId;
 
-    private int state;
+    private int state = StateEnum.SUCCESS.getValue();
 
     private String message;
 

@@ -1,12 +1,16 @@
 package com.tutelary.api;
 
+import cn.hutool.core.lang.UUID;
 import com.tutelary.bean.domain.CommandTask;
 import com.tutelary.bean.req.CommandCreateRequest;
 import com.tutelary.bean.resp.CommandTaskResponse;
 import com.tutelary.command.ext.FileListCommandExecute;
+import com.tutelary.command.store.FileDownloadMetadata;
+import com.tutelary.command.store.FileDownloadStore;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.bean.R;
 import com.tutelary.constants.CommandConstants;
+import com.tutelary.message.command.param.FileDownloadRequest;
 import com.tutelary.message.command.param.FileListRequest;
 import com.tutelary.message.command.param.HeapDumpRequest;
 import com.tutelary.message.command.param.StackRequest;
@@ -20,6 +24,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -96,6 +103,24 @@ public class CommandCreationController {
             schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createFileListCommand(@RequestBody CommandCreateRequest<FileListRequest> request) {
         return createCommand(CommandConstants.fileList, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("fileDownload")
+    @Operation(summary = "下载文件", description = "创建下载文件命令")
+    public void createFileDownloadCommand(@RequestBody CommandCreateRequest<FileDownloadRequest> request,
+        HttpServletResponse response) {
+        try {
+            final FileDownloadRequest param = request.getParam();
+            final String identifier = UUID.fastUUID().toString(true);
+            param.setIdentifier(identifier);
+            final CountDownLatch latch = new CountDownLatch(1);
+            final FileDownloadMetadata fileDownloadMetadata = new FileDownloadMetadata(response, latch);
+            FileDownloadStore.add(identifier, fileDownloadMetadata);
+            commandService.createCommand(CommandConstants.fileDownload, request.getInstanceId(), param);
+            latch.await(10, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            log.error("download file occur error, param : {}", request.getParam());
+        }
     }
 
 }
