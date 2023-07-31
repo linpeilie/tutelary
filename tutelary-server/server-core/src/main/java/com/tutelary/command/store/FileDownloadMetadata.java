@@ -3,6 +3,7 @@ package com.tutelary.command.store;
 import com.tutelary.common.utils.ThrowableUtil;
 import com.tutelary.message.command.result.FileDownloadResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,21 +19,17 @@ public class FileDownloadMetadata {
 
     private final HttpServletResponse response;
     private final CountDownLatch latch;
+    private boolean completed = false;
 
     private AtomicBoolean downloadResponse = new AtomicBoolean(false);
 
-    public void handleMessage(FileDownloadResponse message) {
-        try {
-            handleDownloadResponse(message.getFileName());
-            response.getOutputStream().write(message.getBytes());
-        } catch (Exception e) {
-            log.error("[handleMessage] download file occur error", e);
-            handleError(e.getMessage());
-            latch.countDown();
-        }
+    public void handleMessage(FileDownloadResponse message) throws IOException {
+        handleDownloadResponse(message.getFileName());
+        response.getOutputStream().write(message.getBytes());
     }
 
     public void handleError(String errorMessage) {
+        completed = true;
         // If the download has started, flush outputStream
         if (downloadResponse.get()) {
             ThrowableUtil.safeExec(() -> response.getOutputStream().flush());
@@ -43,10 +40,12 @@ public class FileDownloadMetadata {
                 response.getOutputStream().flush();
             });
         }
+        latch.countDown();
     }
 
     public void handleFinish() {
         ThrowableUtil.safeExec(() -> {
+            completed = true;
             response.getOutputStream().flush();
             latch.countDown();
         });
@@ -59,6 +58,10 @@ public class FileDownloadMetadata {
             response.setContentType("application/octet-stream; charset=UTF-8");
             response.addHeader(HttpHeaderNames.CONTENT_DISPOSITION.toString(), "attachment;fileName=" + fileName);
         }
+    }
+
+    public boolean completed() {
+        return this.completed;
     }
 
 }

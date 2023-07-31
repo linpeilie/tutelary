@@ -21,14 +21,14 @@ public class FileDownloadCommandExecute
     protected void callResult(final String instanceId, final String taskId, final FileDownloadResponse response) {
         final FileDownloadMetadata fileDownloadMetadata = FileDownloadStore.get(response.getIdentifier());
         if (fileDownloadMetadata == null) {
-            // TODO:取消任务
-            taskComplete(taskId);
             return;
         }
         try {
             if (StateEnum.SUCCESS.getValue() != response.getState()) {
-                FileDownloadStore.remove(response.getIdentifier());
-                fileDownloadMetadata.handleError(response.getMessage());
+                if (!fileDownloadMetadata.completed()) {
+                    FileDownloadStore.remove(response.getIdentifier());
+                    fileDownloadMetadata.handleError(response.getMessage());
+                }
                 return;
             }
             fileDownloadMetadata.handleMessage(response);
@@ -40,6 +40,8 @@ public class FileDownloadCommandExecute
             log.error("file download call result occur exception", e);
             FileDownloadStore.remove(response.getIdentifier());
             fileDownloadMetadata.handleError(e.getMessage());
+            // send cancel
+            cancelTaskBiz.cancelTask(instanceId, taskId);
         }
     }
 

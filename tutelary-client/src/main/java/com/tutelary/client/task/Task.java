@@ -1,5 +1,8 @@
 package com.tutelary.client.task;
 
+import com.tutelary.common.function.InnerFunction;
+import com.tutelary.message.CommandCancelResponse;
+
 public interface Task {
 
     String getId();
@@ -9,5 +12,7 @@ public interface Task {
     boolean setState(TaskState updateState, TaskState expectState);
 
     void execute();
+
+    CommandCancelResponse cancel();
 
 }

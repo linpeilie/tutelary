@@ -26,8 +26,6 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExec
 
     private final ExtensionExecutor extensionExecutor = new ExtensionExecutor();
 
-    private final TaskExecutor taskExecutor = new TaskExecutor();
-
     public ClientCommandProcessor() {
         LOGGER.info("ClientCommandProcessor started");
         loadTaskFactories();
@@ -55,7 +53,7 @@ public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExec
                 commandRequest
             );
             Task task = taskFactory.create(message.getTaskId(), ClientBootstrap.INSTRUMENTATION, commandRequest);
-            taskExecutor.executeTask(task);
+            TaskExecutor.executeTask(task);
         } catch (IOException e) {
             // TODO
             throw new RuntimeException(e);

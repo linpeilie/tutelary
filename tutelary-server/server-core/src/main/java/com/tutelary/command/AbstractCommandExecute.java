@@ -15,6 +15,7 @@ import com.tutelary.common.exception.InstanceNotExistsException;
 import com.tutelary.common.message.MessageManager;
 import com.tutelary.common.utils.ClassUtil;
 import com.tutelary.dao.CommandTaskDAO;
+import com.tutelary.message.CommandCancelRequest;
 import com.tutelary.message.CommandExecuteRequest;
 import com.tutelary.message.CommandExecuteResponse;
 import com.tutelary.remoting.api.Channel;
@@ -37,6 +38,8 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
 
     private SessionStore sessionStore;
 
+    protected CancelTaskBiz cancelTaskBiz;
+
     @Autowired
     public void setCommandTaskDAO(final CommandTaskDAO commandTaskDAO) {
         this.commandTaskDAO = commandTaskDAO;
@@ -55,6 +58,11 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
     @Autowired
     public void setSessionStore(final SessionStore sessionStore) {
         this.sessionStore = sessionStore;
+    }
+
+    @Autowired
+    public void setCancelTaskBiz(final CancelTaskBiz cancelTaskBiz) {
+        this.cancelTaskBiz = cancelTaskBiz;
     }
 
     @Override

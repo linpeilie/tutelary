@@ -2,12 +2,16 @@ package com.tutelary.client.task;
 
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.tutelary.client.ClientBootstrap;
-import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.exception.TaskStateChangedException;
+import com.tutelary.client.task.event.TaskStateChangeEvent;
+import com.tutelary.client.task.event.TaskStateChangeEvents;
+import com.tutelary.common.function.InnerFunction;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
+import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.constants.CommandEnum;
+import com.tutelary.message.CommandCancelResponse;
 import com.tutelary.message.CommandExecuteResponse;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -27,12 +31,13 @@ public abstract class AbstractTask implements Task {
     protected final CommandEnum commandInfo;
     protected final Command command;
     private final String id;
-    private final AtomicReference<TaskState> state = new AtomicReference<>(TaskState.NEW);
+    private final AtomicReference<TaskState> state = new AtomicReference<>();
 
     public AbstractTask(String taskId, CommandEnum commandInfo, Command command) {
         this.id = taskId;
         this.commandInfo = commandInfo;
         this.command = command;
+        setState(TaskState.NEW, null);
     }
 
     @Override
@@ -83,7 +88,14 @@ public abstract class AbstractTask implements Task {
 
     @Override
     public boolean setState(TaskState updateState, TaskState expectState) {
-        return state.compareAndSet(expectState, updateState);
+        final boolean changeResult = state.compareAndSet(expectState, updateState);
+        if (changeResult) {
+            TaskStateChangeEvents.publish(TaskStateChangeEvent.builder()
+                .taskId(getId())
+                .currentState(updateState)
+                .build());
+        }
+        return changeResult;
     }
 
     private void changeState(TaskState updateState, TaskState expectState) {
@@ -112,10 +124,29 @@ public abstract class AbstractTask implements Task {
             this.executeAfter(obj);
         }).exceptionally(throwable -> {
             if (throwable instanceof TaskStateChangedException) {
+                LOG.warn("task : {}, state changed, current state : {}", getId(), getState());
                 return null;
             }
             failure(throwable.getMessage());
             return null;
         });
+    }
+
+    @Override
+    public CommandCancelResponse cancel() {
+        final TaskState currentState = getState();
+        if (TaskState.COMPLETED.equals(currentState)) {
+            return CommandCancelResponse.cancelFailure("task has been completed");
+        }
+        if (TaskState.CANCEL.equals(currentState)) {
+            return CommandCancelResponse.cancelFailure("task has been canceled");
+        }
+        final boolean b = setState(TaskState.CANCEL, currentState);
+        if (b) {
+            command.terminated();
+            return CommandCancelResponse.cancelSuccess();
+        }
+        // try again
+        return cancel();
     }
 }

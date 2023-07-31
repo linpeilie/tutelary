@@ -1,2 +1,3 @@
 com.tutelary.client.processor.ClientCommandProcessor
 com.tutelary.client.processor.ClientRegisterResponseProcessor
+com.tutelary.client.processor.CommandCancelProcessor
