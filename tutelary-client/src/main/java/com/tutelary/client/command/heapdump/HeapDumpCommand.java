@@ -1,7 +1,6 @@
 package com.tutelary.client.command.heapdump;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import com.tutelary.client.command.Command;
@@ -26,7 +25,7 @@ public class HeapDumpCommand implements Command<HeapDumpResponse> {
 
     @Override
     public HeapDumpResponse execute() {
-        final String dumpFolder = FileManager.dumpFolder();
+        final String dumpFolder = FileManager.heapDumpFolder();
         final File dumpFolderFile = new File(dumpFolder);
         final HeapDumpResponse heapDumpResponse = new HeapDumpResponse();
         if (!dumpFolderFile.exists()) {

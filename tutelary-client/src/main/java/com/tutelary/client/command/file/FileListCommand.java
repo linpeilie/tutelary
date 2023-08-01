@@ -1,6 +1,5 @@
 package com.tutelary.client.command.file;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.core.file.FileManager;
@@ -9,7 +8,6 @@ import com.tutelary.message.command.domain.FileInfo;
 import com.tutelary.message.command.param.FileListRequest;
 import com.tutelary.message.command.result.FileListResponse;
 import java.io.File;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -29,7 +27,7 @@ public class FileListCommand implements Command<FileListResponse> {
         final FileListResponse fileListResponse = new FileListResponse();
         String folder;
         if (request.getType() == FileTypeEnum.HEAP_DUMP.getType()) {
-            folder = FileManager.dumpFolder();
+            folder = FileManager.heapDumpFolder();
         } else {
             fileListResponse.failed("unknown type");
             return fileListResponse;

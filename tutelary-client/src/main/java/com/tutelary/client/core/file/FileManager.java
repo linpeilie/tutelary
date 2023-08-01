@@ -10,13 +10,29 @@ public class FileManager {
         return FileUtil.getUserHomePath() + File.separator + ".tutelary" + File.separator + ClientBootstrap.instanceId;
     }
 
-    public static String dumpFolder() {
-        final String dumpFolder = workspaceFolder() + File.separator + "dump";
-        if (!FileUtil.exist(dumpFolder)) {
-            FileUtil.mkParentDirs(dumpFolder);
-            FileUtil.mkdir(dumpFolder);
+    private static void ensureFolderMkdir(String folder) {
+        if (!FileUtil.exist(folder)) {
+            FileUtil.mkParentDirs(folder);
+            FileUtil.mkdir(folder);
         }
-        return dumpFolder;
+    }
+
+    public static String heapDumpFolder() {
+        final String heapDumpFolder = workspaceFolder() + File.separator + "heapDump";
+        ensureFolderMkdir(heapDumpFolder);
+        return heapDumpFolder;
+    }
+
+    public static String classDumpFolder() {
+        final String classDumpFolder = workspaceFolder() + File.separator + "classDump";
+        ensureFolderMkdir(classDumpFolder);
+        return classDumpFolder;
+    }
+
+    public static String enhanceClassDumpFolder() {
+        final String enhanceClassDumpFolder = workspaceFolder() + File.separator + "enhanceClassDump";
+        ensureFolderMkdir(enhanceClassDumpFolder);
+        return enhanceClassDumpFolder;
     }
 
 }

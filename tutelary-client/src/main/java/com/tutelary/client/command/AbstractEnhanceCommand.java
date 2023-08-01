@@ -13,6 +13,7 @@ import com.alibaba.deps.org.objectweb.asm.tree.ClassNode;
 import com.alibaba.deps.org.objectweb.asm.tree.MethodInsnNode;
 import com.alibaba.deps.org.objectweb.asm.tree.MethodNode;
 import com.tutelary.client.constants.EnhanceResponseCode;
+import com.tutelary.client.core.file.FileManager;
 import com.tutelary.client.enhance.callback.CompletionHandler;
 import com.tutelary.client.enhance.callback.RCallback;
 import com.tutelary.client.enhance.interceptor.SpyInterceptor;
@@ -57,7 +58,8 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
     }
 
     private static void dumpClassIfNecessary(String className, byte[] data) {
-        final File dumpClassFile = new File("./tutelary-class-dump/" + className + ".class");
+        final File dumpClassFile =
+            new File(FileManager.enhanceClassDumpFolder() + File.separator + className + ".class");
         final File classPath = new File(dumpClassFile.getParent());
 
         // 创建类所在的包路径
