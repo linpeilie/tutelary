@@ -1,5 +1,6 @@
 package com.tutelary.constants;
 
+import static com.tutelary.constants.CommandConstants.decompile;
 import static com.tutelary.constants.CommandConstants.fileDownload;
 import static com.tutelary.constants.CommandConstants.fileList;
 import static com.tutelary.constants.CommandConstants.heapDump;
@@ -23,6 +24,8 @@ public enum CommandEnum {
     FILE_LIST(fileList, "file list"),
 
     FILE_DOWNLOAD(fileDownload, "file download"),
+
+    DECOMPILE(decompile, "decompile"),
 
     /****************************** 增强任务 ****************************/
     /**
