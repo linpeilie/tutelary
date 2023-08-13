@@ -5,3 +5,4 @@ com.tutelary.client.task.factory.stack.StackTaskFactory
 com.tutelary.client.task.factory.heapdump.HeapDumpTaskFactory
 com.tutelary.client.task.factory.file.FileListTaskFactory
 com.tutelary.client.task.factory.file.FileDownloadTaskFactory
+com.tutelary.client.task.factory.decompile.DecompileTaskFactory

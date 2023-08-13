@@ -10,6 +10,7 @@ import com.tutelary.command.store.FileDownloadStore;
 import com.tutelary.common.CommandRequest;
 import com.tutelary.common.bean.R;
 import com.tutelary.constants.CommandConstants;
+import com.tutelary.message.command.param.DecompileRequest;
 import com.tutelary.message.command.param.FileDownloadRequest;
 import com.tutelary.message.command.param.FileListRequest;
 import com.tutelary.message.command.param.HeapDumpRequest;
@@ -121,6 +122,15 @@ public class CommandCreationController {
         } catch (Exception e) {
             log.error("download file occur error, param : {}", request.getParam());
         }
+    }
+
+    @PostMapping("decompile")
+    @Operation(summary = "反编译类", description = "创建反编译类命令")
+    @ApiResponse(description = "创建命令任务结果",
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createDecompileCommand(@RequestBody CommandCreateRequest<DecompileRequest> request) {
+        return createCommand(CommandConstants.decompile, request.getInstanceId(), request.getParam());
     }
 
 }

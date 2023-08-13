@@ -47,6 +47,7 @@
         <sa-token.version>1.35.0.RC</sa-token.version>
         <springdoc.version>1.7.0</springdoc.version>
         <redisson.version>3.22.1</redisson.version>
+        <cfr.version>0.152</cfr.version>
     </properties>
 
     <dependencies>
@@ -227,6 +228,12 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+            <!-- cfr -->
+            <dependency>
+                <groupId>org.benf</groupId>
+                <artifactId>cfr</artifactId>
+                <version>${cfr.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

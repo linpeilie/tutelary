@@ -14,6 +14,8 @@ public interface CommandConstants {
 
     int fileDownload = 20015;
 
+    int decompile = 20016;
+
     int enhanceAffect = 21001;
 
     int enhanceComplete = 21002;
