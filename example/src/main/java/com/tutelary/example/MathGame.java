@@ -11,9 +11,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MathGame {
     private static Random random = new Random();
 
@@ -22,7 +24,7 @@ public class MathGame {
     private static final int THREAD_SIZE = 10;
 
     private final ExecutorService executorService =
-        new ThreadPoolExecutor(THREAD_SIZE, THREAD_SIZE, 1, TimeUnit.DAYS, new LinkedBlockingQueue<>(),
+        new ThreadPoolExecutor(THREAD_SIZE, THREAD_SIZE * 10, 1, TimeUnit.DAYS, new LinkedBlockingQueue<>(),
                                ThreadFactoryBuilder.create().setNamePrefix("math-game-").build());
 
     @PostConstruct
@@ -35,6 +37,15 @@ public class MathGame {
                         exec();
                         ThreadUtil.sleep(1);
                     }
+                }
+            });
+            executorService.submit(() -> {
+                while (true) {
+                    log.error("Math Game Error Logger");
+                    log.warn("Math Game Warn Logger");
+                    log.info("Math Game Info Logger");
+                    log.debug("Math Game Debug Logger");
+                    ThreadUtil.sleep(10000);
                 }
             });
         }

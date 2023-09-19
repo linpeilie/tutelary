@@ -6,3 +6,5 @@ com.tutelary.client.task.factory.heapdump.HeapDumpTaskFactory
 com.tutelary.client.task.factory.file.FileListTaskFactory
 com.tutelary.client.task.factory.file.FileDownloadTaskFactory
 com.tutelary.client.task.factory.decompile.DecompileTaskFactory
+com.tutelary.client.task.factory.logger.LoggerInfoTaskFactory
+com.tutelary.client.task.factory.logger.UpdateLoggerLevelTaskFactory

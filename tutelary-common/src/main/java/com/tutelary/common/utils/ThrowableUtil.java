@@ -16,4 +16,12 @@ public class ThrowableUtil {
         }
     }
 
+    public static void ignoringExceptionsExecute(InnerFunction function) {
+        try {
+            function.exec();
+        } catch (Throwable e) {
+            // ignore
+        }
+    }
+
 }

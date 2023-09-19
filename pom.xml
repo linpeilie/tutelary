@@ -48,6 +48,7 @@
         <springdoc.version>1.7.0</springdoc.version>
         <redisson.version>3.22.1</redisson.version>
         <cfr.version>0.152</cfr.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>

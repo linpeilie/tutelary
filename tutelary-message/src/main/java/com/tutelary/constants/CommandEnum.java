@@ -4,11 +4,13 @@ import static com.tutelary.constants.CommandConstants.decompile;
 import static com.tutelary.constants.CommandConstants.fileDownload;
 import static com.tutelary.constants.CommandConstants.fileList;
 import static com.tutelary.constants.CommandConstants.heapDump;
+import static com.tutelary.constants.CommandConstants.loggerInfo;
 import static com.tutelary.constants.CommandConstants.overview;
 import static com.tutelary.constants.CommandConstants.stackMethod;
 import static com.tutelary.constants.CommandConstants.threadDetail;
 import static com.tutelary.constants.CommandConstants.threadList;
 import static com.tutelary.constants.CommandConstants.traceMethod;
+import static com.tutelary.constants.CommandConstants.updateLoggerLevel;
 
 public enum CommandEnum {
 
@@ -26,6 +28,10 @@ public enum CommandEnum {
     FILE_DOWNLOAD(fileDownload, "file download"),
 
     DECOMPILE(decompile, "decompile"),
+
+    LOGGER_INFO(loggerInfo, "logger info"),
+
+    UPDATE_LOGGER_LEVEL(updateLoggerLevel, "update logger level"),
 
     /****************************** 增强任务 ****************************/
     /**

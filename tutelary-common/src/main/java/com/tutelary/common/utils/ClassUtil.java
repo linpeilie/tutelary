@@ -63,4 +63,18 @@ public class ClassUtil {
                                    + genericsSuperClass.getSimpleName() + ", current class : " + clazz.getSimpleName());
     }
 
+    public static String classLoaderHash(Class<?> clazz) {
+        if (clazz == null) {
+            return "null";
+        }
+        return classLoaderHash(clazz.getClassLoader());
+    }
+
+    public static String classLoaderHash(ClassLoader classLoader) {
+        if (classLoader == null) {
+            return "null";
+        }
+        return Integer.toHexString(classLoader.hashCode());
+    }
+
 }

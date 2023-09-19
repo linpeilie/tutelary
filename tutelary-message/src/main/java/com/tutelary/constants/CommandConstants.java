@@ -16,6 +16,10 @@ public interface CommandConstants {
 
     int decompile = 20016;
 
+    int loggerInfo = 20017;
+
+    int updateLoggerLevel = 20018;
+
     int enhanceAffect = 21001;
 
     int enhanceComplete = 21002;
