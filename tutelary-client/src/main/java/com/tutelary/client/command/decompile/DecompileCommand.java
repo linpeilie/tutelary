@@ -1,9 +1,9 @@
 package com.tutelary.client.command.decompile;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.alibaba.bytekit.utils.Decompiler;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.enhance.transformer.ClassDumpTransformer;
+import com.tutelary.client.util.Decompiler;
 import com.tutelary.client.util.InstrumentationUtils;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
@@ -14,6 +14,7 @@ import java.io.File;
 import java.lang.instrument.Instrumentation;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class DecompileCommand implements Command<DecompileResponse> {
 
@@ -38,6 +39,10 @@ public class DecompileCommand implements Command<DecompileResponse> {
         }
 
         final HashSet<Class<?>> classes = CollectionUtil.newHashSet(targetClass);
+        // interClass
+        final Set<Class<?>> interClass = ClassUtil.fuzzySearchClass(inst, param.getClassName() + "\\$.*");
+        classes.addAll(interClass);
+
         final ClassDumpTransformer classDumpTransformer =
             new ClassDumpTransformer(classes);
         InstrumentationUtils.retransformClasses(inst, classDumpTransformer, classes);

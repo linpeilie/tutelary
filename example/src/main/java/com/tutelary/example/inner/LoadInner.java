@@ -9,6 +9,9 @@ public class LoadInner {
     @PostConstruct
     public void start() throws ClassNotFoundException {
         new InnerClassTest23_b().test(true);
+        new InnerClassTest23_c();
+        new InnerClassTest23_Strobel();
+        new InnerClassTest46();
     }
 
 }

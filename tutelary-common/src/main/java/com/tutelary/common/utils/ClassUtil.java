@@ -1,26 +1,77 @@
 package com.tutelary.common.utils;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.TypeUtil;
+import com.tutelary.common.utils.matcher.EqualsMatcher;
+import com.tutelary.common.utils.matcher.Matcher;
+import com.tutelary.common.utils.matcher.RegexMatcher;
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ClassUtil {
 
     public static Class<?> searchClass(Instrumentation inst, String targetClass) {
-        Class[] loadedClasses = inst.getAllLoadedClasses();
-        for (Class loadedClass : loadedClasses) {
-            if (loadedClass == null) {
+        Matcher<String> matcher = new EqualsMatcher<>(targetClass);
+        final Set<Class<?>> classes = searchClass(inst, matcher);
+        if (CollectionUtil.isEmpty(classes)) {
+            return null;
+        }
+        return classes.iterator().next();
+    }
+
+    public static Set<Class<?>> fuzzySearchClass(Instrumentation inst, String classPattern, String classloader) {
+        final Set<Class<?>> classes = fuzzySearchClass(inst, classPattern);
+        return filter(classes, classloader);
+    }
+
+    private static Set<Class<?>> filter(final Set<Class<?>> classes, final String classloader) {
+        if (classloader == null) {
+            return classes;
+        }
+        if (classes != null) {
+            return classes.stream().filter(clazz -> {
+                return clazz != null && Integer.toHexString(clazz.getClassLoader().hashCode()).equals(classloader);
+            }).collect(Collectors.toSet());
+        }
+        return Collections.emptySet();
+    }
+
+    public static Set<Class<?>> fuzzySearchClass(Instrumentation inst, String classPattern) {
+        if (!classPattern.contains("$$Lambda")) {
+            classPattern = classPattern.replace("/", ".");
+        }
+        Matcher matcher = new RegexMatcher(classPattern);
+        return searchClass(inst, matcher);
+    }
+
+    public static Set<Class<?>> searchClass(Instrumentation inst, Matcher<String> classNameMatcher) {
+        return searchClass(inst, classNameMatcher, Integer.MAX_VALUE);
+    }
+
+    public static Set<Class<?>> searchClass(Instrumentation inst, Matcher<String> classNameMatcher, int limit) {
+        if (classNameMatcher == null) {
+            return Collections.emptySet();
+        }
+        final Set<Class<?>> classes = new HashSet<>();
+        for (Class clazz : inst.getAllLoadedClasses()) {
+            if (clazz == null) {
                 continue;
             }
-            if (loadedClass.getName().equals(targetClass)) {
-                return loadedClass;
+            if (classNameMatcher.matches(clazz.getName())) {
+                classes.add(clazz);
+            }
+            if (classes.size() >= limit) {
+                break;
             }
         }
-        return null;
+        return classes;
     }
 
     public static boolean isLambdaClass(Class<?> clazz) {

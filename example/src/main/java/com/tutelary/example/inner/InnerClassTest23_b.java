@@ -9,7 +9,7 @@ import java.util.function.Function;
 public class InnerClassTest23_b {
 
     public void test(final boolean b) {
-        abstract class MethodScopedIterable implements Iterable<String> {
+        class MethodScopedIterable implements Iterable<String> {
             private final boolean y = b;
 
             @Override
@@ -31,6 +31,7 @@ public class InnerClassTest23_b {
                 };
             }
         }
+        new MethodScopedIterable();
     }
 
 }
