@@ -3,6 +3,7 @@ package com.tutelary.constants;
 import static com.tutelary.constants.CommandConstants.decompile;
 import static com.tutelary.constants.CommandConstants.fileDownload;
 import static com.tutelary.constants.CommandConstants.fileList;
+import static com.tutelary.constants.CommandConstants.getStatic;
 import static com.tutelary.constants.CommandConstants.heapDump;
 import static com.tutelary.constants.CommandConstants.loggerInfo;
 import static com.tutelary.constants.CommandConstants.overview;
@@ -24,6 +25,8 @@ public enum CommandEnum {
     HEAP_DUMP(heapDump, "heap dump"),
 
     FILE_LIST(fileList, "file list"),
+
+    GET_STATIC(getStatic, "get static field"),
 
     FILE_DOWNLOAD(fileDownload, "file download"),
 

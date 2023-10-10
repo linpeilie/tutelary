@@ -8,3 +8,4 @@ com.tutelary.client.task.factory.file.FileDownloadTaskFactory
 com.tutelary.client.task.factory.decompile.DecompileTaskFactory
 com.tutelary.client.task.factory.logger.LoggerInfoTaskFactory
 com.tutelary.client.task.factory.logger.UpdateLoggerLevelTaskFactory
+com.tutelary.client.task.factory.getstatic.GetStaticTaskFactory

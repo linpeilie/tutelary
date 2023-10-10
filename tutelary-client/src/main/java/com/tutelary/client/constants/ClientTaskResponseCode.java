@@ -6,7 +6,8 @@ import com.tutelary.common.constants.ResponseCode;
 public enum ClientTaskResponseCode implements ResponseCode {
 
     CLIENT_TASK_CHANGE_FAILURE("task [ %s ] change task state failure, current state : [ %s ]", 2),
-    CLASSLOADER_NOT_FOUND("class loader [ %s ] not found", 1);
+    CLASSLOADER_NOT_FOUND("class loader [ %s ] not found", 1),
+    CLASS_NOT_FOUND("class [ %s ] not found, class loader [ {} ]", 2);
 
     ClientTaskResponseCode(String message, int args) {
         this.code = formatCode(BusinessResponseCode.CLIENT_TASK.getCodePrefix());

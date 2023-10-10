@@ -20,6 +20,8 @@ public interface CommandConstants {
 
     int updateLoggerLevel = 20018;
 
+    int getStatic = 20019;
+
     int enhanceAffect = 21001;
 
     int enhanceComplete = 21002;

@@ -12,6 +12,7 @@ import com.tutelary.constants.CommandConstants;
 import com.tutelary.message.command.param.DecompileRequest;
 import com.tutelary.message.command.param.FileDownloadRequest;
 import com.tutelary.message.command.param.FileListRequest;
+import com.tutelary.message.command.param.GetStaticRequest;
 import com.tutelary.message.command.param.HeapDumpRequest;
 import com.tutelary.message.command.param.LoggerInfoRequest;
 import com.tutelary.message.command.param.StackRequest;
@@ -132,6 +133,13 @@ public class CommandCreationController {
     @ApiResponse(description = "创建命令任务结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createLoggerCommand(@RequestBody CommandCreateRequest<UpdateLoggerLevelRequest> request) {
         return createCommand(CommandConstants.updateLoggerLevel, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("getStatic")
+    @Operation(summary = "GetStatic", description = "创建获取静态属性值命令")
+    @ApiResponse(description = "创建命令任务结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createGetStaticCommand(@RequestBody CommandCreateRequest<GetStaticRequest> request) {
+        return createCommand(CommandConstants.getStatic, request.getInstanceId(), request.getParam());
     }
 
 }

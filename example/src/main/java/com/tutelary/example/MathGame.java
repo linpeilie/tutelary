@@ -39,15 +39,15 @@ public class MathGame {
                     }
                 }
             });
-            executorService.submit(() -> {
-                while (true) {
-                    log.error("Math Game Error Logger");
-                    log.warn("Math Game Warn Logger");
-                    log.info("Math Game Info Logger");
-                    log.debug("Math Game Debug Logger");
-                    ThreadUtil.sleep(10000);
-                }
-            });
+//            executorService.submit(() -> {
+//                while (true) {
+//                    log.error("Math Game Error Logger");
+//                    log.warn("Math Game Warn Logger");
+//                    log.info("Math Game Info Logger");
+//                    log.debug("Math Game Debug Logger");
+//                    ThreadUtil.sleep(10000);
+//                }
+//            });
         }
     }
 
