@@ -1,5 +1,6 @@
 package com.tutelary.client.task.factory.stack;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.command.stack.StackCommand;
 import com.tutelary.client.task.EnhanceTask;
 import com.tutelary.client.task.Task;
@@ -10,6 +11,7 @@ import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.StackRequest;
 import java.lang.instrument.Instrumentation;
 
+@AutoService(TaskFactory.class)
 @Extension(commandCode = CommandConstants.stackMethod)
 public class StackTaskFactory implements TaskFactory<StackRequest> {
     @Override

@@ -1,5 +1,6 @@
 package com.tutelary.client.handler;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.command.overview.OverviewCommand;
@@ -9,6 +10,7 @@ import com.tutelary.message.InstanceInfoReportRequest;
 import com.tutelary.message.command.domain.GarbageCollector;
 import com.tutelary.message.command.result.Overview;
 import com.tutelary.remoting.api.Channel;
+import com.tutelary.remoting.api.ChannelHandler;
 import com.tutelary.remoting.api.exception.RemotingException;
 import com.tutelary.remoting.api.transport.ChannelHandlerAdapter;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+@AutoService(ChannelHandler.class)
 public class ReportChannelHandler extends ChannelHandlerAdapter {
 
     private static final Log LOG = LogFactory.get(ReportChannelHandler.class);

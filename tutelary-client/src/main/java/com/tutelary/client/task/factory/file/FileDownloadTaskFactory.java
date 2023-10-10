@@ -1,5 +1,6 @@
 package com.tutelary.client.task.factory.file;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.command.file.FileDownloadCommand;
 import com.tutelary.client.task.ContinuousTask;
 import com.tutelary.client.task.Task;
@@ -11,6 +12,7 @@ import com.tutelary.message.command.param.FileDownloadRequest;
 import com.tutelary.message.command.result.FileDownloadResponse;
 import java.lang.instrument.Instrumentation;
 
+@AutoService(TaskFactory.class)
 @Extension(commandCode = CommandConstants.fileDownload)
 public class FileDownloadTaskFactory implements TaskFactory<FileDownloadRequest> {
     @Override

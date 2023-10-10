@@ -1,5 +1,6 @@
 package com.tutelary.client.task.factory.file;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.command.file.FileListCommand;
 import com.tutelary.client.task.DefaultTask;
 import com.tutelary.client.task.Task;
@@ -10,6 +11,7 @@ import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.FileListRequest;
 import java.lang.instrument.Instrumentation;
 
+@AutoService(TaskFactory.class)
 @Extension(commandCode = CommandConstants.fileList)
 public class FileListTaskFactory implements TaskFactory<FileListRequest> {
     @Override

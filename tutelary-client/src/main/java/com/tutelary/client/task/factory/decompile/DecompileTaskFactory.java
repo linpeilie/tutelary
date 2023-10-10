@@ -1,5 +1,6 @@
 package com.tutelary.client.task.factory.decompile;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.command.decompile.DecompileCommand;
 import com.tutelary.client.task.DefaultTask;
@@ -11,6 +12,7 @@ import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.DecompileRequest;
 import java.lang.instrument.Instrumentation;
 
+@AutoService(TaskFactory.class)
 @Extension(commandCode = CommandConstants.decompile)
 public class DecompileTaskFactory implements TaskFactory<DecompileRequest> {
     @Override

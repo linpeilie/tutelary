@@ -1,5 +1,6 @@
 package com.tutelary.client.task.factory.heapdump;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.command.heapdump.HeapDumpCommand;
 import com.tutelary.client.task.DefaultTask;
 import com.tutelary.client.task.Task;
@@ -10,6 +11,7 @@ import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.HeapDumpRequest;
 import java.lang.instrument.Instrumentation;
 
+@AutoService(TaskFactory.class)
 @Extension(commandCode = CommandConstants.heapDump)
 public class HeapDumpTaskFactory implements TaskFactory<HeapDumpRequest> {
     @Override

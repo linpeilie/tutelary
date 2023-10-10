@@ -49,6 +49,7 @@
         <redisson.version>3.22.1</redisson.version>
         <cfr.version>0.152</cfr.version>
         <log4j.version>1.2.17</log4j.version>
+        <auto-service.version>1.1.1</auto-service.version>
     </properties>
 
     <dependencies>
@@ -235,6 +236,12 @@
                 <groupId>org.benf</groupId>
                 <artifactId>cfr</artifactId>
                 <version>${cfr.version}</version>
+            </dependency>
+            <!-- auto-service -->
+            <dependency>
+                <groupId>com.google.auto.service</groupId>
+                <artifactId>auto-service-annotations</artifactId>
+                <version>${auto-service.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

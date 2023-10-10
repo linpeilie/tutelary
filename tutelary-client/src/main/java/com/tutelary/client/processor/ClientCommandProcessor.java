@@ -2,6 +2,7 @@ package com.tutelary.client.processor;
 
 import cn.hutool.core.util.ServiceLoaderUtil;
 import com.baidu.bjf.remoting.protobuf.Any;
+import com.google.auto.service.AutoService;
 import com.tutelary.client.ClientBootstrap;
 import com.tutelary.client.loader.ClassLoaderWrapper;
 import com.tutelary.client.task.Task;
@@ -14,10 +15,12 @@ import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import com.tutelary.message.CommandExecuteRequest;
 import com.tutelary.processor.AbstractMessageProcessor;
+import com.tutelary.processor.MessageProcessor;
 import com.tutelary.remoting.api.Channel;
 import java.io.IOException;
 import java.util.List;
 
+@AutoService(MessageProcessor.class)
 public class ClientCommandProcessor extends AbstractMessageProcessor<CommandExecuteRequest> {
 
     private static final Log LOGGER = LogFactory.get(ClientCommandProcessor.class);

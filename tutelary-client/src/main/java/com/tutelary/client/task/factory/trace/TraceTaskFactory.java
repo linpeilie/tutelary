@@ -1,5 +1,6 @@
 package com.tutelary.client.task.factory.trace;
 
+import com.google.auto.service.AutoService;
 import com.tutelary.client.command.trace.TraceCommand;
 import com.tutelary.client.task.EnhanceTask;
 import com.tutelary.client.task.Task;
@@ -10,6 +11,7 @@ import com.tutelary.constants.CommandEnum;
 import com.tutelary.message.command.param.TraceRequest;
 import java.lang.instrument.Instrumentation;
 
+@AutoService(TaskFactory.class)
 @Extension(commandCode = CommandConstants.traceMethod)
 public class TraceTaskFactory implements TaskFactory<TraceRequest> {
 
