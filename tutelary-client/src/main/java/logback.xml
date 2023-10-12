@@ -13,25 +13,25 @@
     <property name="log.charset" value="UTF-8"/>
 
     <!--控制台输出 -->
-    <appender name="stdout" class="com.alibaba.arthas.deps.ch.qos.logback.core.ConsoleAppender">
+    <appender name="stdout" class="cn.easii.tutelary.deps.ch.qos.logback.core.ConsoleAppender">
         <!-- 用来定义日志的格式 -->
-        <encoder class="com.alibaba.arthas.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="cn.easii.tutelary.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${log.pattern}</pattern>
             <charset>${log.charset}</charset>
         </encoder>
     </appender>
 
     <!-- 日志文件输出（全部） -->
-    <appender name="infoFile" class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="infoFile" class="cn.easii.tutelary.deps.ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 设置日志不超过${log.max.size}时的保存路径，注意如果 是web项目会保存到Tomcat的bin目录 下 -->
         <file>${log.base}/${log.moduleName}.log</file>
         <!-- 日志输出的文件的格式  -->
-        <encoder class="com.alibaba.arthas.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="cn.easii.tutelary.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]%logger{56}.%method:%L -%msg%n</pattern>
             <charset>${log.charset}</charset>
         </encoder>
         <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件。-->
-        <rollingPolicy class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <rollingPolicy class="cn.easii.tutelary.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--按天回滚-->
             <fileNamePattern>${log.base}/archive/${log.moduleName}_%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <!--日志最大存储天数-->
@@ -42,15 +42,15 @@
     </appender>
 
     <!-- 日志文件输出 -->
-    <appender name="warnFile" class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="warnFile" class="cn.easii.tutelary.deps.ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 设置日志不超过${log.max.size}时的保存路径，注意如果 是web项目会保存到Tomcat的bin目录 下 -->
         <file>${log.base}/${log.moduleName}_warn.log</file>
         <!-- 日志输出的文件的格式  -->
-        <encoder class="com.alibaba.arthas.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="cn.easii.tutelary.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]%logger{56}.%method:%L -%msg%n</pattern>
         </encoder>
         <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件。-->
-        <rollingPolicy class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <rollingPolicy class="cn.easii.tutelary.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.base}/archive/warn/${log.moduleName}_warn_%d{yyyy-MM-dd}.%i.log.zip
             </fileNamePattern>
             <!--日志最大存储天数-->
@@ -58,7 +58,7 @@
             <!-- 当天的日志大小 超过${log.max.size}时,压缩日志并保存 -->
             <maxFileSize>${log.max.size}</maxFileSize>
         </rollingPolicy>
-        <filter class="com.alibaba.arthas.deps.ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="cn.easii.tutelary.deps.ch.qos.logback.classic.filter.LevelFilter">
             <level>WARN</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
@@ -66,22 +66,22 @@
     </appender>
 
     <!-- 日志文件输出 -->
-    <appender name="errorFile" class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="errorFile" class="cn.easii.tutelary.deps.ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 设置日志不超过${log.max.size}时的保存路径，注意如果 是web项目会保存到Tomcat的bin目录 下 -->
         <file>${log.base}/${log.moduleName}_error.log</file>
         <!-- 日志输出的文件的格式  -->
-        <encoder class="com.alibaba.arthas.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="cn.easii.tutelary.deps.ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]%logger{56}.%method:%L -%msg%n</pattern>
         </encoder>
         <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件。-->
-        <rollingPolicy class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <rollingPolicy class="cn.easii.tutelary.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.base}/archive/error/${log.moduleName}_error_%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <!--日志最大存储天数-->
             <maxHistory>60</maxHistory>
             <!-- 当天的日志大小 超过${log.max.size}时,压缩日志并保存 -->
             <maxFileSize>${log.max.size}</maxFileSize>
         </rollingPolicy>
-        <filter class="com.alibaba.arthas.deps.ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="cn.easii.tutelary.deps.ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
