@@ -2,6 +2,7 @@ package com.tutelary.client.handler;
 
 import com.google.auto.service.AutoService;
 import com.tutelary.client.ClientBootstrap;
+import com.tutelary.client.InstanceIdHolder;
 import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.util.MXBeanUtil;
 import com.tutelary.common.log.Log;
@@ -32,7 +33,7 @@ public class ClientLifeCycleChannelHandler extends ChannelHandlerAdapter {
             LOG.debug("tutelary connected server, try to register");
             ClientRegisterRequest clientRegisterRequest = new ClientRegisterRequest();
             clientRegisterRequest.setAppName(ClientBootstrap.TUTELARY_AGENT_PROPERTIES.getAppName());
-            clientRegisterRequest.setInstanceId(ClientBootstrap.instanceId);
+            clientRegisterRequest.setInstanceId(InstanceIdHolder.getInstanceId());
             clientRegisterRequest.setJvmInfo(MXBeanUtil.getInstance().getJvmInfo());
             LOG.info("client register info : {}", clientRegisterRequest);
             ClientBootstrap.sendData(clientRegisterRequest);

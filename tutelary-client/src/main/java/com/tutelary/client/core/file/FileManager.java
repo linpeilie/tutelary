@@ -2,12 +2,13 @@ package com.tutelary.client.core.file;
 
 import cn.hutool.core.io.FileUtil;
 import com.tutelary.client.ClientBootstrap;
+import com.tutelary.client.InstanceIdHolder;
 import java.io.File;
 
 public class FileManager {
 
     public static String workspaceFolder() {
-        return FileUtil.getUserHomePath() + File.separator + ".tutelary" + File.separator + ClientBootstrap.instanceId;
+        return FileUtil.getUserHomePath() + File.separator + ".tutelary" + File.separator + InstanceIdHolder.getInstanceId();
     }
 
     private static void ensureFolderMkdir(String folder) {

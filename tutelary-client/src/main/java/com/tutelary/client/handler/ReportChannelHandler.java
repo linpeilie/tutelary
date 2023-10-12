@@ -2,6 +2,7 @@ package com.tutelary.client.handler;
 
 import com.google.auto.service.AutoService;
 import com.tutelary.client.ClientBootstrap;
+import com.tutelary.client.InstanceIdHolder;
 import com.tutelary.common.thread.NamedThreadFactory;
 import com.tutelary.client.command.overview.OverviewCommand;
 import com.tutelary.common.log.Log;
@@ -41,7 +42,7 @@ public class ReportChannelHandler extends ChannelHandlerAdapter {
                     Overview overview = overviewCommand.execute();
                     handleGarbageCollectors(overview.getGarbageCollectors());
                     InstanceInfoReportRequest instanceInfoReportRequest = new InstanceInfoReportRequest();
-                    instanceInfoReportRequest.setInstanceId(ClientBootstrap.instanceId);
+                    instanceInfoReportRequest.setInstanceId(InstanceIdHolder.getInstanceId());
                     instanceInfoReportRequest.setOverview(overview);
                     instanceInfoReportRequest.setCurrentTime(System.currentTimeMillis());
                     LOG.debug("report overview : {}", instanceInfoReportRequest);
