@@ -40,7 +40,7 @@ public class ClientBootstrap {
         // init logger
         initLog(tutelaryAgentProperties);
 
-        instanceId = UUID.randomUUID().toString(true);
+        instanceId = InstanceIdHolder.getInstanceId();
 
         loadMessageProcessor();
 
