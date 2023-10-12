@@ -1,9 +1,9 @@
 package com.tutelary.common.log.dialect.repackslf4j;
 
+import cn.easii.tutelary.deps.org.slf4j.Logger;
+import cn.easii.tutelary.deps.org.slf4j.LoggerFactory;
+import cn.easii.tutelary.deps.org.slf4j.spi.LocationAwareLogger;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.arthas.deps.org.slf4j.Logger;
-import com.alibaba.arthas.deps.org.slf4j.LoggerFactory;
-import com.alibaba.arthas.deps.org.slf4j.spi.LocationAwareLogger;
 import com.tutelary.common.log.AbstractLog;
 import com.tutelary.common.log.level.Level;
 

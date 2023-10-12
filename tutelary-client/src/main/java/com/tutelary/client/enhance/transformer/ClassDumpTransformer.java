@@ -1,8 +1,8 @@
 package com.tutelary.client.enhance.transformer;
 
+import cn.easii.tutelary.deps.org.slf4j.Logger;
+import cn.easii.tutelary.deps.org.slf4j.LoggerFactory;
 import cn.hutool.core.io.FileUtil;
-import com.alibaba.arthas.deps.org.slf4j.Logger;
-import com.alibaba.arthas.deps.org.slf4j.LoggerFactory;
 import com.tutelary.client.core.file.FileManager;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;

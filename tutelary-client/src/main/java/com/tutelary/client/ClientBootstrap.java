@@ -1,8 +1,8 @@
 package com.tutelary.client;
 
+import cn.easii.tutelary.deps.ch.qos.logback.classic.LoggerContext;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ServiceLoaderUtil;
-import com.alibaba.arthas.deps.ch.qos.logback.classic.LoggerContext;
 import com.tutelary.client.enhance.spy.EnhancedSpy;
 import com.tutelary.client.loader.ClassLoaderWrapper;
 import com.tutelary.client.util.LogUtil;

@@ -1,7 +1,7 @@
 package com.tutelary.common.log.dialect.repackslf4j;
 
-import com.alibaba.arthas.deps.org.slf4j.LoggerFactory;
-import com.alibaba.arthas.deps.org.slf4j.helpers.NOPLoggerFactory;
+import cn.easii.tutelary.deps.org.slf4j.LoggerFactory;
+import cn.easii.tutelary.deps.org.slf4j.helpers.NOPLoggerFactory;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.LogFactory;
 import java.io.OutputStream;

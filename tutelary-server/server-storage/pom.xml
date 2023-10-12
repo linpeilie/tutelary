@@ -13,7 +13,6 @@
     <artifactId>server-storage</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>server-storage-core</module>
         <module>server-storage-api</module>
         <module>server-storage-rdb-core</module>
         <module>server-storage-h2</module>

@@ -31,6 +31,10 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.easii</groupId>
+            <artifactId>tutelary-annotation</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -59,9 +63,9 @@
                             <version>0.2.0</version>
                         </path>
                         <path>
-                            <groupId>com.tutelary</groupId>
-                            <artifactId>server-storage-auto-generate-processor</artifactId>
-                            <version>${tutelary.version}</version>
+                            <groupId>cn.easii</groupId>
+                            <artifactId>tutelary-auto-generate-processor</artifactId>
+                            <version>${tutelary-deps.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

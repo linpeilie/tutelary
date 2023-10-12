@@ -1,8 +1,8 @@
 package com.tutelary.client.util;
 
-import com.alibaba.arthas.deps.ch.qos.logback.classic.LoggerContext;
-import com.alibaba.arthas.deps.ch.qos.logback.classic.joran.JoranConfigurator;
-import com.alibaba.arthas.deps.org.slf4j.LoggerFactory;
+import cn.easii.tutelary.deps.ch.qos.logback.classic.LoggerContext;
+import cn.easii.tutelary.deps.ch.qos.logback.classic.joran.JoranConfigurator;
+import cn.easii.tutelary.deps.org.slf4j.LoggerFactory;
 import com.google.common.base.Strings;
 import com.tutelary.common.log.Log;
 import com.tutelary.common.log.dialect.console.ConsoleLog;

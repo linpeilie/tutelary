@@ -83,8 +83,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.arthas</groupId>
-            <artifactId>arthas-repackage-logger</artifactId>
+            <groupId>cn.easii</groupId>
+            <artifactId>tutelary-repackage-logger</artifactId>
         </dependency>
         <dependency>
             <groupId>org.benf</groupId>
