@@ -18,7 +18,6 @@
         <module>server-storage-h2</module>
         <module>server-storage-mysql</module>
         <module>server-storage-dependencies</module>
-        <module>server-storage-auto-generate-processor</module>
     </modules>
 
     <properties>
