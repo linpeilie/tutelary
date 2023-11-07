@@ -4,6 +4,7 @@ import static com.tutelary.constants.CommandConstants.decompile;
 import static com.tutelary.constants.CommandConstants.fileDownload;
 import static com.tutelary.constants.CommandConstants.fileList;
 import static com.tutelary.constants.CommandConstants.getStatic;
+import static com.tutelary.constants.CommandConstants.getVmOption;
 import static com.tutelary.constants.CommandConstants.heapDump;
 import static com.tutelary.constants.CommandConstants.loggerInfo;
 import static com.tutelary.constants.CommandConstants.overview;
@@ -35,6 +36,8 @@ public enum CommandEnum {
     LOGGER_INFO(loggerInfo, "logger info"),
 
     UPDATE_LOGGER_LEVEL(updateLoggerLevel, "update logger level"),
+
+    GET_VM_OPTION(getVmOption, "get VM Option"),
 
     /****************************** 增强任务 ****************************/
     /**

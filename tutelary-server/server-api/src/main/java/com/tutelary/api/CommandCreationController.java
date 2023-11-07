@@ -20,6 +20,7 @@ import com.tutelary.message.command.param.ThreadDetailRequest;
 import com.tutelary.message.command.param.ThreadListRequest;
 import com.tutelary.message.command.param.TraceRequest;
 import com.tutelary.message.command.param.UpdateLoggerLevelRequest;
+import com.tutelary.message.command.param.VmOptionRequest;
 import com.tutelary.service.CommandService;
 import io.github.linpeilie.Converter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -140,6 +141,13 @@ public class CommandCreationController {
     @ApiResponse(description = "创建命令任务结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createGetStaticCommand(@RequestBody CommandCreateRequest<GetStaticRequest> request) {
         return createCommand(CommandConstants.getStatic, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("getVmOption")
+    @Operation(summary = "GetVmOption", description = "创建获取静态属性值命令")
+    @ApiResponse(description = "创建命令任务结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createGetVmOptionCommand(@RequestBody CommandCreateRequest<VmOptionRequest> request) {
+        return createCommand(CommandConstants.getVmOption, request.getInstanceId(), request.getParam());
     }
 
 }
