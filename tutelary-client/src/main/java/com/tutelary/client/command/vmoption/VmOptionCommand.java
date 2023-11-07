@@ -4,6 +4,7 @@ import com.sun.management.HotSpotDiagnosticMXBean;
 import com.sun.management.VMOption;
 import com.tutelary.client.command.Command;
 import com.tutelary.client.command.ManagementFactory;
+import com.tutelary.client.converter.ManagementConverter;
 import com.tutelary.message.command.domain.VmOption;
 import com.tutelary.message.command.param.VmOptionRequest;
 import com.tutelary.message.command.result.VmOptionResponse;
@@ -25,14 +26,8 @@ public class VmOptionCommand implements Command<VmOptionResponse> {
         List<VMOption> diagnosticOptions = hotSpotDiagnosticMXBean.getDiagnosticOptions();
 
         List<VmOption> vmOptions = diagnosticOptions.stream()
-            .map(option -> {
-                VmOption vmOption = new VmOption();
-                vmOption.setName(option.getName());
-                vmOption.setValue(option.getValue());
-                vmOption.setWriteable(option.isWriteable());
-                vmOption.setOrigin(option.getOrigin().name());
-                return vmOption;
-            }).collect(Collectors.toList());
+            .map(ManagementConverter.CONVERTER::vmOptionTrans)
+            .collect(Collectors.toList());
 
         VmOptionResponse vmOptionResponse = new VmOptionResponse();
         vmOptionResponse.setOptions(vmOptions);

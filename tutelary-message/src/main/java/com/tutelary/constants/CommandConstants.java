@@ -24,6 +24,8 @@ public interface CommandConstants {
 
     int getVmOption = 20020;
 
+    int setVmOption = 20021;
+
     int enhanceAffect = 21001;
 
     int enhanceComplete = 21002;

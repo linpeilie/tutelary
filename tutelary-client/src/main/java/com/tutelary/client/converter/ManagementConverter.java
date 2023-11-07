@@ -1,8 +1,10 @@
 package com.tutelary.client.converter;
 
+import com.sun.management.VMOption;
 import com.tutelary.message.command.domain.BaseThreadInfo;
 import com.tutelary.message.command.domain.LockInfo;
 import com.tutelary.message.command.domain.StackTraceNode;
+import com.tutelary.message.command.domain.VmOption;
 import com.tutelary.message.command.result.ThreadDetail;
 import java.lang.management.ThreadInfo;
 import org.mapstruct.Mapper;
@@ -34,5 +36,7 @@ public interface ManagementConverter {
         @Mapping(target = "declaringClass", expression = "java(stackTraceElement.getClassName())")
     })
     StackTraceNode stackTraceElementToNode(StackTraceElement stackTraceElement);
+
+    VmOption vmOptionTrans(VMOption vmOption);
 
 }

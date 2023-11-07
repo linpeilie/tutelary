@@ -15,6 +15,7 @@ import com.tutelary.message.command.param.FileListRequest;
 import com.tutelary.message.command.param.GetStaticRequest;
 import com.tutelary.message.command.param.HeapDumpRequest;
 import com.tutelary.message.command.param.LoggerInfoRequest;
+import com.tutelary.message.command.param.SetVmOptionRequest;
 import com.tutelary.message.command.param.StackRequest;
 import com.tutelary.message.command.param.ThreadDetailRequest;
 import com.tutelary.message.command.param.ThreadListRequest;
@@ -144,10 +145,17 @@ public class CommandCreationController {
     }
 
     @PostMapping("getVmOption")
-    @Operation(summary = "GetVmOption", description = "创建获取静态属性值命令")
+    @Operation(summary = "GetVmOption", description = "获取VM诊断相关参数")
     @ApiResponse(description = "创建命令任务结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommandTaskResponse.class)))
     public R<CommandTaskResponse> createGetVmOptionCommand(@RequestBody CommandCreateRequest<VmOptionRequest> request) {
         return createCommand(CommandConstants.getVmOption, request.getInstanceId(), request.getParam());
+    }
+
+    @PostMapping("setVmOption")
+    @Operation(summary = "SetVmOption", description = "更新VM诊断相关参数")
+    @ApiResponse(description = "创建命令任务结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CommandTaskResponse.class)))
+    public R<CommandTaskResponse> createSetVmOptionCommand(@RequestBody CommandCreateRequest<SetVmOptionRequest> request) {
+        return createCommand(CommandConstants.setVmOption, request.getInstanceId(), request.getParam());
     }
 
 }

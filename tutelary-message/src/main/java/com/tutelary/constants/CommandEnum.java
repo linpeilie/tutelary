@@ -8,6 +8,7 @@ import static com.tutelary.constants.CommandConstants.getVmOption;
 import static com.tutelary.constants.CommandConstants.heapDump;
 import static com.tutelary.constants.CommandConstants.loggerInfo;
 import static com.tutelary.constants.CommandConstants.overview;
+import static com.tutelary.constants.CommandConstants.setVmOption;
 import static com.tutelary.constants.CommandConstants.stackMethod;
 import static com.tutelary.constants.CommandConstants.threadDetail;
 import static com.tutelary.constants.CommandConstants.threadList;
@@ -38,6 +39,8 @@ public enum CommandEnum {
     UPDATE_LOGGER_LEVEL(updateLoggerLevel, "update logger level"),
 
     GET_VM_OPTION(getVmOption, "get VM Option"),
+
+    SET_VM_OPTION(setVmOption, "set VM Option"),
 
     /****************************** 增强任务 ****************************/
     /**
