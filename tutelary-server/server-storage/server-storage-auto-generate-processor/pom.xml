@@ -20,10 +20,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>server-storage-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>javapoet</artifactId>
             <version>1.13.0</version>

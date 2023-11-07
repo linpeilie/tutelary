@@ -20,10 +20,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tutelary</groupId>
-            <artifactId>server-storage-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
@@ -34,6 +30,14 @@
         <dependency>
             <groupId>cn.easii</groupId>
             <artifactId>tutelary-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.easii</groupId>
+            <artifactId>tutelary-auto-generate-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tutelary</groupId>
+            <artifactId>server-storage-api</artifactId>
         </dependency>
     </dependencies>
 

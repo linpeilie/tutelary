@@ -1,9 +1,9 @@
 package com.tutelary.bean.entity;
 
+import cn.easii.deps.annotation.AutoPersistence;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.tutelary.bean.domain.InstanceJvmMemory;
 import com.tutelary.bean.domain.query.StatisticQuery;
-import com.tutelary.common.annotation.AutoPersistence;
 import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;

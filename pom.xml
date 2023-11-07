@@ -49,7 +49,7 @@
         <cfr.version>0.152</cfr.version>
         <log4j.version>1.2.17</log4j.version>
         <auto-service.version>1.1.1</auto-service.version>
-        <tutelary-deps.version>1.0.2</tutelary-deps.version>
+        <tutelary-deps.version>1.0.3</tutelary-deps.version>
     </properties>
 
     <dependencies>

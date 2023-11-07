@@ -1,11 +1,11 @@
 package com.tutelary.bean.entity;
 
+import cn.easii.deps.annotation.AutoPersistence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.tutelary.bean.domain.InstanceThreadListCommand;
 import com.tutelary.bean.domain.query.CommandTaskQuery;
-import com.tutelary.common.annotation.AutoPersistence;
 import com.tutelary.common.entity.BaseEntity;
 import com.tutelary.installer.annotation.Column;
 import com.tutelary.installer.annotation.Index;
