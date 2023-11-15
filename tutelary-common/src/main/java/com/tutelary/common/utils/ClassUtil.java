@@ -17,8 +17,13 @@ import java.util.stream.Collectors;
 
 public class ClassUtil {
 
-    public static Class<?> searchClass(Instrumentation inst, String targetClass) {
-        Matcher<String> matcher = new EqualsMatcher<>(targetClass);
+    /**
+     * find class by qualified class name
+     * @param inst  {@link Instrumentation}
+     * @param targetQualifiedClassName  qualified class name
+     */
+    public static Class<?> searchClass(Instrumentation inst, String targetQualifiedClassName) {
+        Matcher<String> matcher = new EqualsMatcher<>(targetQualifiedClassName);
         final Set<Class<?>> classes = searchClass(inst, matcher);
         if (CollectionUtil.isEmpty(classes)) {
             return null;

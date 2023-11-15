@@ -31,16 +31,16 @@ public class DecompileCommand implements Command<DecompileResponse> {
     @Override
     public DecompileResponse execute() {
         final DecompileResponse decompileResponse = new DecompileResponse();
-        final Class<?> targetClass = ClassUtil.searchClass(inst, param.getClassName());
+        final Class<?> targetClass = ClassUtil.searchClass(inst, param.getQualifiedClassName());
         if (targetClass == null) {
-            LOG.warn("decompile class failure, target class : {} was not found", param.getClassName());
-            decompileResponse.failed(param.getClassName() + " was not found.");
+            LOG.warn("decompile class failure, target class : {} was not found", param.getQualifiedClassName());
+            decompileResponse.failed(param.getQualifiedClassName() + " was not found.");
             return decompileResponse;
         }
 
         final HashSet<Class<?>> classes = CollectionUtil.newHashSet(targetClass);
         // interClass
-        final Set<Class<?>> interClass = ClassUtil.fuzzySearchClass(inst, param.getClassName() + "\\$.*");
+        final Set<Class<?>> interClass = ClassUtil.fuzzySearchClass(inst, param.getQualifiedClassName() + "\\$.*");
         classes.addAll(interClass);
 
         final ClassDumpTransformer classDumpTransformer =

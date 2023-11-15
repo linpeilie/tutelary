@@ -15,7 +15,7 @@ public class TraceRequest extends CommandRequest {
     /**
      * 类名
      */
-    private String className;
+    private String qualifiedClassName;
 
     /**
      * 方法名

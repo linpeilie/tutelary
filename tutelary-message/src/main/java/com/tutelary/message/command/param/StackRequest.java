@@ -12,7 +12,7 @@ import lombok.Data;
 @Command(CommandEnum.STACK_METHOD)
 public class StackRequest extends CommandRequest {
 
-    private String className;
+    private String qualifiedClassName;
 
     private List<String> methodNames;
 

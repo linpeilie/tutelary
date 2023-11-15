@@ -37,7 +37,7 @@ public class StackCommand extends AbstractEnhanceCommand<StackRequest, StackResp
 
     @Override
     protected String targetClass() {
-        return param.getClassName();
+        return param.getQualifiedClassName();
     }
 
     @Override

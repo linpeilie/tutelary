@@ -45,7 +45,7 @@ public class TraceCommand extends AbstractEnhanceCommand<TraceRequest, TraceResp
 
     @Override
     protected String targetClass() {
-        return param.getClassName();
+        return param.getQualifiedClassName();
     }
 
     @Override

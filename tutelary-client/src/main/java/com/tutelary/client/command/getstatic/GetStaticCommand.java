@@ -30,9 +30,9 @@ public class GetStaticCommand implements Command<GetStaticResponse> {
 
     @Override
     public GetStaticResponse execute() {
-        Class<?> targetClass = ClassUtil.searchClass(inst, request.getClassName());
+        Class<?> targetClass = ClassUtil.searchClass(inst, request.getQualifiedClassName());
         if (targetClass == null) {
-            throw new ClassNotFoundException(request.getClassLoader(), request.getClassName());
+            throw new ClassNotFoundException(request.getClassLoader(), request.getQualifiedClassName());
         }
 
         Optional<Field> fieldOptional = Arrays.stream(targetClass.getDeclaredFields())
@@ -57,7 +57,7 @@ public class GetStaticCommand implements Command<GetStaticResponse> {
             commandResponse.setValue(String.valueOf(value));
         } catch (IllegalAccessException e) {
             LOG.warn("getStatic: failed to get static value, class : {}, field : {}, error message : {}",
-                request.getClassName(),
+                request.getQualifiedClassName(),
                 request.getField(), ExceptionUtil.stacktraceToString(e));
             commandResponse.failed("failed to get static value, exception message : " + e.getMessage());
         }

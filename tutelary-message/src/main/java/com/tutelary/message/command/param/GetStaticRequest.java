@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Command(CommandEnum.GET_STATIC)
 public class GetStaticRequest extends CommandRequest {
 
-    private String className;
+    private String qualifiedClassName;
 
     private String field;
 

@@ -199,7 +199,7 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
     protected abstract AdviceListener getListener();
 
     /**
-     * 目标类
+     * 目标类的全限定名
      */
     protected abstract String targetClass();
 

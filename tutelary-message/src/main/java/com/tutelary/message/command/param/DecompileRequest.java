@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Command(CommandEnum.DECOMPILE)
 public class DecompileRequest extends CommandRequest {
 
-    private String className;
+    private String qualifiedClassName;
 
     private String methodName;
 
