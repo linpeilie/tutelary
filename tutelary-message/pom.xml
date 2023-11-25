@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>tutelary</artifactId>
-        <groupId>com.tutelary</groupId>
+        <groupId>cn.easii.tutelary</groupId>
         <version>${tutelary.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -19,11 +19,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-remoting-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -56,7 +56,7 @@
                 <artifactId>jprotobuf-precompile-plugin</artifactId>
                 <version>${jprotobuf-precompile.version}</version>
                 <configuration>
-                    <filterClassPackage>com.tutelary.message</filterClassPackage>
+                    <filterClassPackage>cn.easii.tutelary.message</filterClassPackage>
                     <generateProtoFile>true</generateProtoFile>
                     <compileDependencies>true</compileDependencies>
                 </configuration>

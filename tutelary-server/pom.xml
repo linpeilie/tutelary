@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>tutelary</artifactId>
-        <groupId>com.tutelary</groupId>
+        <groupId>cn.easii.tutelary</groupId>
         <version>${tutelary.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>server-common</module>
         <module>server-domain</module>
         <module>server-core</module>
         <module>server-starter</module>
@@ -31,32 +32,41 @@
             <groupId>io.github.linpeilie</groupId>
             <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.easii.tutelary</groupId>
+            <artifactId>server-common</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.tutelary</groupId>
+                <groupId>cn.easii.tutelary</groupId>
                 <artifactId>server-domain</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tutelary</groupId>
+                <groupId>cn.easii.tutelary</groupId>
                 <artifactId>server-core</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tutelary</groupId>
+                <groupId>cn.easii.tutelary</groupId>
+                <artifactId>server-common</artifactId>
+                <version>${tutelary.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.easii.tutelary</groupId>
                 <artifactId>server-api</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tutelary</groupId>
+                <groupId>cn.easii.tutelary</groupId>
                 <artifactId>server-storage-api</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tutelary</groupId>
+                <groupId>cn.easii.tutelary</groupId>
                 <artifactId>server-storage-dependencies</artifactId>
                 <version>${tutelary.version}</version>
             </dependency>

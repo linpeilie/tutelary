@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>tutelary-server</artifactId>
-        <groupId>com.tutelary</groupId>
+        <groupId>cn.easii.tutelary</groupId>
         <version>${tutelary.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -20,21 +20,26 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>server-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>server-storage-api</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-common</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
+            <artifactId>server-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-remoting-netty</artifactId>
         </dependency>
 
@@ -72,7 +77,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
 
     </dependencies>
 

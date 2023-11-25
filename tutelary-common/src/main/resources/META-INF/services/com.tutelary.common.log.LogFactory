@@ -1,2 +1,0 @@
-com.tutelary.common.log.dialect.repackslf4j.RepackSlf4jLogFactory
-com.tutelary.common.log.dialect.slf4j.Slf4jLogFactory

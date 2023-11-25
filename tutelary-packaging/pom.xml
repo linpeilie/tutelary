@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>tutelary</artifactId>
-        <groupId>com.tutelary</groupId>
+        <groupId>cn.easii.tutelary</groupId>
         <version>${tutelary.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -19,19 +19,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-agent</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-client</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-boot</artifactId>
             <scope>provided</scope>
             <optional>true</optional>

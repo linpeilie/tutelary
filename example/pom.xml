@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.tutelary.example</groupId>
+    <groupId>cn.easii.tutelary.example</groupId>
     <artifactId>example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>tutelary-example</name>
@@ -35,7 +35,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-spring-boot-starter</artifactId>
             <version>${tutelary.version}</version>
         </dependency>
@@ -49,7 +49,7 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

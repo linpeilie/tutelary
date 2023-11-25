@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>tutelary</artifactId>
-        <groupId>com.tutelary</groupId>
+        <groupId>cn.easii.tutelary</groupId>
         <version>${tutelary.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -19,11 +19,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tutelary</groupId>
+            <groupId>cn.easii.tutelary</groupId>
             <artifactId>tutelary-spy</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -47,8 +47,8 @@
                             </descriptorRefs>
                             <archive>
                                 <manifestEntries>
-                                    <Premain-Class>com.tutelary.TutelaryAgent</Premain-Class>
-                                    <Agent-Class>com.tutelary.TutelaryAgent</Agent-Class>
+                                    <Premain-Class>cn.easii.tutelary.TutelaryAgent</Premain-Class>
+                                    <Agent-Class>cn.easii.tutelary.TutelaryAgent</Agent-Class>
                                     <Can-Redefine-Classes>true</Can-Redefine-Classes>
                                     <Can-Retransform-Classes>true</Can-Retransform-Classes>
                                     <Specification-Title>${project.name}</Specification-Title>

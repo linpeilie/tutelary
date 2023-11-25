@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration = \
-  com.tutelary.TutelaryAutoConfiguration
+  cn.easii.tutelary.TutelaryAutoConfiguration
