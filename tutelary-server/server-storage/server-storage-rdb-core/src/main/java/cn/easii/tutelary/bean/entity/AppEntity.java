@@ -24,7 +24,4 @@ public class AppEntity extends BaseEntity {
     @Column(comment = "注册时间", isNull = false, sequence = 3)
     private LocalDateTime registerDate;
 
-    @Column(comment = "实例数", isNull = false, sequence = 4, defaultValue = "0")
-    private Integer instanceNum;
-
 }

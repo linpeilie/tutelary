@@ -8,8 +8,4 @@ public interface AppDAO extends QueryDAO<AppQuery, App> {
 
     App getByName(String appName);
 
-    boolean addInstance(String appName);
-
-    boolean removeInstance(String appName);
-
 }

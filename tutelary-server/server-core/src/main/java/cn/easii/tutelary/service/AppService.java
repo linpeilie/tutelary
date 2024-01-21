@@ -10,14 +10,16 @@ public interface AppService {
 
     boolean addApp(App app);
 
-    boolean addInstance(String appName);
+    boolean addInstance(String appName, String instanceId);
 
-    boolean removeInstance(String appName);
+    boolean removeInstance(String appName, String instanceId);
 
     List<App> list(AppQuery appQuery);
 
     List<App> list(AppQuery appQuery, long pageIndex, long pageSize);
 
     long count(AppQuery appQuery);
+
+    List<String> listInstanceIdsByAppName(String appName);
 
 }

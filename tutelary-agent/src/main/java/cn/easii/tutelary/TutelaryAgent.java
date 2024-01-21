@@ -32,7 +32,7 @@ public class TutelaryAgent {
             AgentClassLoader agentClassLoader = new AgentClassLoader(
                 tutelaryClientJar, Thread.currentThread().getContextClassLoader());
 
-            Class<?> clientBootstrap = agentClassLoader.loadClass("com.tutelary.client.ClientBootstrap");
+            Class<?> clientBootstrap = agentClassLoader.loadClass("cn.easii.tutelary.client.ClientBootstrap");
 
             Method start = clientBootstrap.getMethod("start", Instrumentation.class,
                 agentClassLoader.loadClass(TutelaryAgentProperties.class.getName())

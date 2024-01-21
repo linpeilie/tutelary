@@ -13,6 +13,7 @@ import cn.easii.tutelary.bean.resp.JvmStatisticResponse;
 import cn.easii.tutelary.bean.resp.OverviewResponse;
 import cn.easii.tutelary.common.bean.R;
 import cn.easii.tutelary.common.bean.resp.PageResult;
+import cn.easii.tutelary.service.AppService;
 import cn.easii.tutelary.service.InstanceService;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.easii.tutelary.bean.domain.Instance;
@@ -23,11 +24,19 @@ import cn.easii.tutelary.bean.domain.InstanceThreadStatistic;
 import cn.easii.tutelary.bean.domain.query.InstanceQuery;
 import cn.easii.tutelary.bean.domain.query.StatisticQuery;
 import cn.easii.tutelary.common.utils.DateUtils;
+import cn.hutool.core.util.StrUtil;
+import com.google.common.collect.Lists;
 import io.github.linpeilie.Converter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.lang.management.MemoryType;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,12 +46,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/instance")
+@RequiredArgsConstructor
 public class InstanceController {
 
     private static final int KB = 1024;
 
-    private InstanceService instanceService;
-    private Converter converter;
+    private final InstanceService instanceService;
+    private final AppService appService;
+    private final Converter converter;
 
     @PostMapping(value = "pageQuery")
     public R<PageResult<InstanceInfoResponse>> pageQuery(@RequestBody InstancePageQueryRequest instancePageQueryParam) {
@@ -61,6 +72,21 @@ public class InstanceController {
     public R<List<InstanceInfoResponse>> list(@RequestBody InstanceQueryRequest instanceQueryRequest) {
         InstanceQuery queryParam = converter.convert(instanceQueryRequest, InstanceQuery.class);
         List<Instance> list = instanceService.list(queryParam);
+        return R.success(converter.convert(list, InstanceInfoResponse.class));
+    }
+
+    @PostMapping(value = "listByAppName")
+    @Operation(summary = "获取实例列表", description = "根据应用名称获取实例列表")
+    @ApiResponse(description = "实例信息", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+        schema = @Schema(implementation = InstanceInfoResponse.class)))
+    public R<List<InstanceInfoResponse>> listByAppName(@RequestParam("appName") String appName) {
+        if (StrUtil.isEmpty(appName)) {
+            return R.success(Lists.newArrayList());
+        }
+        List<String> instanceIds = appService.listInstanceIdsByAppName(appName);
+        InstanceQuery instanceQuery = new InstanceQuery();
+        instanceQuery.setInstanceIds(instanceIds);
+        List<Instance> list = instanceService.list(instanceQuery);
         return R.success(converter.convert(list, InstanceInfoResponse.class));
     }
 
@@ -127,7 +153,7 @@ public class InstanceController {
     }
 
     private List<InstanceJvmMemoryResponse> transJvmMemoryInfo(List<InstanceJvmMemory> jvmMemories,
-                                                               MemoryType memoryType) {
+        MemoryType memoryType) {
         if (CollectionUtil.isEmpty(jvmMemories)) {
             return null;
         }
@@ -195,17 +221,5 @@ public class InstanceController {
         instanceHostResponse.setDiskTotalSpace(host.getDiskTotalSpace());
         instanceHostResponse.setReportTimestamps(DateUtils.getTimestamp(host.getReportTime()));
         return instanceHostResponse;
-    }
-
-    /************************* setter *************************/
-    @Autowired
-    public InstanceController setInstanceService(InstanceService instanceService) {
-        this.instanceService = instanceService;
-        return this;
-    }
-
-    @Autowired
-    public void setConverter(final Converter converter) {
-        this.converter = converter;
     }
 }

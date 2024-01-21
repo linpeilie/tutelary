@@ -26,7 +26,7 @@ public class Instance extends BaseDomain {
 
     private LocalDateTime registerDate;
 
-    private InstanceStateEnum state;
+    private Integer state;
 
     private List<String> inputArguments;
 

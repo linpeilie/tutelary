@@ -36,7 +36,7 @@ public class ClientRegisterProcessor extends AbstractMessageProcessor<ClientRegi
             .appName(clientRegisterRequest.getAppName())
             .ip(NetUtils.toAddressString(channel.getRemoteAddress()))
             .registerDate(LocalDateTime.now())
-            .state(InstanceStateEnum.VALID)
+            .state(InstanceStateEnum.VALID.getValue())
             .channel(channel)
             .build();
 

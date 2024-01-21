@@ -10,8 +10,4 @@ public interface AppRepository extends BaseRepository<AppQuery, App, AppEntity>,
 
     App getByName(String appName);
 
-    boolean addInstance(String appName);
-
-    boolean removeInstance(String appName);
-
 }

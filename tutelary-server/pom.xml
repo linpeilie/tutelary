@@ -32,10 +32,6 @@
             <groupId>io.github.linpeilie</groupId>
             <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.easii.tutelary</groupId>
-            <artifactId>server-common</artifactId>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>

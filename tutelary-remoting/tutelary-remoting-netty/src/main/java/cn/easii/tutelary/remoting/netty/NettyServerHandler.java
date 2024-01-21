@@ -3,6 +3,7 @@ package cn.easii.tutelary.remoting.netty;
 import cn.easii.tutelary.common.log.Log;
 import cn.easii.tutelary.common.log.LogFactory;
 import cn.easii.tutelary.common.utils.Asserts;
+import cn.easii.tutelary.message.HeartbeatRequest;
 import cn.easii.tutelary.remoting.netty.utils.ChannelUtils;
 import cn.easii.tutelary.remoting.api.Channel;
 import cn.easii.tutelary.remoting.api.ChannelHandler;
@@ -80,7 +81,7 @@ public class NettyServerHandler extends ChannelDuplexHandler {
             NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
             try {
                 LOG.debug("IdleStateEvent triggered, close channel " + channel);
-                channel.close();
+                channel.send(new HeartbeatRequest());
             } finally {
                 NettyChannel.removeChannelIfDisconected(ctx.channel());
             }

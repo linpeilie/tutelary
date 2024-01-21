@@ -21,20 +21,4 @@ public class AppRepositoryImpl extends AbstractRepository<AppQuery, App, AppEnti
         queryWrapper.eq(AppEntity::getAppName, appName);
         return entityToDomain(super.getOne(queryWrapper));
     }
-
-    @Override
-    public boolean addInstance(String appName) {
-        LambdaUpdateWrapper<AppEntity> updateWrapper = Wrappers.lambdaUpdate();
-        updateWrapper.setSql("instance_num = instance_num + 1");
-        updateWrapper.eq(AppEntity::getAppName, appName);
-        return super.update(new AppEntity(), updateWrapper);
-    }
-
-    @Override
-    public boolean removeInstance(String appName) {
-        LambdaUpdateWrapper<AppEntity> updateWrapper = Wrappers.lambdaUpdate();
-        updateWrapper.setSql("instance_num = instance_num - 1");
-        updateWrapper.eq(AppEntity::getAppName, appName);
-        return super.update(new AppEntity(), updateWrapper);
-    }
 }

@@ -4,6 +4,8 @@ import cn.easii.tutelary.service.AppService;
 import cn.easii.tutelary.service.InstanceService;
 import cn.easii.tutelary.bean.domain.App;
 import cn.easii.tutelary.bean.domain.Instance;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +23,6 @@ public class InstanceManager {
 
     private final AppService appService;
     private final InstanceService instanceService;
-
-    @PostConstruct
-    private void reset() {
-        List<Instance> instances = instanceService.listEnabled();
-        instances.forEach(this::removeInstance);
-    }
 
     public Instance registerInstance(Instance instanceEntity) {
 
@@ -46,7 +42,8 @@ public class InstanceManager {
 
     private void removeInstance(Instance instance) {
         instanceService.invalidInstance(instance.getInstanceId());
-        appService.removeInstance(instance.getAppName());
+        appService.removeInstance(instance.getAppName(), instance.getInstanceId());
+        INSTANCE_MAP.remove(instance.getInstanceId());
     }
 
     public Optional<Instance> getInstance(String instanceId) {
@@ -60,7 +57,6 @@ public class InstanceManager {
         App app = new App();
         app.setAppName(appName);
         app.setRegisterDate(LocalDateTime.now());
-        app.setInstanceNum(0);
         appService.addApp(app);
     }
 
@@ -69,7 +65,7 @@ public class InstanceManager {
     }
 
     private void addInstance(Instance instance) {
-        appService.addInstance(instance.getAppName());
+        appService.addInstance(instance.getAppName(), instance.getInstanceId());
         instanceService.addInstance(instance);
         INSTANCE_MAP.put(instance.getInstanceId(), instance);
     }

@@ -7,7 +7,7 @@ tutelary:
 
 logging:
   level:
-    com.tutelary: debug
+    cn.easii.tutelary: debug
 
 server:
   port: 9098

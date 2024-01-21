@@ -4,17 +4,26 @@ import cn.easii.tutelary.bean.domain.App;
 import cn.easii.tutelary.bean.domain.query.AppQuery;
 import cn.easii.tutelary.dao.AppDAO;
 import cn.easii.tutelary.service.AppService;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
  * @author linpl
  */
 @Component
+@RequiredArgsConstructor
 public class AppServiceImpl implements AppService {
 
-    private AppDAO appDAO;
+    /**
+     * app 对应实例集合
+     */
+    private static final Multimap<String, String> APP_INSTANCE_MULTIMAP = HashMultimap.create();
+
+    private final AppDAO appDAO;
 
     @Override
     public App getAppByName(String appName) {
@@ -28,7 +37,12 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public List<App> list(final AppQuery appQuery, final long pageIndex, final long pageSize) {
-        return appDAO.list(appQuery, pageIndex, pageSize);
+        List<App> apps = appDAO.list(appQuery, pageIndex, pageSize);
+        // instance count
+        apps.forEach(app -> {
+            app.setInstanceNum(APP_INSTANCE_MULTIMAP.get(app.getAppName()).size());
+        });
+        return apps;
     }
 
     @Override
@@ -42,17 +56,17 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public boolean addInstance(String appName) {
-        return appDAO.addInstance(appName);
+    public boolean addInstance(String appName, String instanceId) {
+        return APP_INSTANCE_MULTIMAP.put(appName, instanceId);
     }
 
     @Override
-    public boolean removeInstance(String appName) {
-        return appDAO.removeInstance(appName);
+    public boolean removeInstance(String appName, String instanceId) {
+        return APP_INSTANCE_MULTIMAP.remove(appName, instanceId);
     }
 
-    @Autowired
-    public void setAppDAO(final AppDAO appDAO) {
-        this.appDAO = appDAO;
+    @Override
+    public List<String> listInstanceIdsByAppName(String appName) {
+        return new ArrayList<>(APP_INSTANCE_MULTIMAP.get(appName));
     }
 }

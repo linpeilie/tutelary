@@ -23,7 +23,7 @@ public class ProtobufCodec implements Codec {
 
     static {
         Map<Byte, Class<? extends BaseMessage>> messageMap = new HashMap<>();
-        Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation("com.tutelary.message", Message.class);
+        Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation("cn.easii.tutelary.message", Message.class);
         for (Class<?> aClass : classes) {
             Message messageAnnotation = aClass.getAnnotation(Message.class);
             byte cmd = messageAnnotation.cmd();

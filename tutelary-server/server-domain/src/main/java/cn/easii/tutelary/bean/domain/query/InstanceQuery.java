@@ -22,6 +22,9 @@ public class InstanceQuery extends BaseQueryDomain {
     @Query(field = "state", queryType = QueryType.IN)
     private List<Integer> states;
 
+    @Query(field = "instance_id", queryType = QueryType.IN)
+    private List<String> instanceIds;
+
     @Override
     public String[] getKeywordFields() {
         return new String[] {
