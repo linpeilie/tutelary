@@ -122,11 +122,7 @@ public abstract class AbstractCommandExecute<PARAM extends CommandRequest, RESPO
         if (StrUtil.isNotEmpty(createUserId)) {
             final String token = AuthHelper.getTokenByUserId(createUserId);
             if (StrUtil.isNotEmpty(token)) {
-                if (sessionStore.containsSessionByToken(token)) {
-                    sessionStore.sendMessage(token, response);
-                } else {
-                    messageManager.publish(Constants.Topic.TASK_CALLBACK_NOTIFY_USER, response);
-                }
+                messageManager.publish(Constants.Topic.TASK_CALLBACK_NOTIFY_USER, response);
             }
         }
     }

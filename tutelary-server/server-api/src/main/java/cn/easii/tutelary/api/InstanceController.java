@@ -84,13 +84,16 @@ public class InstanceController {
             return R.success(Lists.newArrayList());
         }
         List<String> instanceIds = appService.listInstanceIdsByAppName(appName);
+        if (CollectionUtil.isEmpty(instanceIds)) {
+            return R.success(Lists.newArrayList());
+        }
         InstanceQuery instanceQuery = new InstanceQuery();
         instanceQuery.setInstanceIds(instanceIds);
         List<Instance> list = instanceService.list(instanceQuery);
         return R.success(converter.convert(list, InstanceInfoResponse.class));
     }
 
-    @GetMapping(value = "detail")
+    @PostMapping(value = "detail")
     public R<InstanceDetailInfoResponse> detail(@RequestParam("instanceId") String instanceId) {
         Instance instance = instanceService.getInstanceByInstanceId(instanceId);
         return R.success(converter.convert(instance, InstanceDetailInfoResponse.class));
