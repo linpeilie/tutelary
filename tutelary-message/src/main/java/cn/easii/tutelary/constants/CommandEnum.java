@@ -13,8 +13,6 @@ public enum CommandEnum {
 
     FILE_LIST(CommandConstants.fileList, "file list"),
 
-    GET_STATIC(CommandConstants.getStatic, "get static field"),
-
     FILE_DOWNLOAD(CommandConstants.fileDownload, "file download"),
 
     DECOMPILE(CommandConstants.decompile, "decompile"),
@@ -22,6 +20,8 @@ public enum CommandEnum {
     LOGGER_INFO(CommandConstants.loggerInfo, "logger info"),
 
     UPDATE_LOGGER_LEVEL(CommandConstants.updateLoggerLevel, "update logger level"),
+
+    GET_STATIC(CommandConstants.getStatic, "get static field"),
 
     GET_VM_OPTION(CommandConstants.getVmOption, "get VM Option"),
 

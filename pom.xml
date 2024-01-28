@@ -35,8 +35,8 @@
         <cli.version>1.0.4</cli.version>
         <grpc.protobuf.version>1.32.1</grpc.protobuf.version>
         <protobuf.java.format.version>1.4</protobuf.java.format.version>
-        <jprotobuf.version>2.4.15</jprotobuf.version>
-        <jprotobuf-precompile.version>2.2.7</jprotobuf-precompile.version>
+        <jprotobuf.version>2.4.21</jprotobuf.version>
+        <jprotobuf-precompile.version>2.2.8</jprotobuf-precompile.version>
         <guava.version>31.1-jre</guava.version>
         <mapstruct-plus.version>1.3.6</mapstruct-plus.version>
         <h2.version>2.1.214</h2.version>
