@@ -42,7 +42,7 @@ public class NettyClient extends ReconnectClient {
     private static final Log LOG = LogFactory.get(NettyClient.class);
 
     private static final EventLoopGroup WORK_GROUP =
-        new NioEventLoopGroup(new NamedThreadFactory("netty-client-worker-", true));
+        new NioEventLoopGroup(6, new NamedThreadFactory("netty-client-worker-", true));
 
     private Bootstrap bootstrap;
 
@@ -92,7 +92,7 @@ public class NettyClient extends ReconnectClient {
                     // 加解密
                     .addLast(new NettyCodecHandler(getCodec()))
                     // 心跳
-                    .addLast(new IdleStateHandler(3, 0, 0, TimeUnit.SECONDS))
+                    .addLast(new IdleStateHandler(0, 3, 0, TimeUnit.SECONDS))
                     // 业务处理
                     .addLast(nettyClientHandler);
             }
