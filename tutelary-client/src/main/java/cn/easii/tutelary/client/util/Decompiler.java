@@ -1,5 +1,8 @@
 package cn.easii.tutelary.client.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,6 +45,9 @@ public class Decompiler {
                     public void write(T sinkable) {
                         // skip message like: Analysing type demo.MathGame
                         if (sinkType == SinkType.PROGRESS) {
+                            return;
+                        }
+                        if (sinkType == SinkType.LINENUMBER) {
                             return;
                         }
                         sb.append(sinkable);
