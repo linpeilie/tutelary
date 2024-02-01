@@ -21,7 +21,7 @@ public abstract class AbstractLoggerCommand {
 
     static {
         loggerHelperMap = ImmutableMap.<LoggerType, String>builder()
-            .put(LoggerType.LOGBACK, "com.tutelary.client.command.logger.LogbackHelper")
+            .put(LoggerType.LOGBACK, "cn.easii.tutelary.client.command.logger.LogbackHelper")
             .build();
     }
 
