@@ -89,6 +89,7 @@ public class NettyClient extends ReconnectClient {
                     .addLast(new WebSocketServerCompressionHandler())
                     // websocket
                     .addLast(new WebSocketClientProtocolHandler(webSocketClientProtocolConfig))
+                    .addLast(new PacketSplitHandler())
                     // 加解密
                     .addLast(new NettyCodecHandler(getCodec()))
                     // 心跳

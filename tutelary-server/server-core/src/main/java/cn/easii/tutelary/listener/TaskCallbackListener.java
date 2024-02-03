@@ -34,8 +34,7 @@ public class TaskCallbackListener implements ApplicationRunner, Ordered {
                 if (task == null) {
                     return;
                 }
-                final String token = AuthHelper.getTokenByUserId(task.getCreateUserId());
-                sessionStore.sendMessage(token, response);
+                sessionStore.sendMessage(task.getCreateUserId(), response);
             });
     }
 

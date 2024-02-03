@@ -7,6 +7,7 @@ import cn.easii.tutelary.common.utils.Asserts;
 import cn.easii.tutelary.message.HeartbeatRequest;
 import cn.easii.tutelary.remoting.api.ChannelHandler;
 import cn.easii.tutelary.remoting.api.EndpointContext;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -65,7 +66,7 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
-        LOG.debug("channel : {} , caught exception : {}", channel, cause);
+        LOG.debug("channel : {} , caught exception : {}", channel, ExceptionUtil.stacktraceToString(cause));
         try {
             channel.caught(channel, cause);
         } finally {

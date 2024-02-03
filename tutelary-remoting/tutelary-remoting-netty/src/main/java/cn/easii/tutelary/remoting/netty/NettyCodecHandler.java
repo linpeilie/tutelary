@@ -23,7 +23,7 @@ public class NettyCodecHandler extends ChannelDuplexHandler {
             byte[] bytes = codec.encode(msg);
             ByteBuf byteBuf = ctx.alloc().buffer();
             byteBuf.writeBytes(bytes);
-            ctx.writeAndFlush(new BinaryWebSocketFrame(byteBuf), promise);
+            ctx.writeAndFlush(byteBuf, promise);
         } else {
             super.write(ctx, msg, promise);
         }
@@ -31,9 +31,8 @@ public class NettyCodecHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if (msg instanceof WebSocketFrame) {
-            WebSocketFrame frame = (WebSocketFrame) msg;
-            ByteBuf byteBuf = frame.content();
+        if (msg instanceof ByteBuf) {
+            ByteBuf byteBuf = (ByteBuf) msg;
             int readableBytes = byteBuf.readableBytes();
             if (readableBytes == 0) {
                 super.channelRead(ctx, msg);

@@ -8,6 +8,7 @@ import cn.easii.tutelary.remoting.netty.utils.ChannelUtils;
 import cn.easii.tutelary.remoting.api.Channel;
 import cn.easii.tutelary.remoting.api.ChannelHandler;
 import cn.easii.tutelary.remoting.api.EndpointContext;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -66,7 +67,7 @@ public class NettyServerHandler extends ChannelDuplexHandler {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
-        LOG.debug("channel : {} , caught exception : {}", channel, cause);
+        LOG.debug("channel : {} , caught exception : {}", channel, ExceptionUtil.stacktraceToString(cause));
         try {
             handler.caught(channel, cause);
         } finally {
@@ -85,7 +86,8 @@ public class NettyServerHandler extends ChannelDuplexHandler {
             } finally {
                 NettyChannel.removeChannelIfDisconected(ctx.channel());
             }
-        } else if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+        } else if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete
+            || evt.equals(WebSocketServerProtocolHandler.ServerHandshakeStateEvent.HANDSHAKE_COMPLETE)) {
             NettyChannel channel = NettyChannel.getOrAddChannel(endpointContext, ctx.channel(), handler);
             channels.put(ChannelUtils.getChannelIP(ctx.channel()), channel);
             handler.connected(channel);

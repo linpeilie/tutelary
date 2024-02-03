@@ -1,18 +1,19 @@
 package cn.easii.tutelary;
 
+import cn.easii.tutelary.common.thread.NamedThreadFactory;
 import cn.easii.tutelary.remoting.netty.codec.ProtobufCodec;
 import cn.easii.tutelary.utils.AuthHelper;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.easii.tutelary.common.utils.ThrowableUtil;
-import cn.easii.tutelary.message.ErrorMessage;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,16 +23,34 @@ public class SessionStore {
 
     private static final ProtobufCodec codec = new ProtobufCodec();
 
-    private static final Multimap<String, WebSocketSession> SESSION_MAP = HashMultimap.create();
+    private static final Map<String, CopyOnWriteArraySet<WebSocketSession>> SESSION_MAP = new HashMap<>();
 
-    private String getTokenBySession(WebSocketSession session) {
+    private static final ScheduledExecutorService scheduledExecutorService;
+
+    static {
+        scheduledExecutorService =
+            new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("session-check"));
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            ThrowableUtil.safeExec(() -> {
+                SESSION_MAP.forEach((userId, sessions) -> {
+                    sessions.forEach(session -> {
+                        if (!session.isOpen()) {
+                            sessions.remove(session);
+                        }
+                    });
+                });
+            });
+        }, 1, 5, TimeUnit.MINUTES);
+    }
+
+    private String getUserIdBySession(WebSocketSession session) {
         Map<String, Object> attributes = session.getAttributes();
         String tokenName = AuthHelper.getTokenName();
         if (attributes.containsKey(tokenName)) {
             Object value = attributes.get(tokenName);
             String[] values = (String[]) value;
             if (ArrayUtil.isNotEmpty(values)) {
-                return values[0];
+                return AuthHelper.getUserIdByToken(values[0]);
             }
         }
         return null;
@@ -42,39 +61,48 @@ public class SessionStore {
     }
 
     public void addSession(WebSocketSession session) {
-        String token = getTokenBySession(session);
+        String userId = getUserIdBySession(session);
         // If the current session does not have a unique identity, the connection is broken.
-        if (StrUtil.isEmpty(token)) {
+        if (StrUtil.isEmpty(userId)) {
             closeSession(session);
             return;
         }
 
         // 添加用户对应的 session
-        synchronized (token.intern()) {
-            SESSION_MAP.put(token, session);
+        synchronized (userId.intern()) {
+            CopyOnWriteArraySet<WebSocketSession> sessions =
+                SESSION_MAP.getOrDefault(userId, new CopyOnWriteArraySet<>());
+            sessions.add(session);
+            SESSION_MAP.put(userId, sessions);
         }
     }
 
     public void removeSession(WebSocketSession session) {
-        final String token = getTokenBySession(session);
-        if (StrUtil.isNotEmpty(token)) {
-            synchronized (token.intern()) {
-                SESSION_MAP.remove(token, session);
+        final String userId = getUserIdBySession(session);
+        if (StrUtil.isNotEmpty(userId)) {
+            synchronized (userId.intern()) {
+                CopyOnWriteArraySet<WebSocketSession> sessions = SESSION_MAP.get(userId);
+                if (CollectionUtil.isNotEmpty(sessions)) {
+                    sessions.remove(session);
+                }
             }
         }
     }
 
     private void sendMessage(WebSocketSession session, Object message) {
-        ThrowableUtil.safeExec(() ->
-            session.sendMessage(new BinaryMessage(codec.encode(message))));
+        ThrowableUtil.safeExec(() -> {
+            if (session.isOpen()) {
+                session.sendMessage(new BinaryMessage(codec.encode(message)));
+            }
+        });
     }
 
-    public boolean containsSessionByToken(String token) {
-        return SESSION_MAP.containsKey(token);
+    public boolean containsSessionByToken(String userId) {
+        return SESSION_MAP.containsKey(userId);
     }
 
-    public void sendMessage(String token, Object message) {
-        Collection<WebSocketSession> sessions = SESSION_MAP.get(token);
+    public void sendMessage(String userId, Object message) {
+        Collection<WebSocketSession> sessions = SESSION_MAP.get(userId);
         if (CollectionUtil.isNotEmpty(sessions)) {
             sessions.forEach(session -> sendMessage(session, message));
         }

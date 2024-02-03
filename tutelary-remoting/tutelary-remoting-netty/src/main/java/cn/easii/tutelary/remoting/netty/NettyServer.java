@@ -105,6 +105,7 @@ public class NettyServer extends AbstractServer implements RemotingServer {
                         .addLast(new WebSocketServerCompressionHandler())
                         // websocket 处理器
                         .addLast(new WebSocketServerProtocolHandler("/ws", null, true))
+                        .addLast(new PacketSplitHandler())
                         .addLast(new NettyCodecHandler(getCodec()))
                         // 心跳
                         .addLast(new IdleStateHandler(10, 0, 0, TimeUnit.SECONDS))
