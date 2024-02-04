@@ -66,7 +66,7 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
             if (expectedLength == -1) {
                 expectedLength = content.readInt();
                 System.out.println("期望长度 >>>>>>>>>> " + expectedLength);
-                if (expectedLength == -1) {
+                if (expectedLength <= -1) {
                     releaseCumulativeBuffer();
                     super.channelRead(ctx, msg);
                     return;
@@ -76,7 +76,7 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
             cumulativeBuffer.writeBytes(content);
             System.out.println("当前汇总数据包长度 >>>>>>>>>>" + cumulativeBuffer.readableBytes());
 
-            if (cumulativeBuffer.readableBytes() == expectedLength) {
+            if (isCompletePacket(cumulativeBuffer)) {
                 ByteBuf buffer = ctx.alloc().buffer();
                 buffer.writeBytes(cumulativeBuffer);
                 releaseCumulativeBuffer();
@@ -93,10 +93,20 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
         }
     }
 
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        releaseCumulativeBuffer();
+        super.channelInactive(ctx);
+    }
+
     private void releaseCumulativeBuffer() {
         expectedLength = -1;
         ReferenceCountUtil.release(cumulativeBuffer);
         cumulativeBuffer = Unpooled.buffer();
+    }
+
+    private boolean isCompletePacket(ByteBuf cumulativeBuffer) {
+        return cumulativeBuffer.readableBytes() == expectedLength;
     }
 
 }
