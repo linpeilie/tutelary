@@ -55,15 +55,9 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
             WebSocketFrame frame = (WebSocketFrame) msg;
             ByteBuf content = frame.content();
 
-            if (content.readableBytes() <= HEADER_SIZE) {
-                releaseCumulativeBuffer();
-                super.channelRead(ctx, msg);
-                return;
-            }
-
             System.out.println("接收到数据包长度 >>>>>>>>>> " + content.readableBytes());
 
-            if (expectedLength == -1) {
+            if (expectedLength == -1 && content.readableBytes() > HEADER_SIZE) {
                 expectedLength = content.readInt();
                 System.out.println("期望长度 >>>>>>>>>> " + expectedLength);
                 if (expectedLength <= -1) {
