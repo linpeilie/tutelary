@@ -10,7 +10,6 @@ import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.util.ReferenceCountUtil;
-import java.util.Arrays;
 
 public class PacketSplitHandler extends ChannelDuplexHandler {
 
@@ -89,14 +88,22 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        releaseCumulativeBuffer();
+        try {
+            ReferenceCountUtil.release(cumulativeBuffer);
+        } catch (Throwable e) {
+            // ignore
+        }
         super.channelInactive(ctx);
     }
 
     private void releaseCumulativeBuffer() {
-        expectedLength = -1;
-        ReferenceCountUtil.release(cumulativeBuffer);
-        cumulativeBuffer = Unpooled.buffer();
+        try {
+            expectedLength = -1;
+            ReferenceCountUtil.release(cumulativeBuffer);
+            cumulativeBuffer = Unpooled.buffer();
+        } catch (Throwable e) {
+            // ignore
+        }
     }
 
     private boolean isCompletePacket(ByteBuf cumulativeBuffer) {
