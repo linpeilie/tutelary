@@ -60,10 +60,23 @@ public class MathGame {
             int len = RandomUtil.randomInt(1000, 2000000);
             String[] arr = new String[len];
             for (int i = 0; i < len; i++) {
+                exec1();
                 arr[i] = RandomUtil.randomString(RandomUtil.randomInt(5, 15));
             }
         } catch (Exception e) {
 //            System.out.println(String.format("illegalArgumentCount:%3d, ", illegalArgumentCount) + e.getMessage());
+        }
+    }
+
+    public void exec1() {
+        int number = random.nextInt() / 10000;
+        List<Integer> primeFactors = primeFactors(number);
+        print(number, primeFactors);
+        Game.pause();
+        int len = RandomUtil.randomInt(1000, 2000000);
+        String[] arr = new String[len];
+        for (int i = 0; i < 10; i++) {
+            arr[0] = RandomUtil.randomString(RandomUtil.randomInt(5, 15));
         }
     }
 

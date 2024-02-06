@@ -28,7 +28,6 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
         if (msg instanceof ByteBuf) {
             ByteBuf content = (ByteBuf) msg;
 
-            System.out.println("发送总数据长度 >>>>>>> " + content.readableBytes());
             ByteBuf byteBuf = ctx.alloc().buffer();
             // header
             byteBuf.writeInt(content.readableBytes());
@@ -39,10 +38,11 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
 
             while (byteBuf.isReadable()) {
                 int chunkSize = Math.min(byteBuf.readableBytes(), CHUNK_SIZE);
-                System.out.println("分片数据长度 >>>>>>>>>> " + chunkSize);
                 ByteBuf chunk = byteBuf.readSlice(chunkSize).retain();
                 ctx.writeAndFlush(new BinaryWebSocketFrame(chunk));
             }
+
+            ReferenceCountUtil.release(byteBuf);
         } else {
             super.write(ctx, msg, promise);
         }
@@ -54,11 +54,8 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
             WebSocketFrame frame = (WebSocketFrame) msg;
             ByteBuf content = frame.content();
 
-            System.out.println("接收到数据包长度 >>>>>>>>>> " + content.readableBytes());
-
             if (expectedLength == -1 && content.readableBytes() > HEADER_SIZE) {
                 expectedLength = content.readInt();
-                System.out.println("期望长度 >>>>>>>>>> " + expectedLength);
                 if (expectedLength <= -1) {
                     releaseCumulativeBuffer();
                     super.channelRead(ctx, msg);
@@ -67,7 +64,6 @@ public class PacketSplitHandler extends ChannelDuplexHandler {
             }
 
             cumulativeBuffer.writeBytes(content);
-            System.out.println("当前汇总数据包长度 >>>>>>>>>>" + cumulativeBuffer.readableBytes());
 
             if (isCompletePacket(cumulativeBuffer)) {
                 ByteBuf buffer = ctx.alloc().buffer();

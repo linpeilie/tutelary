@@ -250,7 +250,10 @@ public abstract class AbstractEnhanceCommand<Param, Result> implements Command<E
         if (completionHandler != null) {
             completionHandler.handle();
         }
-        // TODO
+        removeListener();
+    }
+
+    private void removeListener() {
         AdviceListenerManager.removeListener(listener);
     }
 

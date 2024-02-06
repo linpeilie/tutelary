@@ -164,7 +164,7 @@ public class EnhancedSpy implements Spy {
                         adviceListener, classLoader.getClass().getName(), owner, methodName, methodDesc, line
                     );
                     ((InvokeTraceListener) adviceListener).invokeThrowTracing(
-                        classLoader, owner, methodName, methodDesc, line);
+                        classLoader, owner, methodName, methodDesc, line, throwable);
                 } catch (Throwable e) {
                     LOGGER.error(
                         "class : {}, method : {}, line : {}, adviceListener : {}, atInvokeException error : {}",

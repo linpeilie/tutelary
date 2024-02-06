@@ -6,6 +6,7 @@ import cn.easii.tutelary.message.command.domain.TraceNode;
 import cn.easii.tutelary.message.command.result.TraceResponse;
 import cn.easii.tutelary.client.command.domain.TraceEntity;
 import cn.easii.tutelary.client.enhance.callback.RCallback;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -59,9 +60,9 @@ public class TraceListener extends TraceAdviceListenerAdapter {
         Object target,
         Object[] args,
         Throwable throwable) throws Throwable {
-        LOGGER.debug("method : {} ----- afterThrowing", methodName);
+        LOGGER.debug("method : {} ----- afterThrowing : {}", methodName, ExceptionUtil.stacktraceToString(throwable));
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> {
-            traceEntity.end();
+            traceEntity.end(throwable);
             finish(traceEntity);
         });
     }
@@ -95,9 +96,10 @@ public class TraceListener extends TraceAdviceListenerAdapter {
         String tracingClassName,
         String tracingMethodName,
         String tracingMethodDesc,
-        int tracingLineNumber) throws Throwable {
+        int tracingLineNumber,
+        Throwable throwable) throws Throwable {
         LOGGER.debug("method : {} ----- invokeThrowTracing", tracingMethodName);
-        Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(TraceEntity::end);
+        Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> traceEntity.end(throwable));
     }
 
     @Override

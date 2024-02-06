@@ -19,9 +19,13 @@ public class TraceEntity {
     }
 
     public void start(String className, String methodName, int line) {
-        TraceNode node = TraceNode.newNode(className, methodName, line);
         TraceNode parent = nodeStack.peek();
-        parent.addChild(node);
+
+        TraceNode node = parent.findChild(className, methodName, line);
+        if (node == null) {
+            node = TraceNode.newNode(className, methodName, line);
+            parent.addChild(node);
+        }
         nodeStack.push(node);
         node.start();
     }
@@ -29,6 +33,11 @@ public class TraceEntity {
     public void end() {
         TraceNode node = nodeStack.pop();
         node.end();
+    }
+
+    public void end(Throwable throwable) {
+        TraceNode node = nodeStack.pop();
+        node.end(throwable);
     }
 
     public boolean isFinish() {

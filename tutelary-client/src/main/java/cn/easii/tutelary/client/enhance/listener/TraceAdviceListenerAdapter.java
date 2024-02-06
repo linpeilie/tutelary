@@ -15,7 +15,8 @@ public abstract class TraceAdviceListenerAdapter extends AdviceListenerAdapter i
         String tracingClassName,
         String tracingMethodName,
         String tracingMethodDesc,
-        int tracingLineNumber) throws Throwable {
+        int tracingLineNumber,
+        Throwable throwable) throws Throwable {
 
     }
 

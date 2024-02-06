@@ -32,7 +32,8 @@ public interface InvokeTraceListener extends AdviceListener {
         String tracingClassName,
         String tracingMethodName,
         String tracingMethodDesc,
-        int tracingLineNumber) throws Throwable;
+        int tracingLineNumber,
+        Throwable throwable) throws Throwable;
 
     /**
      * 调用之后跟踪
