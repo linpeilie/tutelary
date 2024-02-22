@@ -6,7 +6,7 @@ import cn.easii.tutelary.message.command.result.SetVmOptionResponse;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import com.sun.management.VMOption;
 import cn.easii.tutelary.client.command.Command;
-import cn.easii.tutelary.client.command.ManagementFactory;
+import cn.easii.tutelary.common.utils.ManagementFactory;
 
 public class SetVmOptionCommand implements Command<SetVmOptionResponse> {
 

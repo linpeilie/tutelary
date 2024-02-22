@@ -5,7 +5,7 @@ import cn.easii.tutelary.common.constants.ResponseCode;
 
 public enum EnhanceResponseCode implements ResponseCode {
 
-    ENHANCE_CLASS_IS_NULL("class can not be null",0),
+    ENHANCE_CLASS_IS_NULL("class not found",0),
     ENHANCE_CLASS_NOT_FOUND_BY_CLASSLOADER("Only classes loaded by the %s can be enhanced",1),
     LAMBDA_CANNOT_BE_ENHANCED("lambda class cannot be enhanced", 0),
     INTERFACE_CANNOT_BE_ENHANCED("interface cannot be enhanced", 0)

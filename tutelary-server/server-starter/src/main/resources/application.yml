@@ -27,15 +27,14 @@ spring:
       connection-timeout: 20000
       connection-test-query: select 1
   redis:
-    host: 114.115.147.1
-    port: 26379
+    host: 192.168.6.166
+    port: 10000
     database: 0
     lettuce:
       pool:
         max-idle: 16
         max-active: 32
         min-idle: 8
-    password: oK3uu@oZ57wbj9l
 
 sa-token:
   # token名称 (同时也是cookie名称)

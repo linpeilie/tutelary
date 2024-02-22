@@ -104,6 +104,7 @@ public class MathGame {
                 result.add(i);
                 number = number / i;
                 i = 2;
+                ThreadUtil.safeSleep(1);
             } else {
                 i++;
             }

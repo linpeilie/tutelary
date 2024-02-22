@@ -1,6 +1,6 @@
 package cn.easii.tutelary.client.util;
 
-import cn.easii.tutelary.client.command.ManagementFactory;
+import cn.easii.tutelary.common.utils.ManagementFactory;
 import cn.easii.tutelary.common.constants.TutelaryConstants;
 import cn.easii.tutelary.common.log.Log;
 import cn.easii.tutelary.common.log.LogFactory;

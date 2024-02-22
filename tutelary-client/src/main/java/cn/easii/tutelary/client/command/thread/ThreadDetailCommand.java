@@ -5,7 +5,7 @@ import cn.easii.tutelary.message.command.param.ThreadDetailRequest;
 import cn.easii.tutelary.message.command.result.ThreadDetail;
 import com.sun.management.ThreadMXBean;
 import cn.easii.tutelary.client.command.Command;
-import cn.easii.tutelary.client.command.ManagementFactory;
+import cn.easii.tutelary.common.utils.ManagementFactory;
 import java.lang.management.ThreadInfo;
 
 public class ThreadDetailCommand implements Command<ThreadDetail> {

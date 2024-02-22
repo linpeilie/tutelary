@@ -8,7 +8,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.UUID;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import cn.easii.tutelary.client.command.Command;
-import cn.easii.tutelary.client.command.ManagementFactory;
+import cn.easii.tutelary.common.utils.ManagementFactory;
 import cn.easii.tutelary.client.core.file.FileManager;
 import java.io.File;
 import java.util.Date;

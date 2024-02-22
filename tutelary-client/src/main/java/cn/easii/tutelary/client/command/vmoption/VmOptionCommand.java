@@ -7,7 +7,7 @@ import cn.easii.tutelary.message.command.result.VmOptionResponse;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import com.sun.management.VMOption;
 import cn.easii.tutelary.client.command.Command;
-import cn.easii.tutelary.client.command.ManagementFactory;
+import cn.easii.tutelary.common.utils.ManagementFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 

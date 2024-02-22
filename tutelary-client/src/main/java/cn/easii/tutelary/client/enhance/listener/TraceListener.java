@@ -14,11 +14,11 @@ public class TraceListener extends TraceAdviceListenerAdapter {
 
     private static final Log LOGGER = LogFactory.get(TraceListener.class);
 
-    private final RCallback<TraceResponse> rCallback;
+    private final RCallback<TraceNode> rCallback;
 
     private final ThreadLocal<TraceEntity> traceEntityThreadLocal = new ThreadLocal<>();
 
-    public TraceListener(RCallback<TraceResponse> rCallback) {
+    public TraceListener(RCallback<TraceNode> rCallback) {
         this.rCallback = rCallback;
     }
 
@@ -48,8 +48,11 @@ public class TraceListener extends TraceAdviceListenerAdapter {
         Object returnObject) throws Throwable {
         LOGGER.debug("method : {} ----- afterReturning", methodName);
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> {
-            traceEntity.end();
-            finish(traceEntity);
+            TraceNode root = traceEntity.getRoot();
+            if (root.getClassName().equals(clazz.getName()) && root.getMethodName().equals(methodName)) {
+                traceEntity.end();
+                finish(traceEntity);
+            }
         });
     }
 
@@ -62,8 +65,11 @@ public class TraceListener extends TraceAdviceListenerAdapter {
         Throwable throwable) throws Throwable {
         LOGGER.debug("method : {} ----- afterThrowing : {}", methodName, ExceptionUtil.stacktraceToString(throwable));
         Optional.ofNullable(traceEntityThreadLocal.get()).ifPresent(traceEntity -> {
-            traceEntity.end(throwable);
-            finish(traceEntity);
+            TraceNode root = traceEntity.getRoot();
+            if (root.getClassName().equals(clazz.getName()) && root.getMethodName().equals(methodName)) {
+                traceEntity.end(throwable);
+                finish(traceEntity);
+            }
         });
     }
 
@@ -76,7 +82,7 @@ public class TraceListener extends TraceAdviceListenerAdapter {
                     TimeUnit.NANOSECONDS.toMillis(node.getEndTimestamp() - node.getBeginTimestamp())
                 );
             }
-            rCallback.callback(traceEntity.getTraceResult());
+            rCallback.callback(traceEntity.getRoot());
         }
     }
 
@@ -88,7 +94,8 @@ public class TraceListener extends TraceAdviceListenerAdapter {
         int tracingLineNumber) throws Throwable {
         LOGGER.debug("method : {} ----- invokeBeforeTracing", tracingMethodName);
         Optional.ofNullable(traceEntityThreadLocal.get())
-            .ifPresent(traceEntity -> traceEntity.start(tracingClassName, tracingMethodName, tracingLineNumber));
+            .ifPresent(traceEntity -> traceEntity.start(tracingClassName.replaceAll("/", "."), tracingMethodName,
+                tracingLineNumber));
     }
 
     @Override

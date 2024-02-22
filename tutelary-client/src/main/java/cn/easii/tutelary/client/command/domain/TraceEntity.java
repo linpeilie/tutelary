@@ -2,10 +2,13 @@ package cn.easii.tutelary.client.command.domain;
 
 import cn.easii.tutelary.message.command.domain.TraceNode;
 import cn.easii.tutelary.message.command.result.TraceResponse;
+import java.util.List;
 import java.util.Stack;
+import lombok.Getter;
 
 public class TraceEntity {
 
+    @Getter
     private final TraceNode root;
 
     private final Stack<TraceNode> nodeStack;
@@ -47,7 +50,6 @@ public class TraceEntity {
     public TraceResponse getTraceResult() {
         TraceResponse traceResult = new TraceResponse();
         traceResult.setNode(root);
-        ;
         return traceResult;
     }
 

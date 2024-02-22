@@ -1,4 +1,4 @@
-package cn.easii.tutelary.client.command;
+package cn.easii.tutelary.common.utils;
 
 import cn.easii.tutelary.common.log.Log;
 import cn.easii.tutelary.common.log.LogFactory;

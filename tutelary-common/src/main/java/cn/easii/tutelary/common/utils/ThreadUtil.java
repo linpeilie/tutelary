@@ -1,6 +1,5 @@
-package cn.easii.tutelary.client.util;
+package cn.easii.tutelary.common.utils;
 
-import cn.easii.tutelary.client.command.ManagementFactory;
 import cn.hutool.core.collection.CollectionUtil;
 import com.sun.management.ThreadMXBean;
 import java.util.List;
@@ -35,6 +34,18 @@ public class ThreadUtil {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             // ignore
+        }
+    }
+
+    /**
+     * TCCL : ThreadContextClassLoader
+     */
+    public static String getTCCL(Thread thread) {
+        ClassLoader contextClassLoader = thread.getContextClassLoader();
+        if (contextClassLoader == null) {
+            return "null";
+        } else {
+            return contextClassLoader.getClass().getName() + "@" + ClassUtil.classLoaderHash(contextClassLoader);
         }
     }
 
